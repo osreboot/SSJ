@@ -1,21 +1,20 @@
 package com.hyprgloo.ssj;
 
-import com.osreboot.ridhvl.display.HvlDisplayMode;
 import com.osreboot.ridhvl.display.collection.HvlDisplayModeDefault;
 import com.osreboot.ridhvl.template.HvlTemplateInteg2D;
 
 public class Main extends HvlTemplateInteg2D{
 
 	public static void main(String args []) {
-		new Main(144, 1280, 720, "TITLE by HYPRGLOO", new HvlDisplayModeDefault());
+		new Main();
 	}
 	
 	public static final int
 	INDEX_FONT = 0,
 	INDEX_SPLASH = 1;
 	
-	public Main(int frameRateArg, int width, int height, String title, HvlDisplayMode displayModeArg) {
-		super(frameRateArg, width, height, title, displayModeArg);
+	public Main() {
+		super(144, 1280, 720, "TITLE by HYPRGLOO", new HvlDisplayModeDefault());
 	}
 	
 	@Override
