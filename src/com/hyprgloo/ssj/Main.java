@@ -1,6 +1,7 @@
 package com.hyprgloo.ssj;
 
 import com.osreboot.ridhvl.display.collection.HvlDisplayModeDefault;
+import com.osreboot.ridhvl.painter.painter2d.HvlFontPainter2D;
 import com.osreboot.ridhvl.template.HvlTemplateInteg2D;
 
 public class Main extends HvlTemplateInteg2D{
@@ -13,6 +14,8 @@ public class Main extends HvlTemplateInteg2D{
 	INDEX_FONT = 0,
 	INDEX_SPLASH = 1;
 	
+	public static HvlFontPainter2D font;
+	
 	public Main() {
 		super(144, 1280, 720, "TITLE by HYPRGLOO", new HvlDisplayModeDefault());
 	}
@@ -21,6 +24,10 @@ public class Main extends HvlTemplateInteg2D{
 	public void initialize() {
 		getTextureLoader().loadResource("Font");//0
 		getTextureLoader().loadResource("HYPRGLOO");//1
+		
+		
+		font = new HvlFontPainter2D(getTexture(INDEX_FONT), HvlFontPainter2D.Preset.FP_AGOFFICIAL);
+		font.setCharSpacing(16f);
 		
 		MenuManager.init();
 	}
