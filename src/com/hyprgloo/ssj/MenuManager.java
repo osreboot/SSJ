@@ -23,7 +23,8 @@ public class MenuManager {
 		end = new HvlMenu();
 		splash = new HvlMenu();
 		
-		//HvlMenu.setCurrent(splash);
+		Game.reset();
+		HvlMenu.setCurrent(game);
 	}
 	
 	private static float splashProgress = 0f;

@@ -13,11 +13,11 @@ public class PhysicsObject {
 	private PhysicsObject parent;
 	private float parentDistance, parentAngle;
 	
-	public PhysicsObject(float radiusArg, float xArg, float yArg, float angleArg){
-		radius = radiusArg;
+	public PhysicsObject(float xArg, float yArg, float angleArg, float radiusArg){
 		location = new HvlCoord2D(xArg, yArg);
 		speed = new HvlCoord2D();
 		angle = angleArg;
+		radius = radiusArg;
 	}
 	
 	public void connectToParent(PhysicsObject parentArg){

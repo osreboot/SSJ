@@ -1,6 +1,8 @@
 package com.hyprgloo.ssj;
 
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
+import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlResetRotation;
+import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
 
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
@@ -24,7 +26,9 @@ public class Player {
 	}
 	
 	public void draw(float delta){
+		hvlRotate(physicsObject.getPosition().x, physicsObject.getPosition().y, physicsObject.getAngle());
 		hvlDrawQuadc(physicsObject.getPosition().x, physicsObject.getPosition().y, physicsObject.getRadius() * 2f, physicsObject.getRadius() * 2f, Color.blue);
+		hvlResetRotation();
 	}
 	
 }
