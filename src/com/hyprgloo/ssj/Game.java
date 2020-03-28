@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
 
+import com.hyprgloo.ssj.merchant.ShipEnemyGunner;
 import com.hyprgloo.ssj.merchant.ShipFriendlyGunner;
 import com.osreboot.ridhvl.action.HvlAction0;
 import com.osreboot.ridhvl.painter.HvlCamera2D;
@@ -17,6 +18,7 @@ public class Game {
 	public static Player player;
 	
 	public static ArrayList<ShipFriendly> idleShips;
+	public static ArrayList<ShipEnemy> enemyShips;
 	public static ArrayList<Projectile> projectiles;
 	public static ArrayList<Asteroid> asteroids;
 	
@@ -27,15 +29,17 @@ public class Game {
 		
 		player = new Player();
 		idleShips = new ArrayList<>();
+		enemyShips = new ArrayList<>();
 		projectiles = new ArrayList<>();
 		asteroids = new ArrayList<>();
 		
 		// Spawn idle ships
-		idleShips.add(new ShipFriendlyGunner(500f, 500f, 0f, 16f));
-		idleShips.add(new ShipFriendlyGunner(300f, 500f, 0f, 16f));
-		idleShips.add(new ShipFriendlyGunner(500f, 300f, 0f, 16f));
-		idleShips.add(new ShipFriendlyGunner(400f, 400f, 0f, 16f));
-		
+
+		idleShips.add(new ShipFriendlyGunner(500f, 500f, 0f));
+		idleShips.add(new ShipFriendlyGunner(300f, 500f, 0f));
+		idleShips.add(new ShipFriendlyGunner(500f, 300f, 0f));
+		idleShips.add(new ShipFriendlyGunner(400f, 400f, 0f));
+		enemyShips.add(new ShipEnemyGunner(100f, 100f, 0f));
 		//Spawn asteroids
 		asteroids.add(new Asteroid(100f, 100f, 0f, 0f, 32f, 10f, 100f));
 	}
@@ -67,11 +71,17 @@ public class Game {
 					ship.update(delta, player);
 					ship.draw(delta);
 				}
-				
-				//Update and draw asteroids
+
+
+			//Update and draw asteroids
 				for(Asteroid a : asteroids){
 					a.update(delta);
 					a.draw();
+				}
+				// Update and draw all enemy ships
+				for(ShipEnemy ship : enemyShips){
+					ship.update(delta);
+					ship.draw(delta);
 				}
 				
 				// Update and draw the player
