@@ -44,7 +44,7 @@ public class Game {
 		// Spawn enemy ships
 		enemyShips.add(new ShipEnemyGunner(100f, 100f, 0f));
 
-		AsteroidManager.initAsteroids();
+		EnvironmentManager.initAsteroids();
 	}
 
 	public static void update(float delta){
@@ -84,7 +84,7 @@ public class Game {
 		idleShips.removeIf(s -> s.physicsObject.isDead());
 		enemyShips.removeIf(s -> s.physicsObject.isDead());
 		projectiles.removeIf(p -> p.physicsObject.isDead());
-		AsteroidManager.asteroids.removeIf(a -> a.physicsObject.isDead());
+		EnvironmentManager.asteroids.removeIf(a -> a.physicsObject.isDead());
 
 		camera.setPosition(player.getBaseLocation().x, player.getBaseLocation().y);
 		camera.doTransform(new HvlAction0(){
@@ -100,7 +100,7 @@ public class Game {
 					ship.draw(delta);
 				}
 
-				AsteroidManager.update(delta);
+				EnvironmentManager.update(delta);
 
 				// Update and draw all enemy ships
 				for(ShipEnemy ship : enemyShips){
