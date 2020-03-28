@@ -17,7 +17,6 @@ public class Asteroid {
 
 	public boolean hasJr = false;
 	private int typeHandler;
-	private boolean typeAssigned = false;
 	Asteroid jr = null;
 
 	public Asteroid(HvlCoord2D pos, boolean isJr, float parSize, ArrayList<Asteroid> toAdd) {

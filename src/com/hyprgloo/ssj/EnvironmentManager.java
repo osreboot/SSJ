@@ -1,16 +1,8 @@
 package com.hyprgloo.ssj;
 
-import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
-
 import java.util.ArrayList;
 
 import org.lwjgl.opengl.Display;
-import org.newdawn.slick.Color;
-
-import com.hyprgloo.ssj.merchant.ShipEnemyConvoy;
-import com.hyprgloo.ssj.merchant.ShipEnemyGunner;
-import com.hyprgloo.ssj.merchant.ShipFriendlyGunner;
-import com.hyprgloo.ssj.merchant.ShipFriendlyTrader;
 
 import com.osreboot.ridhvl.HvlCoord2D;
 import com.osreboot.ridhvl.HvlMath;
