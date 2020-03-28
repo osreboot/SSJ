@@ -1,5 +1,6 @@
 package com.hyprgloo.ssj;
 
+import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawLine;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
 
 import java.util.ArrayList;
@@ -110,6 +111,7 @@ public class Game {
 				// Update and draw the player
 				player.update(delta);
 				player.draw(delta);
+
 
 				for(Projectile projectile : projectiles){
 					projectile.update(delta);
