@@ -6,6 +6,7 @@ import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
+import org.newdawn.slick.Color;
 
 import com.hyprgloo.ssj.Game;
 import com.hyprgloo.ssj.Main;
@@ -42,7 +43,7 @@ public class ShipFriendlyGunner extends ShipFriendly{
 	@Override
 	public void draw(float delta){
 		hvlRotate(physicsObject.location.x, physicsObject.location.y, physicsObject.getVisualAngle());
-		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f, physicsObject.radius * 2f, Main.getTexture(Main.INDEX_FRIENDLY_SHIP_0));
+		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f, physicsObject.radius * 2f, Main.getTexture(Main.INDEX_FRIENDLY_SHIP_0), Color.red);
 		hvlResetRotation();
 	}
 

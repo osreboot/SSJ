@@ -7,12 +7,14 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
+import com.osreboot.ridhvl.action.HvlAction1;
 import com.osreboot.ridhvl.action.HvlAction2;
 import com.osreboot.ridhvl.menu.HvlButtonMenuLink;
 import com.osreboot.ridhvl.menu.HvlComponent;
 import com.osreboot.ridhvl.menu.HvlComponentDefault;
 import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.menu.component.HvlArrangerBox;
+import com.osreboot.ridhvl.menu.component.HvlButton;
 import com.osreboot.ridhvl.menu.component.HvlComponentDrawable;
 import com.osreboot.ridhvl.menu.component.HvlSpacer;
 import com.osreboot.ridhvl.menu.component.HvlArrangerBox.ArrangementStyle;
@@ -21,6 +23,8 @@ import com.osreboot.ridhvl.painter.HvlRenderFrame;
 
 public class MenuManager {
 
+	private static final float BUTTON_SPACING = 32f;
+	
 	private static HvlMenu splash, main, credits, options, game, end, pause;
 	private static HvlRenderFrame pauseFrame;	
 
@@ -64,7 +68,17 @@ public class MenuManager {
 		HvlComponentDefault.setDefault(defaultLabeledButton);
 		
 		main.add(new HvlArrangerBox.Builder().build());
-		main.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("Play!").setClickedCommand(new HvlButtonMenuLink(game)).build());
+		main.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("Play").setClickedCommand(new HvlAction1<HvlButton>(){
+			@Override
+			public void run(HvlButton aArg){
+				HvlMenu.setCurrent(game);
+				Game.reset();
+			}
+		}).build());
+		main.getFirstArrangerBox().add(new HvlSpacer(0, BUTTON_SPACING));
+		main.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("Options").setClickedCommand(new HvlButtonMenuLink(options)).build());
+		main.getFirstArrangerBox().add(new HvlSpacer(0, BUTTON_SPACING));
+		main.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("Credits").setClickedCommand(new HvlButtonMenuLink(credits)).build());
 		
 		HvlMenu.setCurrent(splash);
 	}
@@ -88,9 +102,6 @@ public class MenuManager {
 			hvlDrawQuadc(Display.getWidth() / 2, Display.getHeight() / 2, 512, 512,
 					Main.getTexture(Main.INDEX_SPLASH), new Color(1f, 1f, 1f, alpha));
 		} else if (HvlMenu.getCurrent() == main) {
-			
-			Game.reset();
-			HvlMenu.setCurrent(game);
 		} else if (HvlMenu.getCurrent() == game) {
 			Game.update(delta);
 		}
