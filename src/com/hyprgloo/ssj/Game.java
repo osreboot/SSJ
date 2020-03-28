@@ -10,7 +10,7 @@ import com.osreboot.ridhvl.painter.HvlCamera2D;
 
 public class Game {
 	
-	public static final int END_DISTANCE = 10000;
+	public static final int END_DISTANCE = 50000;
 
 	public static HvlCamera2D camera;
 
