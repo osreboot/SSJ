@@ -2,13 +2,8 @@ package com.hyprgloo.ssj;
 
 import java.util.ArrayList;
 
-import org.lwjgl.input.Mouse;
-
-import com.hyprgloo.ssj.projectile.ProjectileEnemyGunner;
-import com.osreboot.ridhvl.HvlCoord2D;
 import com.osreboot.ridhvl.action.HvlAction0;
 import com.osreboot.ridhvl.painter.HvlCamera2D;
-import com.osreboot.ridhvl.painter.HvlCursor;
 
 public class Game {
 
@@ -34,9 +29,9 @@ public class Game {
 	}
 
 	public static void update(float delta){
-		if(Mouse.isButtonDown(0)){
-			new ProjectileEnemyGunner(HvlCursor.getCursorPosition().addNew(camera.getX(), camera.getY()).add(camera.getAlignment()), new HvlCoord2D(), 0);
-		}
+//		if(Mouse.isButtonDown(0)){
+//			new ProjectileEnemyGunner(HvlCursor.getCursorPosition().addNew(camera.getX(), camera.getY()).add(camera.getAlignment()), new HvlCoord2D(), 0);
+//		}
 		
 		// Attach ships to the player if they collide
 		for(ShipFriendly ship : EnvironmentManager.friendlyShips){
@@ -79,6 +74,8 @@ public class Game {
 		projectiles.removeIf(p -> p.physicsObject.isDead());
 		EnvironmentManager.asteroids.removeIf(a -> a.physicsObject.isDead());
 
+		ArtManager.drawBackground(player.getBaseLocation().x, player.getBaseLocation().y);
+		
 		camera.setPosition(player.getBaseLocation().x, player.getBaseLocation().y);
 		camera.doTransform(new HvlAction0(){
 			@Override

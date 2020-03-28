@@ -15,7 +15,8 @@ public class Main extends HvlTemplateInteg2D{
 	INDEX_SPLASH = 1,
 	INDEX_PLAYER_SHIP = 2,
 	INDEX_FRIENDLY_SHIP_0 = 3,
-	INDEX_ASTEROID = 4;
+	INDEX_ASTEROID = 4,
+	INDEX_PLASMA = 5;
 	
 	public static HvlFontPainter2D font;
 	
@@ -30,6 +31,7 @@ public class Main extends HvlTemplateInteg2D{
 		getTextureLoader().loadResource("HeroShip32");//2
 		getTextureLoader().loadResource("CargoShip");//3
 		getTextureLoader().loadResource("Asteroid");//4
+		getTextureLoader().loadResource("Plasma");//5
 		
 		
 		font = new HvlFontPainter2D(getTexture(INDEX_FONT), HvlFontPainter2D.Preset.FP_AGOFFICIAL);
