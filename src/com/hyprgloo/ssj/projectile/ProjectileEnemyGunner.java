@@ -20,7 +20,7 @@ public class ProjectileEnemyGunner extends Projectile{
 	public ProjectileEnemyGunner(HvlCoord2D locationArg, HvlCoord2D speedArg, float rotationArg){
 		super(locationArg, speedArg, rotationArg, SIZE / 2f, false);
 		physicsObject.alliance = Alliance.ENEMY;
-		physicsObject.damage = 50f;
+		physicsObject.damage = 25f;
 		
 		life = DURATION_LIFE;
 	}

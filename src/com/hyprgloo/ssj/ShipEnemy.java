@@ -8,7 +8,7 @@ public abstract class ShipEnemy {
 	public static final float ACCELERATION_TARGET = 200f;
 	public static final float SPEED_MAXIMUM = 100f;
 	public static final float DISTANCE_TARGET_RESET = 100f;
-	public static final int MAX_TARGET_RETRIES = 10;
+	public static final int MAX_TARGET_RETRIES = 1;
 
 	public PhysicsObject physicsObject;
 

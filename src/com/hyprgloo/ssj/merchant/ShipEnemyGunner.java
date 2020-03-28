@@ -27,7 +27,7 @@ public class ShipEnemyGunner extends ShipEnemy{
 	private float shotCooldown;
 	
 	public ShipEnemyGunner(float xArg, float yArg, float angleArg, boolean isJr){
-		super(xArg, yArg, angleArg, SIZE, 1000f, 300f, 600f);
+		super(xArg, yArg, angleArg, SIZE, 500f, 200f, 300f);
 		physicsObject.alliance = Alliance.ENEMY;
 		physicsObject.damage = 50f;
 		

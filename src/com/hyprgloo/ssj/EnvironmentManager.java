@@ -10,10 +10,10 @@ import com.osreboot.ridhvl.HvlMath;
 
 public class EnvironmentManager {
 	
-	private static final int NUM_ASTEROIDS = 20000;
-	private static final int NUM_FRIENDLIES = 10000;
-	private static final int NUM_ENEMIES = 2000;
-	private static final int WORLD_SIZE = 50000;
+	private static final int NUM_ASTEROIDS = 2000;
+	private static final int NUM_FRIENDLIES = 500;
+	private static final int NUM_ENEMIES = 200;
+	private static final int WORLD_SIZE = 10000;
 
 	public static ArrayList<Asteroid> asteroids;
 	public static ArrayList<ShipFriendly> friendlyShips;
