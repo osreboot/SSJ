@@ -9,11 +9,12 @@ import com.osreboot.ridhvl.HvlMath;
 
 public class EnvironmentManager {
 	public static ArrayList<Chunk> chunks;
-
+	public static ArrayList<ShipFriendly> friendlyShips;
 	public static Chunk closestChunk;
 
 	public static void init() {
 		chunks = new ArrayList<>();
+		friendlyShips = new ArrayList<>();
 		Chunk startChunk = new Chunk(new HvlCoord2D(0, 0), true);
 		chunks.add(startChunk);
 		closestChunk = startChunk;
@@ -40,6 +41,19 @@ public class EnvironmentManager {
 					closestChunk = c;
 	
 				c.update(delta);
+			}
+		}
+		
+		EnvironmentManager.friendlyShips.removeIf(s -> s.physicsObject.isDead());
+		for (ShipFriendly ship : friendlyShips) {
+			if (HvlMath.distance(Game.player.physicsObject.location, ship.physicsObject.location) < 1200) {
+				ship.update(delta, Game.player);
+				ship.draw(delta);
+				ship.physicsObject.canDealDamage = true;
+				ship.physicsObject.canReceiveDamage = true;
+			} else {
+				ship.physicsObject.canDealDamage = false;
+				ship.physicsObject.canReceiveDamage = false;
 			}
 		}
 

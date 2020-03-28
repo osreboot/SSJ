@@ -38,7 +38,7 @@ public class Game {
 //		}
 		
 		// Attach ships to the player if they collide
-		for(ShipFriendly ship : EnvironmentManager.closestChunk.friendlyShips){
+		for(ShipFriendly ship : EnvironmentManager.friendlyShips){
 			if(!ship.physicsObject.hasParent()){
 				if(player.isShipConnected(ship.physicsObject)){
 					player.disconnectShip(ship.physicsObject);

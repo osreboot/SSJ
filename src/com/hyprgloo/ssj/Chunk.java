@@ -10,12 +10,12 @@ import com.osreboot.ridhvl.HvlMath;
 
 public class Chunk {
 
-	private static final int NUM_ASTEROIDS = 50;
-	private static final int NUM_FRIENDLIES = 20;
+	private static final int NUM_ASTEROIDS = 40;
+	private static final int NUM_FRIENDLIES = 30;
 	private static final int NUM_ENEMIES = 5;
 
 	public ArrayList<Asteroid> asteroids;
-	public ArrayList<ShipFriendly> friendlyShips;
+	
 	public ArrayList<ShipEnemy> enemyShips;
 
 	public static final float CHUNK_SIZE = 2000f;
@@ -24,7 +24,7 @@ public class Chunk {
 	public Chunk(HvlCoord2D locA, boolean start) {
 		loc = locA;
 		asteroids = new ArrayList<>();
-		friendlyShips = new ArrayList<>();
+		
 		enemyShips = new ArrayList<>();
 
 		for (int i = 0; i < NUM_ASTEROIDS; i++) {
@@ -60,9 +60,9 @@ public class Chunk {
 							: +randomAsteroid.physicsObject.radius + 100) + loc.y;
 
 			if (shipType >= 333)
-				friendlyShips.add(new ShipFriendlyTrader(spawnLoc.x, spawnLoc.y, HvlMath.randomFloatBetween(0, 3.14f)));
+				EnvironmentManager.friendlyShips.add(new ShipFriendlyTrader(spawnLoc.x, spawnLoc.y, HvlMath.randomFloatBetween(0, 3.14f)));
 			else if (shipType < 333)
-				friendlyShips.add(new ShipFriendlyGunner(spawnLoc.x, spawnLoc.y, HvlMath.randomFloatBetween(0, 3.14f)));
+				EnvironmentManager.friendlyShips.add(new ShipFriendlyGunner(spawnLoc.x, spawnLoc.y, HvlMath.randomFloatBetween(0, 3.14f)));
 		}
 
 		for (int i = 0; i < NUM_ENEMIES; i++) {
@@ -87,7 +87,7 @@ public class Chunk {
 	public void update(float delta) {
 		
 		asteroids.removeIf(a -> a.physicsObject.isDead());
-		friendlyShips.removeIf(s -> s.physicsObject.isDead());
+		
 		enemyShips.removeIf(s -> s.physicsObject.isDead());
 		for (Asteroid a : asteroids) {
 			a.update(delta);
@@ -98,18 +98,6 @@ public class Chunk {
 			} else {
 				a.physicsObject.canDealDamage = false;
 				a.physicsObject.canReceiveDamage = false;
-			}
-		}
-
-		for (ShipFriendly ship : friendlyShips) {
-			if (HvlMath.distance(Game.player.physicsObject.location, ship.physicsObject.location) < 1200) {
-				ship.update(delta, Game.player);
-				ship.draw(delta);
-				ship.physicsObject.canDealDamage = true;
-				ship.physicsObject.canReceiveDamage = true;
-			} else {
-				ship.physicsObject.canDealDamage = false;
-				ship.physicsObject.canReceiveDamage = false;
 			}
 		}
 
