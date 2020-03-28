@@ -30,7 +30,8 @@ public class Main extends HvlTemplateInteg2D{
 	INDEX_MENU_BUTT = 15,
 	INDEX_SPARK = 16,
 	INDEX_SPARK_EMISSIVE = 17,
-	INDEX_PROG_BAR = 18;
+	INDEX_PROG_BAR = 18,
+	INDEX_SCRAP_0 = 19;
 
 	public static HvlFontPainter2D font;
 
@@ -61,6 +62,7 @@ public class Main extends HvlTemplateInteg2D{
 		getTextureLoader().loadResource("Spark");//16
 		getTextureLoader().loadResource("SparkEmissive");//17
 		getTextureLoader().loadResource("progBar");//18
+		getTextureLoader().loadResource("Scrap0");//19
 
 		ArtManager.init();
 

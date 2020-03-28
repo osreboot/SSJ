@@ -1,6 +1,9 @@
 package com.hyprgloo.ssj;
 
+import org.newdawn.slick.Color;
+
 import com.hyprgloo.ssj.PhysicsObject.Alliance;
+import com.hyprgloo.ssj.physics.PhysicsObjectShip;
 import com.osreboot.ridhvl.HvlMath;
 
 public abstract class ShipFriendly {
@@ -12,8 +15,8 @@ public abstract class ShipFriendly {
 	
 	private boolean boosted = false;
 	
-	public ShipFriendly(float xArg, float yArg, float angleArg, float radiusArg){
-		physicsObject = new PhysicsObject(xArg, yArg, angleArg, radiusArg);
+	public ShipFriendly(float xArg, float yArg, float angleArg, float radiusArg, Color... scrapColorsArg){
+		physicsObject = new PhysicsObjectShip(xArg, yArg, angleArg, radiusArg, scrapColorsArg);
 		physicsObject.alliance = Alliance.FRIENDLY;
 		physicsObject.damage = 100f;
 	}

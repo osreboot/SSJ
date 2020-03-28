@@ -23,7 +23,7 @@ public class ParticleSpark extends Particle{
 	private Color color;
 	
 	public ParticleSpark(HvlCoord2D locationArg, HvlCoord2D speedArg, Color colorArg){
-		super(locationArg, speedArg, DURATION_LIFETIME, SIZE, Main.INDEX_SPARK, Main.INDEX_SPARK_EMISSIVE);
+		super(locationArg, speedArg, DURATION_LIFETIME, Main.INDEX_SPARK, Main.INDEX_SPARK_EMISSIVE);
 		color = colorArg;
 	}
 
@@ -35,6 +35,11 @@ public class ParticleSpark extends Particle{
 	@Override
 	public Color getColor(){
 		return new Color(color.r, color.g, color.b, (life / maxLife));
+	}
+
+	@Override
+	public float getSize(){
+		return SIZE;
 	}
 
 }

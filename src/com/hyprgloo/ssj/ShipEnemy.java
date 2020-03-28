@@ -1,5 +1,8 @@
 package com.hyprgloo.ssj;
 
+import org.newdawn.slick.Color;
+
+import com.hyprgloo.ssj.physics.PhysicsObjectShip;
 import com.osreboot.ridhvl.HvlCoord2D;
 import com.osreboot.ridhvl.HvlMath;
 
@@ -15,8 +18,8 @@ public abstract class ShipEnemy {
 	private HvlCoord2D target;
 	private float targetAcquisitionMax, radiusOrbitMin, radiusOrbitMax;
 
-	public ShipEnemy(float xArg, float yArg, float angleArg, float radiusArg, float targetAcquisitionMaxArg, float radiusOrbitMinArg, float radiusOrbitMaxArg){
-		physicsObject = new PhysicsObject(xArg, yArg, angleArg, radiusArg);
+	public ShipEnemy(float xArg, float yArg, float angleArg, float radiusArg, float targetAcquisitionMaxArg, float radiusOrbitMinArg, float radiusOrbitMaxArg, Color... scrapColorsArg){
+		physicsObject = new PhysicsObjectShip(xArg, yArg, angleArg, radiusArg, scrapColorsArg);
 		targetAcquisitionMax = targetAcquisitionMaxArg;
 		radiusOrbitMin = radiusOrbitMinArg;
 		radiusOrbitMax = radiusOrbitMaxArg;

@@ -4,6 +4,8 @@ import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlResetRotation;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
 
+import org.newdawn.slick.Color;
+
 import com.hyprgloo.ssj.Game;
 import com.hyprgloo.ssj.Main;
 import com.hyprgloo.ssj.ShipEnemy;
@@ -19,6 +21,9 @@ public class ShipEnemyGunner extends ShipEnemy{
 	public static final float DURATION_SHOT_COOLDOWN = 1f;
 	public static final float SPEED_PROJECTILE = 250f;
 	
+	public static final Color COLOR_SCRAP_0 = Color.lightGray;
+	public static final Color COLOR_SCRAP_1 = new Color(0.2f, 0.6f, 0.2f);
+	
 	public boolean hasJr = false;
 	private int typeHandler;
 	private boolean typeAssigned = false;
@@ -27,7 +32,7 @@ public class ShipEnemyGunner extends ShipEnemy{
 	private float shotCooldown;
 	
 	public ShipEnemyGunner(float xArg, float yArg, float angleArg, boolean isJr){
-		super(xArg, yArg, angleArg, SIZE, 500f, 200f, 300f);
+		super(xArg, yArg, angleArg, SIZE, 500f, 200f, 300f, COLOR_SCRAP_0, COLOR_SCRAP_1);
 		physicsObject.alliance = Alliance.ENEMY;
 		physicsObject.damage = 50f;
 		

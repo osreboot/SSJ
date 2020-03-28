@@ -4,6 +4,8 @@ import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlResetRotation;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
 
+import org.newdawn.slick.Color;
+
 import com.hyprgloo.ssj.Main;
 import com.hyprgloo.ssj.Player;
 import com.hyprgloo.ssj.ShipEnemy;
@@ -14,15 +16,19 @@ public class ShipEnemyConvoy extends ShipEnemy{
 
 	public static final float SIZE = 32f;
 	
+	public static final Color COLOR_SCRAP_0 = Color.gray;
+	public static final Color COLOR_SCRAP_1 = new Color(0.02f, 0.53f, 0.02f);
+	
 	public boolean hasJr = false;
 	private int typeHandler;
 	private boolean typeAssigned = false;
 	ShipEnemyConvoy jr = null;
 	
 	public ShipEnemyConvoy(float xArg, float yArg, float angleArg, boolean isJr) {
-		super(xArg, yArg, angleArg, SIZE, 1000f, 0f, 125f);
+		super(xArg, yArg, angleArg, SIZE, 1000f, 0f, 125f, COLOR_SCRAP_0, COLOR_SCRAP_1);
 		physicsObject.alliance = Alliance.ENEMY;
-		physicsObject.damage = 50f;
+		physicsObject.health = 400f;
+		physicsObject.damage = 100f;
 		
 		assignType(isJr);
 		

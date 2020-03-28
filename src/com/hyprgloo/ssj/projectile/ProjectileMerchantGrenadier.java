@@ -27,7 +27,7 @@ public class ProjectileMerchantGrenadier extends Projectile{
 	public ProjectileMerchantGrenadier(HvlCoord2D locationArg, HvlCoord2D speedArg, float rotationArg){
 		super(locationArg, speedArg, rotationArg, SIZE / 2f, true, COLOR_SPARKS);
 		physicsObject.alliance = Alliance.FRIENDLY;
-		physicsObject.damage = 50f;
+		physicsObject.damage = 80f;
 		life = DURATION_LIFE;
 		
 		angle = rotationArg;
