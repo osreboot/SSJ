@@ -1,6 +1,7 @@
 package com.hyprgloo.ssj;
 
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuad;
+import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
 
 import java.util.ArrayList;
 
@@ -113,6 +114,9 @@ public class Game {
 						player.drawEmissive(delta);
 						
 						// TODO others
+						for(ShipFriendly ship : EnvironmentManager.friendlyShips){
+							hvlDrawQuadc(ship.physicsObject.location.x, ship.physicsObject.location.y, ship.physicsObject.radius * 2f, ship.physicsObject.radius * 2f, Main.getTexture(Main.INDEX_FRIENDLY_SHIP_0_EMISSIVE));
+						}
 						
 					}
 				});

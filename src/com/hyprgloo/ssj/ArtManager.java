@@ -43,7 +43,7 @@ public class ArtManager {
 	}
 	
 	public static void drawVignette(){
-		hvlDrawQuad(0, 0, Display.getWidth(), Display.getHeight(), Main.getTexture(Main.INDEX_VIGNETTE), new Color(1f, 1f, 1f, 1f));
+		hvlDrawQuad(0, 0, Display.getWidth(), Display.getHeight(), Main.getTexture(Main.INDEX_VIGNETTE), new Color(1f, 1f, 1f, 0.5f));
 //		hvlDrawQuad(0, 0, Display.getWidth(), Display.getHeight(), Color.black);
 	}
 	

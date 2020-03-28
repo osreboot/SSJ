@@ -14,5 +14,5 @@ void main(){
 		sum += texture2D(texture1, vec2(gl_TexCoord[0].x - (displacement * xStep), gl_TexCoord[0].y - (displacement * yStep))) * (range - abs(displacement));
 	}
 
-	gl_FragColor = vec4(sum.r, sum.g, sum.b, sum.a / 64.0);
+	gl_FragColor = vec4(sum.r, sum.g, sum.b, sum.a / 96.0);
 }
