@@ -42,7 +42,7 @@ public class Player {
 	
 	public void drawHUD() {
 		progress = HvlMath.distance(physicsObject.location.x, physicsObject.location.y, 0, 0)/Game.END_DISTANCE;
-		if(progress >= Game.END_DISTANCE) progress = Game.END_DISTANCE;
+		if(progress >= 1) progress = 1;
 		hvlDrawQuadc(200, 100, 310, 40, Main.getTexture(Main.INDEX_PROG_BAR));
 		hvlDrawQuad(50, 85, 300*progress, 30, Color.green);
 	}
