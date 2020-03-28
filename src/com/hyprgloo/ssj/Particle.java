@@ -32,6 +32,7 @@ public abstract class Particle {
 	public abstract Color getColor();
 	
 	public void update(float delta){
+		life -= delta;
 		location.add(speed.multNew(delta));
 	}
 	

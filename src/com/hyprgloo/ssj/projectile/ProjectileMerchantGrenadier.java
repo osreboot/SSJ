@@ -20,10 +20,12 @@ public class ProjectileMerchantGrenadier extends Projectile{
 	public static final float SPEED_ROTATION = 240f;
 	public static final float SPEED_TRANSLATION = 400f;
 	
+	public static final Color COLOR_SPARKS = Color.white;
+	
 	private float angle, life;
 	
 	public ProjectileMerchantGrenadier(HvlCoord2D locationArg, HvlCoord2D speedArg, float rotationArg){
-		super(locationArg, speedArg, rotationArg, SIZE / 2f, true);
+		super(locationArg, speedArg, rotationArg, SIZE / 2f, true, COLOR_SPARKS);
 		physicsObject.alliance = Alliance.FRIENDLY;
 		physicsObject.damage = 50f;
 		life = DURATION_LIFE;

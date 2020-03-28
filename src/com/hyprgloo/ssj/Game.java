@@ -1,7 +1,5 @@
 package com.hyprgloo.ssj;
 
-import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
-
 import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
@@ -91,10 +89,10 @@ public class Game {
 			@Override
 			public void run(){
 				
-				EnvironmentManager.update(delta);
-				
 				for(Particle particle : particles)
 					particle.draw(delta);
+				
+				EnvironmentManager.update(delta);
 				
 				// Update and draw the player
 				player.update(delta);
