@@ -30,6 +30,7 @@ public class Game {
 
 		player = new Player();
 		projectiles = new ArrayList<>();
+
 		
 		EnvironmentManager.init();
 	}
@@ -77,12 +78,6 @@ public class Game {
 		camera.doTransform(new HvlAction0(){
 			@Override
 			public void run(){
-
-				// TODO remove this when real scenery is added
-				hvlDrawQuadc(0, 0, 500f, 500f, Color.darkGray);
-
-
-				EnvironmentManager.update(delta);
 
 				// Update and draw the player
 				player.update(delta);

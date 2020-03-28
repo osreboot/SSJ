@@ -43,14 +43,13 @@ public class Asteroid {
 	}
 
 	public void assignType(boolean isJr) {
-		if(!typeAssigned && !hasJr && !isJr) {
+		if(!hasJr && !isJr) {
 			typeHandler = HvlMath.randomIntBetween(0, 100);
 			if(typeHandler < 20){
 				hasJr = true;
 			}else {
 				hasJr = false;
 			}
-			typeAssigned = true;
 		}
 	}
 
