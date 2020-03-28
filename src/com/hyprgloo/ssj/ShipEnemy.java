@@ -22,7 +22,7 @@ public abstract class ShipEnemy {
 		radiusOrbitMax = radiusOrbitMaxArg;
 	}
 
-	public void update(float delta){
+	public void update(float delta, Player playerArg){
 		if(target != null && HvlMath.distance(physicsObject.location, target) < DISTANCE_TARGET_RESET)
 			target = null;
 		if(target == null){
