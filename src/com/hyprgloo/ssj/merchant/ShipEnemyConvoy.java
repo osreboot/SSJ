@@ -12,7 +12,7 @@ import com.osreboot.ridhvl.HvlMath;
 
 public class ShipEnemyConvoy extends ShipEnemy{
 
-	public static final float SIZE = 30f;
+	public static final float SIZE = 32f;
 	
 	public boolean hasJr = false;
 	private int typeHandler;
@@ -20,7 +20,7 @@ public class ShipEnemyConvoy extends ShipEnemy{
 	ShipEnemyConvoy jr = null;
 	
 	public ShipEnemyConvoy(float xArg, float yArg, float angleArg, boolean isJr) {
-		super(xArg, yArg, angleArg, SIZE, 1000f, 50f, 125f);
+		super(xArg, yArg, angleArg, SIZE, 1000f, 0f, 125f);
 		physicsObject.alliance = Alliance.ENEMY;
 		physicsObject.damage = 50f;
 		
@@ -67,12 +67,6 @@ public class ShipEnemyConvoy extends ShipEnemy{
 			hvlRotate(jr.physicsObject.location.x, jr.physicsObject.location.y, jr.physicsObject.getVisualAngle());
 			hvlDrawQuadc(jr.physicsObject.location.x, jr.physicsObject.location.y, jr.physicsObject.radius * 2f, jr.physicsObject.radius * 2f, Main.getTexture(Main.INDEX_CONVOY_ENEMY));
 			hvlResetRotation();
-			
 		}
-		
 	}
-	
-	
-	
-
 }

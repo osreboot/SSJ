@@ -89,6 +89,8 @@ public class PhysicsObject {
 				location.y = parent.location.y + ((float)Math.sin(Math.toRadians(parent.getVisualAngle() + connectionAngle)) * connectionDistance);
 			}
 		}else{
+			
+			
 			location.add(speed.multNew(delta));
 			angle += angleSpeed * delta;
 			if(angleSpeed >= MAX_ROTATE) angleSpeed = MAX_ROTATE;

@@ -4,6 +4,8 @@ import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
 
 import java.util.ArrayList;
 
+import org.newdawn.slick.Color;
+
 import com.osreboot.ridhvl.action.HvlAction0;
 import com.osreboot.ridhvl.painter.HvlCamera2D;
 
@@ -78,6 +80,7 @@ public class Game {
 
 		ArtManager.drawBackground(player.getBaseLocation().x, player.getBaseLocation().y);
 		
+		if(debugCam) Main.font.drawWord("Diff: "+EnvironmentManager.closestChunk.difficultyLevel, 10, 10, Color.green, 0.3f);
 		camera.setPosition(player.getBaseLocation().x / (debugCam ? 5 : 1), player.getBaseLocation().y / (debugCam ? 5 : 1));
 		camera.doTransform(new HvlAction0(){
 			@Override

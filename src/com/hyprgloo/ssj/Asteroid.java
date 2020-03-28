@@ -31,6 +31,7 @@ public class Asteroid {
 		physicsObject.angleSpeed = rotationSpeedArg;
 		physicsObject.alliance = Alliance.ENEMY;
 		physicsObject.damage = 100f;
+		physicsObject.health += sizeArg;
 		physicsObject.canReceiveDamage = false;
 		physicsObject.canDealDamage = false;
 

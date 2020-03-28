@@ -2,6 +2,9 @@ package com.hyprgloo.ssj;
 
 import java.util.ArrayList;
 
+import org.lwjgl.opengl.Display;
+
+import com.hyprgloo.ssj.merchant.ShipEnemyConvoy;
 import com.hyprgloo.ssj.merchant.ShipEnemyGunner;
 import com.hyprgloo.ssj.merchant.ShipFriendlyGunner;
 import com.hyprgloo.ssj.merchant.ShipFriendlyGrenadier;
@@ -18,6 +21,8 @@ public class Chunk {
 	public ArrayList<Asteroid> asteroids;
 	
 	public ArrayList<ShipEnemy> enemyShips;
+	
+	float difficultyLevel;
 
 	public static final float CHUNK_SIZE = 2000f;
 	HvlCoord2D loc;
@@ -26,9 +31,11 @@ public class Chunk {
 		loc = locA;
 		asteroids = new ArrayList<>();
 		
+		difficultyLevel = HvlMath.distance(loc.x, loc.y, 0, 0)/CHUNK_SIZE;
+		
 		enemyShips = new ArrayList<>();
 
-		for (int i = 0; i < NUM_ASTEROIDS; i++) {
+		for (int i = 0; i < NUM_ASTEROIDS + difficultyLevel; i++) {
 
 			HvlCoord2D asPos = new HvlCoord2D();
 
@@ -46,7 +53,7 @@ public class Chunk {
 		}
 
 		int shipType = 0;
-		for (int i = 0; i < NUM_FRIENDLIES; i++) {
+		for (int i = 0; i < (NUM_FRIENDLIES/(difficultyLevel+2))+20; i++) {
 			shipType = HvlMath.randomInt(1000);
 			HvlCoord2D spawnLoc = new HvlCoord2D();
 			Asteroid randomAsteroid = asteroids.get(HvlMath.randomInt(NUM_ASTEROIDS));
@@ -55,10 +62,10 @@ public class Chunk {
 
 			spawnLoc.x = randomAsteroid.physicsObject.location.x
 					+ (HvlMath.randomInt(2) == 0 ? -randomAsteroid.physicsObject.radius - 100
-							: +randomAsteroid.physicsObject.radius + 100) + loc.x;
+							: +randomAsteroid.physicsObject.radius + 100);
 			spawnLoc.y = randomAsteroid.physicsObject.location.y
 					+ (HvlMath.randomInt(2) == 0 ? -randomAsteroid.physicsObject.radius - 100
-							: +randomAsteroid.physicsObject.radius + 100) + loc.y;
+							: +randomAsteroid.physicsObject.radius + 100);
 
 			if (shipType >= 333 && shipType <= 800)
 				EnvironmentManager.friendlyShips.add(new ShipFriendlyTrader(spawnLoc.x, spawnLoc.y, HvlMath.randomFloatBetween(0, 3.14f)));
@@ -68,7 +75,8 @@ public class Chunk {
 				EnvironmentManager.friendlyShips.add(new ShipFriendlyGunner(spawnLoc.x, spawnLoc.y, HvlMath.randomFloatBetween(0, 3.14f)));
 		}
 
-		for (int i = 0; i < NUM_ENEMIES; i++) {
+		for (int i = 0; i < NUM_ENEMIES + 2*Math.log(difficultyLevel); i++) {
+			shipType = HvlMath.randomInt(1000);
 			HvlCoord2D spawnLoc = new HvlCoord2D();
 			Asteroid randomAsteroid = asteroids.get(HvlMath.randomInt(NUM_ASTEROIDS));
 			while (randomAsteroid.hasJr)
@@ -76,12 +84,15 @@ public class Chunk {
 
 			spawnLoc.x = randomAsteroid.physicsObject.location.x
 					+ (HvlMath.randomInt(2) == 0 ? -randomAsteroid.physicsObject.radius - 100
-							: +randomAsteroid.physicsObject.radius + 100) + loc.x;
+							: +randomAsteroid.physicsObject.radius + 100);
 			spawnLoc.y = randomAsteroid.physicsObject.location.y
 					+ (HvlMath.randomInt(2) == 0 ? -randomAsteroid.physicsObject.radius - 100
-							: +randomAsteroid.physicsObject.radius + 100) + loc.y;
+							: +randomAsteroid.physicsObject.radius + 100);
+			if(shipType < 500)
+				enemyShips.add(new ShipEnemyGunner(spawnLoc.x, spawnLoc.y, HvlMath.randomFloatBetween(0, 3.14f), false));
+			else if(shipType >= 500)
+				enemyShips.add(new ShipEnemyConvoy(spawnLoc.x, spawnLoc.y, HvlMath.randomFloatBetween(0, 3.14f), false));
 
-			enemyShips.add(new ShipEnemyGunner(spawnLoc.x, spawnLoc.y, HvlMath.randomFloatBetween(0, 3.14f), false));
 
 		}
 
@@ -90,8 +101,8 @@ public class Chunk {
 	public void update(float delta) {
 		
 		asteroids.removeIf(a -> a.physicsObject.isDead());
-		
 		enemyShips.removeIf(s -> s.physicsObject.isDead());
+		
 		for (Asteroid a : asteroids) {
 			a.update(delta);
 			if (HvlMath.distance(Game.player.physicsObject.location, a.physicsObject.location) < 1200) {
@@ -105,8 +116,11 @@ public class Chunk {
 		}
 
 		for (ShipEnemy ship : enemyShips) {
-			if (HvlMath.distance(Game.player.physicsObject.location, ship.physicsObject.location) < 1200) {
+			
+			if (HvlMath.distance(Game.player.physicsObject.location, ship.physicsObject.location) < CHUNK_SIZE * 1.5)
 				ship.update(delta, Game.player);
+			
+			if (HvlMath.distance(Game.player.physicsObject.location, ship.physicsObject.location) < CHUNK_SIZE/2 + Display.getWidth()/2) {
 				ship.draw(delta);
 				ship.physicsObject.canDealDamage = true;
 				ship.physicsObject.canReceiveDamage = true;

@@ -1,8 +1,11 @@
 package com.hyprgloo.ssj;
 
+import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
+
 import java.util.ArrayList;
 
 import org.lwjgl.opengl.Display;
+import org.newdawn.slick.Color;
 
 import com.osreboot.ridhvl.HvlCoord2D;
 import com.osreboot.ridhvl.HvlMath;
@@ -40,6 +43,9 @@ public class EnvironmentManager {
 				if (distance < HvlMath.distance(closestChunk.loc, Game.player.physicsObject.location))
 					closestChunk = c;
 	
+				if(Game.debugCam)
+					hvlDrawQuadc(c.loc.x, c.loc.y, Chunk.CHUNK_SIZE, Chunk.CHUNK_SIZE, new Color(0f,1f,0f,0.2f));
+				
 				c.update(delta);
 			}
 		}
