@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
 
+import com.hyprgloo.ssj.PhysicsObject.Alliance;
 import com.osreboot.ridhvl.HvlCoord2D;
 import com.osreboot.ridhvl.HvlMath;
 
@@ -24,6 +25,8 @@ public class Player {
 
 	public Player() {
 		physicsObject = new PhysicsObject(0f, 0f, 0f, 16f);
+		physicsObject.alliance = Alliance.FRIENDLY;
+		physicsObject.damage = 100f;
 		xsInput = 0;
 		ysInput = 0;
 		connectedShips = new ArrayList<>();
