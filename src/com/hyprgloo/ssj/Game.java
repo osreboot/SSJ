@@ -46,8 +46,7 @@ public class Game {
 		// Spawn enemy ships
 		enemyShips.add(new ShipEnemyGunner(100f, 100f, 0f));
 		
-		//Spawn asteroids
-		asteroids.add(new Asteroid(100f, 100f, 0f, 0f, 32f, 10f, 100f));
+		AsteroidManager.initAsteroids();
 	}
 	
 	public static void update(float delta){
@@ -98,11 +97,13 @@ public class Game {
 				}
 
 
-			//Update and draw asteroids
-				for(Asteroid a : asteroids){
-					a.update(delta);
-					a.draw();
-				}
+//			//Update and draw asteroids
+//				for(Asteroid a : asteroids){
+//					a.update(delta);
+//					a.draw();
+//				}
+				
+				AsteroidManager.update();
 				// Update and draw all enemy ships
 				for(ShipEnemy ship : enemyShips){
 					ship.update(delta);

@@ -17,7 +17,7 @@ public class Player {
 	public static final float ROTATION_ACCE = 300f;
 	private static final float MAX_TRANSLATE = 250;
 
-	private PhysicsObject physicsObject;
+	public PhysicsObject physicsObject;
 
 	private ArrayList<ShipFriendly> connectedShips;
 

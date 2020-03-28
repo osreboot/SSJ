@@ -89,9 +89,8 @@ public class MenuManager {
 					Main.getTexture(Main.INDEX_SPLASH), new Color(1f, 1f, 1f, alpha));
 		} else if (HvlMenu.getCurrent() == main) {
 			
-			
-			
 			Game.reset();
+			HvlMenu.setCurrent(game);
 		} else if (HvlMenu.getCurrent() == game) {
 			Game.update(delta);
 		}
