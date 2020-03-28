@@ -10,31 +10,18 @@ public class AsteroidManager {
 	
 	public static void initAsteroids() {
 		asteroids = new ArrayList<>();
-		double time1 = System.currentTimeMillis();
-		float initSize;
+	
 		for(int i = 0; i < 20000; i++) {
 			
 			HvlCoord2D asPos = new HvlCoord2D();
 			
-			initSize = HvlMath.randomFloatBetween(50, 500);
-			
 			asPos.x = HvlMath.randomFloatBetween(-50000, 50000);
 			asPos.y = HvlMath.randomFloatBetween(-50000, 50000);
-
-			for(Asteroid a : asteroids) {
-				if(HvlMath.distance(asPos, a.physicsObject.location) < a.physicsObject.radius + initSize + 100) {
-					asPos.x = HvlMath.randomFloatBetween(-50000, 50000);
-					asPos.y = HvlMath.randomFloatBetween(-50000, 50000);
-				}
-			}
 			
 			Asteroid a = new Asteroid(asPos, false);
-			a.physicsObject.radius = initSize;
 			asteroids.add(a);
 		}
-		double time2 = System.currentTimeMillis();
 		
-		System.out.println("Took "+(time2-time1)+" millis to generate");
 	}
 	
 	public static void update() {
