@@ -60,8 +60,6 @@ public class Main extends HvlTemplateInteg2D{
 		getTextureLoader().loadResource("Spark");//16
 		getTextureLoader().loadResource("SparkEmissive");//17
 
-
-
 		ArtManager.init();
 
 		font = new HvlFontPainter2D(getTexture(INDEX_FONT), HvlFontPainter2D.Preset.FP_AGOFFICIAL);
