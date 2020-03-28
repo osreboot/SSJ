@@ -18,8 +18,8 @@ public abstract class ShipEnemy {
 	private HvlCoord2D target;
 	private float targetAcquisitionMax, radiusOrbitMin, radiusOrbitMax;
 
-	public ShipEnemy(float xArg, float yArg, float angleArg, float radiusArg, float targetAcquisitionMaxArg, float radiusOrbitMinArg, float radiusOrbitMaxArg, Color... scrapColorsArg){
-		physicsObject = new PhysicsObjectShip(xArg, yArg, angleArg, radiusArg, scrapColorsArg);
+	public ShipEnemy(float xArg, float yArg, float angleArg, float radiusArg, float targetAcquisitionMaxArg, float radiusOrbitMinArg, float radiusOrbitMaxArg, boolean bigExplosionArg, Color... scrapColorsArg){
+		physicsObject = new PhysicsObjectShip(xArg, yArg, angleArg, radiusArg, bigExplosionArg, scrapColorsArg);
 		targetAcquisitionMax = targetAcquisitionMaxArg;
 		radiusOrbitMin = radiusOrbitMinArg;
 		radiusOrbitMax = radiusOrbitMaxArg;
@@ -53,5 +53,7 @@ public abstract class ShipEnemy {
 	}
 
 	public abstract void draw(float delta);
+	
+	public abstract void drawEmissive(float delta);
 
 }

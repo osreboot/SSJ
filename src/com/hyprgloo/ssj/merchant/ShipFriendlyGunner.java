@@ -48,5 +48,10 @@ public class ShipFriendlyGunner extends ShipFriendly{
 		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f, physicsObject.radius * 2f, Main.getTexture(Main.INDEX_FRIENDLY_SHIP_0), Color.red);
 		hvlResetRotation();
 	}
+	
+	@Override
+	public void drawEmissive(float delta){
+		// TODO
+	}
 
 }

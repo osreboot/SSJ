@@ -49,4 +49,9 @@ public class ShipFriendlyGrenadier extends ShipFriendly{
 		hvlResetRotation();
 	}
 
+	@Override
+	public void drawEmissive(float delta){
+		// TODO
+	}
+
 }

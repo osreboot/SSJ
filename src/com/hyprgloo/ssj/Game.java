@@ -154,7 +154,9 @@ public class Game {
 
 						for (Particle particle : particles)
 							particle.drawEmissive(delta);
-
+						
+						EnvironmentManager.drawEmissive(delta);
+	
 						player.drawEmissive(delta);
 
 						for (Projectile projectile : projectiles) {

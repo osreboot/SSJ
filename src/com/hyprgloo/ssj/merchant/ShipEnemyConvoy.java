@@ -21,11 +21,10 @@ public class ShipEnemyConvoy extends ShipEnemy{
 	
 	public boolean hasJr = false;
 	private int typeHandler;
-	private boolean typeAssigned = false;
 	ShipEnemyConvoy jr = null;
 	
 	public ShipEnemyConvoy(float xArg, float yArg, float angleArg, boolean isJr) {
-		super(xArg, yArg, angleArg, SIZE, 1000f, 0f, 125f, COLOR_SCRAP_0, COLOR_SCRAP_1);
+		super(xArg, yArg, angleArg, SIZE, 1000f, 0f, 125f, true, COLOR_SCRAP_0, COLOR_SCRAP_1);
 		physicsObject.alliance = Alliance.ENEMY;
 		physicsObject.health = 400f;
 		physicsObject.damage = 100f;
@@ -65,13 +64,26 @@ public class ShipEnemyConvoy extends ShipEnemy{
 
 	@Override
 	public void draw(float delta) {
-		hvlRotate(physicsObject.location.x, physicsObject.location.y, physicsObject.getVisualAngle());
-		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f, physicsObject.radius * 2f, Main.getTexture(Main.INDEX_CONVOY_ENEMY));
+		hvlRotate(physicsObject.location.x, physicsObject.location.y, physicsObject.getVisualAngle() + 180f);
+		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f, physicsObject.radius * 2f, Main.getTexture(Main.INDEX_ENEMY_CONVOY));
 		hvlResetRotation();
 		
 		if(hasJr){
-			hvlRotate(jr.physicsObject.location.x, jr.physicsObject.location.y, jr.physicsObject.getVisualAngle());
-			hvlDrawQuadc(jr.physicsObject.location.x, jr.physicsObject.location.y, jr.physicsObject.radius * 2f, jr.physicsObject.radius * 2f, Main.getTexture(Main.INDEX_CONVOY_ENEMY));
+			hvlRotate(jr.physicsObject.location.x, jr.physicsObject.location.y, jr.physicsObject.getVisualAngle() + 180f);
+			hvlDrawQuadc(jr.physicsObject.location.x, jr.physicsObject.location.y, jr.physicsObject.radius * 2f, jr.physicsObject.radius * 2f, Main.getTexture(Main.INDEX_ENEMY_CONVOY));
+			hvlResetRotation();
+		}
+	}
+	
+	@Override
+	public void drawEmissive(float delta){
+		hvlRotate(physicsObject.location.x, physicsObject.location.y, physicsObject.getVisualAngle() + 180f);
+		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f, physicsObject.radius * 2f, Main.getTexture(Main.INDEX_ENEMY_CONVOY_EMISSIVE));
+		hvlResetRotation();
+		
+		if(hasJr){
+			hvlRotate(jr.physicsObject.location.x, jr.physicsObject.location.y, jr.physicsObject.getVisualAngle() + 180f);
+			hvlDrawQuadc(jr.physicsObject.location.x, jr.physicsObject.location.y, jr.physicsObject.radius * 2f, jr.physicsObject.radius * 2f, Main.getTexture(Main.INDEX_ENEMY_CONVOY_EMISSIVE));
 			hvlResetRotation();
 		}
 	}

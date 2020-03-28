@@ -130,5 +130,15 @@ public class Chunk {
 			}
 		}
 	}
+	
+	public void drawEmissive(float delta){
+		// not drawing asteroids here because they don't have an emissive map
+
+		for (ShipEnemy ship : enemyShips) {
+			if (HvlMath.distance(Game.player.physicsObject.location, ship.physicsObject.location) < CHUNK_SIZE/2 + Display.getWidth()/2) {
+				ship.drawEmissive(delta);
+			}
+		}
+	}
 
 }

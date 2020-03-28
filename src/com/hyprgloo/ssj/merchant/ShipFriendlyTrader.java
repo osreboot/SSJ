@@ -35,4 +35,9 @@ public class ShipFriendlyTrader extends ShipFriendly{
 	public void updateConnected(float delta) {
 	
 	}
+	
+	@Override
+	public void drawEmissive(float delta){
+		// TODO
+	}
 }

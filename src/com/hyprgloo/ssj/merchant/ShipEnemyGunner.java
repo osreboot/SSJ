@@ -26,13 +26,12 @@ public class ShipEnemyGunner extends ShipEnemy{
 	
 	public boolean hasJr = false;
 	private int typeHandler;
-	private boolean typeAssigned = false;
 	ShipEnemyGunner jr = null;
 	
 	private float shotCooldown;
 	
 	public ShipEnemyGunner(float xArg, float yArg, float angleArg, boolean isJr){
-		super(xArg, yArg, angleArg, SIZE, 500f, 200f, 300f, COLOR_SCRAP_0, COLOR_SCRAP_1);
+		super(xArg, yArg, angleArg, SIZE, 500f, 200f, 300f, false, COLOR_SCRAP_0, COLOR_SCRAP_1);
 		physicsObject.alliance = Alliance.ENEMY;
 		physicsObject.damage = 50f;
 		
@@ -108,6 +107,19 @@ public class ShipEnemyGunner extends ShipEnemy{
 			hvlDrawQuadc(jr.physicsObject.location.x, jr.physicsObject.location.y, jr.physicsObject.radius * 2f, jr.physicsObject.radius * 2f, Main.getTexture(Main.INDEX_ENEMY_GUNNER_SHIP));
 			hvlResetRotation();
 			
+		}
+	}
+	
+	@Override
+	public void drawEmissive(float delta){
+		hvlRotate(physicsObject.location.x, physicsObject.location.y, physicsObject.getVisualAngle());
+		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f, physicsObject.radius * 2f, Main.getTexture(Main.INDEX_ENEMY_GUNNER_SHIP_EMISSIVE));
+		hvlResetRotation();
+		
+		if(hasJr){
+			hvlRotate(jr.physicsObject.location.x, jr.physicsObject.location.y, jr.physicsObject.getVisualAngle());
+			hvlDrawQuadc(jr.physicsObject.location.x, jr.physicsObject.location.y, jr.physicsObject.radius * 2f, jr.physicsObject.radius * 2f, Main.getTexture(Main.INDEX_ENEMY_GUNNER_SHIP_EMISSIVE));
+			hvlResetRotation();
 		}
 	}
 
