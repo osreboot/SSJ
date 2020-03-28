@@ -25,7 +25,7 @@ public class Asteroid {
 	    Asteroid jr;
 		float rotationArg = HvlMath.randomFloatBetween(0, 3.14f);
 		float rotationSpeedArg = HvlMath.randomFloatBetween(-200, 200);
-		float sizeArg = (jrArg)?9999:HvlMath.randomFloatBetween(50, 500);
+		float sizeArg = (jrArg)?20:HvlMath.randomFloatBetween(50, 500);
 		
 		rotationSpeed = rotationSpeedArg;
 		jrType = jrArg;

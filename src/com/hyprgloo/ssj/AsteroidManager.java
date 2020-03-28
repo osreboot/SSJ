@@ -36,7 +36,6 @@ public class AsteroidManager {
 				a.physicsObject.canDealDamage = false;
 				a.physicsObject.canReceiveDamage = false;
 			}
-			System.out.println(a.hasJr);
 		}
 	}
 }
