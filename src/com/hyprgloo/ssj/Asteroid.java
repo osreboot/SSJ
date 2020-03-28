@@ -10,7 +10,6 @@ import com.osreboot.ridhvl.HvlMath;
 
 public class Asteroid {
 	
-	private float rotationSpeed;
 	public PhysicsObject physicsObject;
 	
 	
@@ -25,11 +24,11 @@ public class Asteroid {
 	    Asteroid jr;
 		float rotationArg = HvlMath.randomFloatBetween(0, 3.14f);
 		float rotationSpeedArg = HvlMath.randomFloatBetween(-200, 200);
-		float sizeArg = (jrArg)?20:HvlMath.randomFloatBetween(50, 500);
+		float sizeArg = (jrArg)?20:HvlMath.randomFloatBetween(25, 250);
 		
-		rotationSpeed = rotationSpeedArg;
 		jrType = jrArg;
 		physicsObject = new PhysicsObject(pos.x, pos.y, rotationArg, sizeArg);
+		physicsObject.angleSpeed = rotationSpeedArg;
 		physicsObject.alliance = Alliance.ENEMY;
 		physicsObject.damage = 100f;
 		physicsObject.canReceiveDamage = false;

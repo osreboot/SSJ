@@ -7,7 +7,7 @@ import com.osreboot.ridhvl.HvlMath;
 
 public class AsteroidManager {
 
-	private static ArrayList<Asteroid> asteroids;
+	public static ArrayList<Asteroid> asteroids;
 
 	public static void initAsteroids() {
 		asteroids = new ArrayList<>();
@@ -33,8 +33,9 @@ public class AsteroidManager {
 	public static void update(float delta) {
 		for (Asteroid a : asteroids) {
 			a.assignType();
+			a.update(delta);
 			if (HvlMath.distance(Game.player.physicsObject.location, a.physicsObject.location) < 1200) {
-				a.update(delta);
+				
 				a.draw();
 				a.physicsObject.canDealDamage = true;
 				a.physicsObject.canReceiveDamage = true;

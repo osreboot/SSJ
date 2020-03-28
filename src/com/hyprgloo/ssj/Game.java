@@ -22,7 +22,6 @@ public class Game {
 	public static ArrayList<ShipFriendly> idleShips;
 	public static ArrayList<ShipEnemy> enemyShips;
 	public static ArrayList<Projectile> projectiles;
-	public static ArrayList<Asteroid> asteroids;
 
 	public static float globalTimer = 0f;
 
@@ -35,7 +34,6 @@ public class Game {
 		idleShips = new ArrayList<>();
 		enemyShips = new ArrayList<>();
 		projectiles = new ArrayList<>();
-		asteroids = new ArrayList<>();
 
 		// Spawn idle ships
 		idleShips.add(new ShipFriendlyGunner(500f, 500f, 0f));
@@ -86,7 +84,7 @@ public class Game {
 		idleShips.removeIf(s -> s.physicsObject.isDead());
 		enemyShips.removeIf(s -> s.physicsObject.isDead());
 		projectiles.removeIf(p -> p.physicsObject.isDead());
-		asteroids.removeIf(a -> a.physicsObject.isDead());
+		AsteroidManager.asteroids.removeIf(a -> a.physicsObject.isDead());
 
 		camera.setPosition(player.getBaseLocation().x, player.getBaseLocation().y);
 		camera.doTransform(new HvlAction0(){
