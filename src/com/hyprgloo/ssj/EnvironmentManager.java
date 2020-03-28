@@ -2,6 +2,7 @@ package com.hyprgloo.ssj;
 
 import java.util.ArrayList;
 
+import com.hyprgloo.ssj.merchant.ShipEnemyConvoy;
 import com.hyprgloo.ssj.merchant.ShipEnemyGunner;
 import com.hyprgloo.ssj.merchant.ShipFriendlyGunner;
 import com.hyprgloo.ssj.merchant.ShipFriendlyTrader;
@@ -61,6 +62,7 @@ public class EnvironmentManager {
 		}
 		
 		for (int i = 0; i < NUM_ENEMIES; i++) {
+			shipType = HvlMath.randomInt(1000);
 			HvlCoord2D spawnLoc = new HvlCoord2D();
 			Asteroid randomAsteroid = asteroids.get(HvlMath.randomInt(NUM_ASTEROIDS));
 			while(randomAsteroid.hasJr)
@@ -74,6 +76,9 @@ public class EnvironmentManager {
 						+randomAsteroid.physicsObject.radius + 100);
 			
 
+		if(shipType >= 333)
+			enemyShips.add(new ShipEnemyConvoy(spawnLoc.x, spawnLoc.y, HvlMath.randomFloatBetween(0, 3.14f), false));
+		else if(shipType < 333)
 			enemyShips.add(new ShipEnemyGunner(spawnLoc.x, spawnLoc.y, HvlMath.randomFloatBetween(0, 3.14f), false));
 
 		}
