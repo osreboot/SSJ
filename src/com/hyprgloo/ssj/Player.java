@@ -62,6 +62,7 @@ public class Player {
 		
 		physicsObject.update(delta);
 		
+		connectedShips.removeIf(s -> s.physicsObject.isDead());
 		for(ShipFriendly ship : connectedShips)
 			ship.update(delta, null);
 	
