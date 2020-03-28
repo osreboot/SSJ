@@ -47,11 +47,11 @@ public class Player {
 			physicsObject.speed.y = MAX_TRANSLATE;
 		else if (physicsObject.speed.y <= -MAX_TRANSLATE)
 			physicsObject.speed.y = -MAX_TRANSLATE;
-
+		
 		if (!Keyboard.isKeyDown(Keyboard.KEY_A) || !Keyboard.isKeyDown(Keyboard.KEY_D))
-			physicsObject.speed.x = HvlMath.stepTowards(physicsObject.speed.x, ACCELERATION / (250+(connectedShips.size()*10)), 0);
+			physicsObject.speed.x = HvlMath.stepTowards(physicsObject.speed.x, delta * ACCELERATION / (2+(connectedShips.size())), 0);
 		if (!Keyboard.isKeyDown(Keyboard.KEY_W) || !Keyboard.isKeyDown(Keyboard.KEY_S))
-			physicsObject.speed.y = HvlMath.stepTowards(physicsObject.speed.y, ACCELERATION / (250+(connectedShips.size()*10)), 0);
+			physicsObject.speed.y = HvlMath.stepTowards(physicsObject.speed.y, delta * ACCELERATION / (2+(connectedShips.size())), 0);
 		
 		physicsObject.speed.add(xsInput * delta, ysInput * delta);
 
@@ -59,7 +59,7 @@ public class Player {
 				+ (Keyboard.isKeyDown(Keyboard.KEY_E) ? ROTATION_ACCE/getConnectedShipsWeight() : 0);
 	
 		if (!Keyboard.isKeyDown(Keyboard.KEY_Q) || !Keyboard.isKeyDown(Keyboard.KEY_E))
-			physicsObject.angleSpeed = HvlMath.stepTowards(physicsObject.angleSpeed, ACCELERATION / (500+(connectedShips.size()*5)), 0);
+			physicsObject.angleSpeed = HvlMath.stepTowards(physicsObject.angleSpeed, delta * ACCELERATION / (5+(connectedShips.size())), 0);
 
 		physicsObject.angleSpeed += angleInput * delta;
 		

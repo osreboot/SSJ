@@ -19,8 +19,6 @@ public class Game {
 
 	public static Player player;
 
-	public static ArrayList<ShipFriendly> idleShips;
-	public static ArrayList<ShipEnemy> enemyShips;
 	public static ArrayList<Projectile> projectiles;
 
 	public static float globalTimer = 0f;
@@ -31,33 +29,22 @@ public class Game {
 		physicsObjects = new ArrayList<>();
 
 		player = new Player();
-		idleShips = new ArrayList<>();
-		enemyShips = new ArrayList<>();
 		projectiles = new ArrayList<>();
-
-		// Spawn idle ships
-		idleShips.add(new ShipFriendlyGunner(500f, 500f, 0f));
-		idleShips.add(new ShipFriendlyGunner(300f, 500f, 0f));
-		idleShips.add(new ShipFriendlyGunner(500f, 300f, 0f));
-		idleShips.add(new ShipFriendlyGunner(400f, 400f, 0f));
-
-		// Spawn enemy ships
-		enemyShips.add(new ShipEnemyGunner(100f, 100f, 0f));
-
-		EnvironmentManager.initAsteroids();
+		
+		EnvironmentManager.init();
 	}
 
 	public static void update(float delta){
 		// Attach ships to the player if they collide
 		ArrayList<ShipFriendly> connectedShips = new ArrayList<>();	
-		for(ShipFriendly ship : idleShips){
+		for(ShipFriendly ship : EnvironmentManager.friendlyShips){
 			if(player.collidesWith(ship.physicsObject)){
 				player.connectShip(ship);
 				connectedShips.add(ship);
 			}
 		}
 		for(ShipFriendly ship : connectedShips)
-			idleShips.remove(ship);
+			EnvironmentManager.friendlyShips.remove(ship);
 
 		// Dealing damage across all entities
 		physicsObjects.removeIf(p -> p.isDead());
@@ -81,8 +68,8 @@ public class Game {
 
 		// Removing all dead entities
 		// TODO check if player dies
-		idleShips.removeIf(s -> s.physicsObject.isDead());
-		enemyShips.removeIf(s -> s.physicsObject.isDead());
+		EnvironmentManager.friendlyShips.removeIf(s -> s.physicsObject.isDead());
+		EnvironmentManager.enemyShips.removeIf(s -> s.physicsObject.isDead());
 		projectiles.removeIf(p -> p.physicsObject.isDead());
 		EnvironmentManager.asteroids.removeIf(a -> a.physicsObject.isDead());
 
@@ -94,19 +81,8 @@ public class Game {
 				// TODO remove this when real scenery is added
 				hvlDrawQuadc(0, 0, 500f, 500f, Color.darkGray);
 
-				// Update and draw all idle ships
-				for(ShipFriendly ship : idleShips){
-					ship.update(delta, player);
-					ship.draw(delta);
-				}
 
 				EnvironmentManager.update(delta);
-
-				// Update and draw all enemy ships
-				for(ShipEnemy ship : enemyShips){
-					ship.update(delta);
-					ship.draw(delta);
-				}
 
 				// Update and draw the player
 				player.update(delta);
