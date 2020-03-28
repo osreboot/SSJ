@@ -1,15 +1,14 @@
 package com.hyprgloo.ssj;
 
-import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
-
 import java.util.ArrayList;
 
-import org.newdawn.slick.Color;
+import org.lwjgl.input.Mouse;
 
-import com.hyprgloo.ssj.merchant.ShipEnemyGunner;
-import com.hyprgloo.ssj.merchant.ShipFriendlyGunner;
+import com.hyprgloo.ssj.projectile.ProjectileEnemyGunner;
+import com.osreboot.ridhvl.HvlCoord2D;
 import com.osreboot.ridhvl.action.HvlAction0;
 import com.osreboot.ridhvl.painter.HvlCamera2D;
+import com.osreboot.ridhvl.painter.HvlCursor;
 
 public class Game {
 
@@ -30,23 +29,29 @@ public class Game {
 
 		player = new Player();
 		projectiles = new ArrayList<>();
-
 		
 		EnvironmentManager.init();
 	}
 
 	public static void update(float delta){
+		if(Mouse.isButtonDown(0)){
+			new ProjectileEnemyGunner(HvlCursor.getCursorPosition().addNew(camera.getX(), camera.getY()).add(camera.getAlignment()), new HvlCoord2D(), 0);
+		}
+		
 		// Attach ships to the player if they collide
-		ArrayList<ShipFriendly> connectedShips = new ArrayList<>();	
 		for(ShipFriendly ship : EnvironmentManager.friendlyShips){
-			if(player.collidesWith(ship.physicsObject)){
-				player.connectShip(ship);
-				connectedShips.add(ship);
+			if(!ship.physicsObject.hasParent()){
+				if(player.isShipConnected(ship.physicsObject)){
+					player.disconnectShip(ship.physicsObject);
+				}
+				
+				PhysicsObject collisionObject = player.collidesWith(ship.physicsObject);
+				if(collisionObject != null){
+					player.connectShip(ship.physicsObject, collisionObject);
+				}
 			}
 		}
-		for(ShipFriendly ship : connectedShips)
-			EnvironmentManager.friendlyShips.remove(ship);
-
+		
 		// Dealing damage across all entities
 		physicsObjects.removeIf(p -> p.isDead());
 		for(PhysicsObject physicsObjectCollidee : physicsObjects){
@@ -80,6 +85,7 @@ public class Game {
 			public void run(){
 				
 				EnvironmentManager.update(delta);
+				
 				// Update and draw the player
 				player.update(delta);
 				player.draw(delta);

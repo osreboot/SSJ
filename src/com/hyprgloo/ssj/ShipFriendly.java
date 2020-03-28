@@ -1,5 +1,6 @@
 package com.hyprgloo.ssj;
 
+import com.hyprgloo.ssj.PhysicsObject.Alliance;
 import com.osreboot.ridhvl.HvlMath;
 
 public abstract class ShipFriendly {
@@ -13,10 +14,12 @@ public abstract class ShipFriendly {
 	
 	public ShipFriendly(float xArg, float yArg, float angleArg, float radiusArg){
 		physicsObject = new PhysicsObject(xArg, yArg, angleArg, radiusArg);
+		physicsObject.alliance = Alliance.FRIENDLY;
+		physicsObject.damage = 100f;
 	}
 	
 	public void update(float delta, Player playerArg){
-		if(playerArg != null){
+		if(!physicsObject.hasParent()){
 			physicsObject.setBaseAngle((float)Math.toDegrees(HvlMath.fullRadians(physicsObject.location, playerArg.getBaseLocation())) - 90f);
 			
 			if(!boosted && playerArg.distance(physicsObject.location.x, physicsObject.location.y) < DISTANCE_TRIGGER_BOOST){
