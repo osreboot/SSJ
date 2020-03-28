@@ -43,9 +43,9 @@ public class ShipEnemyGunner extends ShipEnemy{
 	}
 	
 	public void assignType(boolean isJr) {
-		if(!hasJr && !isJr) {
+		if(!hasJr) {
 			typeHandler = HvlMath.randomIntBetween(0, 100);
-			if(typeHandler < 150){
+			if(typeHandler < 15){
 				hasJr = true;
 			}else {
 				hasJr = false;
