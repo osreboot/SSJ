@@ -24,7 +24,7 @@ public class AsteroidManager {
 				asPos.y = HvlMath.randomFloatBetween(-50000, 50000);
 			}
 
-			new Asteroid(asPos);
+			new Asteroid(asPos, false, 0);
 		}
 
 	}
