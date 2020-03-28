@@ -76,6 +76,13 @@ public class Player {
 				physicsObject.radius * 2f, Main.getTexture(Main.INDEX_PLAYER_SHIP), physicsObject.isDead() ? Color.darkGray : Color.white);
 		hvlResetRotation();
 	}
+	
+	public void drawEmissive(float delta) {
+		hvlRotate(physicsObject.location.x, physicsObject.location.y, physicsObject.getVisualAngle());
+		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f,
+				physicsObject.radius * 2f, Main.getTexture(Main.INDEX_PLAYER_SHIP_EMISSIVE));
+		hvlResetRotation();
+	}
 
 	public void connectShip(PhysicsObject shipPhysicsObjectArg, PhysicsObject collisionObjectArg) {
 		connectedShips.add(shipPhysicsObjectArg);

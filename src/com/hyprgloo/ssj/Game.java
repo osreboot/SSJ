@@ -1,9 +1,15 @@
 package com.hyprgloo.ssj;
 
+import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuad;
+
 import java.util.ArrayList;
+
+import org.lwjgl.opengl.Display;
 
 import com.osreboot.ridhvl.action.HvlAction0;
 import com.osreboot.ridhvl.painter.HvlCamera2D;
+import com.osreboot.ridhvl.painter.HvlRenderFrame;
+import com.osreboot.ridhvl.painter.HvlShader;
 
 public class Game {
 
@@ -91,9 +97,30 @@ public class Game {
 					projectile.update(delta);
 					projectile.draw(delta);
 				}
-
+				
 			}
 		});
+		
+		ArtManager.drawVignette();
+		
+		ArtManager.blurFrame.doCapture(new HvlAction0(){
+			@Override
+			public void run(){
+				camera.doTransform(new HvlAction0(){
+					@Override
+					public void run(){
+						
+						player.drawEmissive(delta);
+						
+						// TODO others
+						
+					}
+				});
+			}
+		});
+		
+		ArtManager.drawEmissive();
+		
 		globalTimer += delta;
 	}
 }
