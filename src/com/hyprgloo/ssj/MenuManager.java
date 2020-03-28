@@ -120,6 +120,8 @@ public class MenuManager {
 	}
 
 	private static float splashProgress = 0f;
+	static int i = HvlMath.randomInt(100);
+	static String textC = "";
 
 	public static void update(float delta) {
 
@@ -158,9 +160,7 @@ public class MenuManager {
 					0.325f);
 
 			Main.font.drawWordc("Basset", Display.getWidth() / 2, Display.getHeight() * 15 / 20 - 12, Color.lightGray,
-					0.325f);
-			String textC = "";
-			int i = HvlMath.randomInt(100);
+					0.325f);			
 			
 			textC = (i < 2) ? "Roblox : https://www.roblox.com/users/525422/profile" : "Twitter: xbassetx";
 			

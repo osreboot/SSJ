@@ -1,5 +1,6 @@
 package com.hyprgloo.ssj;
 
+import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuad;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlResetRotation;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
@@ -33,22 +34,22 @@ public class Player {
 		connectedShips = new ArrayList<>();
 	}
 
-	private float progress; 
+	public float progress; 
 	public void initHUD() {
 		progress = 0;
 	}
 	
 	public void drawHUD() {
 		progress = HvlMath.distance(physicsObject.location.x, physicsObject.location.y, 0, 0)/Game.END_DISTANCE;
-		hvlDrawQuadc(200, 100, 310, 40, Color.white);
-		hvlDrawQuadc(200, 100, 300, 30, Color.black);
+		hvlDrawQuadc(200, 100, 310, 40, Main.getTexture(Main.INDEX_PROG_BAR));
+		hvlDrawQuad(50, 85, 300*progress, 30, Color.green);
 	}
 	
 	public void update(float delta) {
-		xsInput = (Keyboard.isKeyDown(Keyboard.KEY_A) ? -ACCELERATION/getConnectedShipsWeight() : 0)
-				+ (Keyboard.isKeyDown(Keyboard.KEY_D) ? ACCELERATION/getConnectedShipsWeight() : 0);
-		ysInput = (Keyboard.isKeyDown(Keyboard.KEY_W) ? -ACCELERATION/getConnectedShipsWeight() : 0)
-				+ (Keyboard.isKeyDown(Keyboard.KEY_S) ? ACCELERATION/getConnectedShipsWeight() : 0);
+		xsInput = (Keyboard.isKeyDown(Keyboard.KEY_A) ? -ACCELERATION : 0)
+				+ (Keyboard.isKeyDown(Keyboard.KEY_D) ? ACCELERATION : 0);
+		ysInput = (Keyboard.isKeyDown(Keyboard.KEY_W) ? -ACCELERATION : 0)
+				+ (Keyboard.isKeyDown(Keyboard.KEY_S) ? ACCELERATION : 0);
 
 		if (physicsObject.speed.x >= MAX_TRANSLATE)
 			physicsObject.speed.x = MAX_TRANSLATE;
@@ -61,17 +62,17 @@ public class Player {
 			physicsObject.speed.y = -MAX_TRANSLATE;
 		
 		if (!Keyboard.isKeyDown(Keyboard.KEY_A) || !Keyboard.isKeyDown(Keyboard.KEY_D))
-			physicsObject.speed.x = HvlMath.stepTowards(physicsObject.speed.x, delta * ACCELERATION / (2+(connectedShips.size())), 0);
+			physicsObject.speed.x = HvlMath.stepTowards(physicsObject.speed.x, delta * ACCELERATION/2, 0);
 		if (!Keyboard.isKeyDown(Keyboard.KEY_W) || !Keyboard.isKeyDown(Keyboard.KEY_S))
-			physicsObject.speed.y = HvlMath.stepTowards(physicsObject.speed.y, delta * ACCELERATION / (2+(connectedShips.size())), 0);
+			physicsObject.speed.y = HvlMath.stepTowards(physicsObject.speed.y, delta * ACCELERATION/2, 0);
 		
 		physicsObject.speed.add(xsInput * delta, ysInput * delta);
 
-		float angleInput = (Keyboard.isKeyDown(Keyboard.KEY_Q) ? -ROTATION_ACCE/getConnectedShipsWeight() : 0)
-				+ (Keyboard.isKeyDown(Keyboard.KEY_E) ? ROTATION_ACCE/getConnectedShipsWeight() : 0);
+		float angleInput = (Keyboard.isKeyDown(Keyboard.KEY_Q) ? -ROTATION_ACCE : 0)
+				+ (Keyboard.isKeyDown(Keyboard.KEY_E) ? ROTATION_ACCE : 0);
 	
 		if (!Keyboard.isKeyDown(Keyboard.KEY_Q) || !Keyboard.isKeyDown(Keyboard.KEY_E))
-			physicsObject.angleSpeed = HvlMath.stepTowards(physicsObject.angleSpeed, delta * ACCELERATION / (5+(connectedShips.size())), 0);
+			physicsObject.angleSpeed = HvlMath.stepTowards(physicsObject.angleSpeed, delta * ACCELERATION/5, 0);
 
 		physicsObject.angleSpeed += angleInput * delta;
 		
@@ -136,10 +137,6 @@ public class Player {
 
 	public HvlCoord2D getBaseLocation() {
 		return physicsObject.location;
-	}
-
-	public float getConnectedShipsWeight() {
-		return ((connectedShips.size()*0.003f) + 1);
 	}
 
 }

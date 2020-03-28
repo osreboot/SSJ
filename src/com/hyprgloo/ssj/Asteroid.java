@@ -23,7 +23,7 @@ public class Asteroid {
 		float rotationArg = HvlMath.randomFloatBetween(0, 3.14f);
 		float rotationSpeedArg = HvlMath.randomFloatBetween(-100, 100);
 		
-		float sizeArg = isJr ? HvlMath.randomFloatBetween(parSize/4, parSize/2) : HvlMath.randomFloatBetween(10, 100);
+		float sizeArg = isJr ? HvlMath.randomFloatBetween(parSize/4, parSize/2) : HvlMath.randomFloatBetween(50, 120);
 
 		assignType(isJr);
 
@@ -31,7 +31,7 @@ public class Asteroid {
 		physicsObject.angleSpeed = rotationSpeedArg;
 		physicsObject.alliance = Alliance.ENEMY;
 		physicsObject.damage = 100f;
-		physicsObject.health += sizeArg;
+		physicsObject.health += sizeArg * 2 ;
 		physicsObject.canReceiveDamage = false;
 		physicsObject.canDealDamage = false;
 

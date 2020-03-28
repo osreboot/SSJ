@@ -4,6 +4,7 @@ import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
 
 import java.util.ArrayList;
 
+import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
 import com.osreboot.ridhvl.action.HvlAction0;
@@ -11,7 +12,7 @@ import com.osreboot.ridhvl.painter.HvlCamera2D;
 
 public class Game {
 	
-	public static final int END_DISTANCE = 50000;
+	public static final int END_DISTANCE = 10000;
 
 	public static HvlCamera2D camera;
 
@@ -23,6 +24,7 @@ public class Game {
 	public static ArrayList<Particle> particles;
 
 	public static float globalTimer = 0f;
+	public static float messageTimer = 0f;
 	
 	static boolean debugCam = false;
 
@@ -110,6 +112,24 @@ public class Game {
 			}
 		});
 		player.drawHUD();
+		if(globalTimer < 10f) {
+			float alpha = 1f - (Math.abs(globalTimer/5 - 0.5f));
+			Main.font.drawWordc("A signal from deep space has been trying to reach you,"
+					+ "\n          but the dense asteroid field is interfering!"
+					+ "\n                          Get to deep space!", 
+					Display.getWidth()/2, Display.getHeight()/2+150, new Color(1f, 1f, 1f, alpha), 0.18f);
+		}
+		
+		if(player.progress < END_DISTANCE)
+			messageTimer = globalTimer + 10;
+		else {
+			float alpha = 1f - (Math.abs(globalTimer/5 - 0.5f));
+			Main.font.drawWordc("Message Received!,"
+					+ "\n  Looks like some coordinates..."
+					+ "\n       Let's check it out.", 
+					Display.getWidth()/2, Display.getHeight()/2+150, new Color(1f, 1f, 1f, alpha), 0.18f);
+		}
+			
 
 		ArtManager.drawVignette();
 		
