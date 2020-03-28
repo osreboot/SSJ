@@ -28,7 +28,8 @@ public class Asteroid {
 		physicsObject = new PhysicsObject(pos.x, pos.y, rotationArg, sizeArg);
 		physicsObject.alliance = Alliance.ENEMY;
 		physicsObject.damage = 50f;
-		 
+		physicsObject.canReceiveDamage = false;
+		physicsObject.canDealDamage = false;
 	}
 	
 	public void assignType() {

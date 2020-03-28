@@ -21,6 +21,7 @@ public class PhysicsObject {
 	
 	public Alliance alliance;
 	public float damage;
+	public boolean canDealDamage = true, canReceiveDamage = true;
 	private float health;
 
 	public PhysicsObject(float xArg, float yArg, float angleArg, float radiusArg){
