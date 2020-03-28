@@ -10,6 +10,8 @@ import com.osreboot.ridhvl.action.HvlAction0;
 import com.osreboot.ridhvl.painter.HvlCamera2D;
 
 public class Game {
+	
+	public static final int END_DISTANCE = 50000;
 
 	public static HvlCamera2D camera;
 
@@ -38,7 +40,7 @@ public class Game {
 //		if(Mouse.isButtonDown(0)){
 //			new ProjectileEnemyGunner(HvlCursor.getCursorPosition().addNew(camera.getX(), camera.getY()).add(camera.getAlignment()), new HvlCoord2D(), 0);
 //		}
-		
+
 		// Attach ships to the player if they collide
 		for(ShipFriendly ship : EnvironmentManager.friendlyShips){
 			if(!ship.physicsObject.hasParent()){
@@ -78,6 +80,7 @@ public class Game {
 		projectiles.removeIf(p -> p.physicsObject.isDead());
 
 		ArtManager.drawBackground(player.getBaseLocation().x, player.getBaseLocation().y);
+
 		
 		if(debugCam) Main.font.drawWord("Diff: "+EnvironmentManager.closestChunk.difficultyLevel, 10, 10, Color.green, 0.3f);
 		camera.setPosition(player.getBaseLocation().x / (debugCam ? 5 : 1), player.getBaseLocation().y / (debugCam ? 5 : 1));
@@ -95,10 +98,10 @@ public class Game {
 					projectile.update(delta);
 					projectile.draw(delta);
 				}
-				
 			}
 		});
-		
+		player.drawHUD();
+
 		ArtManager.drawVignette();
 		
 		ArtManager.blurFrame.doCapture(new HvlAction0(){
