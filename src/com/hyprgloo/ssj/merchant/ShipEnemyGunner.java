@@ -27,7 +27,7 @@ public class ShipEnemyGunner extends ShipEnemy{
 	private float shotCooldown;
 	
 	public ShipEnemyGunner(float xArg, float yArg, float angleArg, boolean isJr){
-		super(xArg, yArg, angleArg, SIZE, 1000f, 300f, 600f);
+		super(xArg, yArg, angleArg, SIZE, 500f, 200f, 300f);
 		physicsObject.alliance = Alliance.ENEMY;
 		physicsObject.damage = 50f;
 		
@@ -43,7 +43,7 @@ public class ShipEnemyGunner extends ShipEnemy{
 	}
 	
 	public void assignType(boolean isJr) {
-		if(!hasJr && !isJr) {
+		if(!hasJr) {
 			typeHandler = HvlMath.randomIntBetween(0, 100);
 			if(typeHandler < 15){
 				hasJr = true;
@@ -63,6 +63,25 @@ public class ShipEnemyGunner extends ShipEnemy{
 			HvlCoord2D projectileSpeed = Game.player.getBaseLocation().subtractNew(physicsObject.location).normalize().mult(SPEED_PROJECTILE);
 			new ProjectileEnemyGunner(physicsObject.location, projectileSpeed, 0f);
 		}
+		
+		
+		
+		
+		
+		if(hasJr) {
+		jr.shotCooldown = HvlMath.stepTowards(jr.shotCooldown, delta, 0f);
+		if(jr.shotCooldown == 0f){
+			jr.shotCooldown = DURATION_SHOT_COOLDOWN;
+			HvlCoord2D projectileSpeed = Game.player.getBaseLocation().subtractNew(jr.physicsObject.location).normalize().mult(SPEED_PROJECTILE);
+			new ProjectileEnemyGunner(jr.physicsObject.location, projectileSpeed, 0f);
+		}
+		}
+		
+		
+		
+		
+		
+		
 		if(hasJr){
 			if(jr.physicsObject.isDead()){
 				jr = null;
