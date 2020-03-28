@@ -6,13 +6,14 @@ import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
 
 import org.newdawn.slick.Color;
 
+import com.hyprgloo.ssj.Main;
 import com.hyprgloo.ssj.Projectile;
 import com.hyprgloo.ssj.PhysicsObject.Alliance;
 import com.osreboot.ridhvl.HvlCoord2D;
 
 public class ProjectileMerchantGunner extends Projectile{
 
-	public static final float SIZE = 5f;
+	public static final float SIZE = 8f;
 	public static final float DURATION_LIFE = 1f;
 	
 	private float life;
@@ -33,14 +34,12 @@ public class ProjectileMerchantGunner extends Projectile{
 
 	@Override
 	public void draw(float delta){
-		hvlRotate(physicsObject.location, physicsObject.getVisualAngle());
-		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, SIZE, SIZE, Color.white);
-		hvlResetRotation();
+		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, SIZE, SIZE, Main.getTexture(Main.INDEX_FRIENDLY_BULLET));
 	}
 	
 	@Override
 	public void drawEmissive(float delta){
-		// TODO
+		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, SIZE, SIZE, Main.getTexture(Main.INDEX_FRIENDLY_BULLET_EMISSIVE));
 	}
 
 }
