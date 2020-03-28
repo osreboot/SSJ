@@ -24,9 +24,10 @@ public class AsteroidManager {
 		
 	}
 	
-	public static void update() {
+	public static void update(float delta) {
 		for(Asteroid a : asteroids) {
 			if(HvlMath.distance(Game.player.physicsObject.location, a.physicsObject.location) < 1200) {
+				a.update(delta);
 				a.draw();
 				a.physicsObject.canDealDamage = true;
 				a.physicsObject.canReceiveDamage = true;

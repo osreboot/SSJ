@@ -102,7 +102,7 @@ public class Game {
 					ship.draw(delta);
 				}
 
-				AsteroidManager.update();
+				AsteroidManager.update(delta);
 				// Update and draw all enemy ships
 				for(ShipEnemy ship : enemyShips){
 					ship.update(delta);
