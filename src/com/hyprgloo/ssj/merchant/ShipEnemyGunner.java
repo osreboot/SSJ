@@ -7,6 +7,7 @@ import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
 import com.hyprgloo.ssj.Game;
 import com.hyprgloo.ssj.Main;
 import com.hyprgloo.ssj.ShipEnemy;
+import com.hyprgloo.ssj.PhysicsObject.Alliance;
 import com.hyprgloo.ssj.projectile.ProjectileEnemyGunner;
 import com.osreboot.ridhvl.HvlCoord2D;
 import com.osreboot.ridhvl.HvlMath;
@@ -21,6 +22,8 @@ public class ShipEnemyGunner extends ShipEnemy{
 	
 	public ShipEnemyGunner(float xArg, float yArg, float angleArg){
 		super(xArg, yArg, angleArg, SIZE, 1000f, 300f, 600f);
+		physicsObject.alliance = Alliance.ENEMY;
+		physicsObject.damage = 50f;
 	}
 	
 	@Override

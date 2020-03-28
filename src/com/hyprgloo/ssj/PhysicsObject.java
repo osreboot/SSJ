@@ -7,6 +7,10 @@ public class PhysicsObject {
 
 	private static final float MAX_ROTATE = 100;
 
+	public static enum Alliance{
+		NEUTRAL, FRIENDLY, ENEMY
+	}
+	
 	public HvlCoord2D location, speed;
 	public float angleSpeed, radius;
 	
@@ -14,12 +18,18 @@ public class PhysicsObject {
 
 	private PhysicsObject parent;
 	private float connectionDistance, connectionAngle;
+	
+	public Alliance alliance;
+	public float damage;
+	private float health;
 
 	public PhysicsObject(float xArg, float yArg, float angleArg, float radiusArg){
 		location = new HvlCoord2D(xArg, yArg);
 		speed = new HvlCoord2D();
 		angle = angleArg;
 		radius = radiusArg;
+		health = 100f;
+		alliance = Alliance.NEUTRAL;
 	}
 
 	public void connectToParent(PhysicsObject parentArg){
@@ -81,5 +91,15 @@ public class PhysicsObject {
 	public boolean collidesWith(float xArg, float yArg){
 		return collidesWith(xArg, yArg, 0f);
 	}
+	
+	public boolean isDead(){
+		return health <= 0f;
+	}
+	
+	public void hurt(float damageArg){
+		health -= damageArg;
+	}
+	
+	public void onDeath(){}
 
 }

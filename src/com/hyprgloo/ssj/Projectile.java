@@ -20,6 +20,4 @@ public abstract class Projectile {
 	
 	public abstract void draw(float delta);
 	
-	public abstract boolean isDead();
-	
 }

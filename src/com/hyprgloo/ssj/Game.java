@@ -58,7 +58,12 @@ public class Game {
 		for(ShipFriendly ship : connectedShips)
 			idleShips.remove(ship);
 		
-		projectiles.removeIf(p -> p.isDead());
+		// TODO check if player dies
+		
+		idleShips.removeIf(s -> s.physicsObject.isDead());
+		enemyShips.removeIf(s -> s.physicsObject.isDead());
+		projectiles.removeIf(p -> p.physicsObject.isDead());
+//		asteroids.removeIf(a -> a.)
 		
 		camera.setPosition(player.getBaseLocation().x, player.getBaseLocation().y);
 		camera.doTransform(new HvlAction0(){
