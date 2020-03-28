@@ -34,6 +34,17 @@ public class Player {
 		connectedShips = new ArrayList<>();
 	}
 
+	private float progress; 
+	public void initHUD() {
+		progress = 0;
+	}
+	
+	public void drawHUD() {
+		progress = HvlMath.distance(physicsObject.location.x, physicsObject.location.y, 0, 0)/Game.END_DISTANCE;
+		hvlDrawQuadc(200, 100, 310, 40, Color.white);
+		hvlDrawQuadc(200, 100, 300, 30, Color.black);
+	}
+	
 	public void update(float delta) {
 		xsInput = (Keyboard.isKeyDown(Keyboard.KEY_A) ? -ACCELERATION/getConnectedShipsWeight() : 0)
 				+ (Keyboard.isKeyDown(Keyboard.KEY_D) ? ACCELERATION/getConnectedShipsWeight() : 0);
