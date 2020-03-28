@@ -29,6 +29,7 @@ public class Player {
 		physicsObject = new PhysicsObject(0f, 0f, 0f, 16f);
 		physicsObject.alliance = Alliance.FRIENDLY;
 		physicsObject.damage = 100f;
+		physicsObject.health = 400f;
 		xsInput = 0;
 		ysInput = 0;
 		connectedShips = new ArrayList<>();
