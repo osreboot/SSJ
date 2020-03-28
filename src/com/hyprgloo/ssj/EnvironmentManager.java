@@ -2,124 +2,68 @@ package com.hyprgloo.ssj;
 
 import java.util.ArrayList;
 
-import com.hyprgloo.ssj.merchant.ShipEnemyConvoy;
-import com.hyprgloo.ssj.merchant.ShipEnemyGunner;
-import com.hyprgloo.ssj.merchant.ShipFriendlyGunner;
-import com.hyprgloo.ssj.merchant.ShipFriendlyTrader;
+import org.lwjgl.opengl.Display;
+
 import com.osreboot.ridhvl.HvlCoord2D;
 import com.osreboot.ridhvl.HvlMath;
 
 public class EnvironmentManager {
-	
-	private static final int NUM_ASTEROIDS = 2000;
-	private static final int NUM_FRIENDLIES = 500;
-	private static final int NUM_ENEMIES = 200;
-	private static final int WORLD_SIZE = 10000;
+	public static ArrayList<Chunk> chunks;
 
-	public static ArrayList<Asteroid> asteroids;
-	public static ArrayList<ShipFriendly> friendlyShips;
-	public static ArrayList<ShipEnemy> enemyShips;
+	public static Chunk closestChunk;
 
 	public static void init() {
-		asteroids = new ArrayList<>();
-		friendlyShips = new ArrayList<>();
-		enemyShips = new ArrayList<>();
+		chunks = new ArrayList<>();
+		Chunk startChunk = new Chunk(new HvlCoord2D(0, 0), true);
+		chunks.add(startChunk);
+		closestChunk = startChunk;
+	}
 
-		for (int i = 0; i < NUM_ASTEROIDS; i++) {
+	public static void determineToGen(float x, float y) {
+		boolean taken = false;
 
-			HvlCoord2D asPos = new HvlCoord2D();
+		for (Chunk c : chunks)
+			if (c.loc.x == x && c.loc.y == y)
+				taken = true;
 
-			asPos.x = HvlMath.randomFloatBetween(-WORLD_SIZE, WORLD_SIZE);
-			asPos.y = HvlMath.randomFloatBetween(-WORLD_SIZE, WORLD_SIZE);
-
-			while (HvlMath.distance(asPos.x, asPos.y, 0, 0) < 750) {
-				asPos.x = HvlMath.randomFloatBetween(-WORLD_SIZE, WORLD_SIZE);
-				asPos.y = HvlMath.randomFloatBetween(-WORLD_SIZE, WORLD_SIZE);
-			}
-
-			new Asteroid(asPos, false, 0);
-		}
+		if (!taken)
+			chunks.add(new Chunk(new HvlCoord2D(x, y), false));	
 		
-		int shipType = 0;
-		for (int i = 0; i < NUM_FRIENDLIES; i++) {
-			shipType = HvlMath.randomInt(1000);
-			HvlCoord2D spawnLoc = new HvlCoord2D();
-			Asteroid randomAsteroid = asteroids.get(HvlMath.randomInt(NUM_ASTEROIDS));
-			while(randomAsteroid.hasJr)
-				randomAsteroid = asteroids.get(HvlMath.randomInt(NUM_ASTEROIDS));
-			
-			spawnLoc.x = randomAsteroid.physicsObject.location.x + 
-					(HvlMath.randomInt(2) == 0 ? -randomAsteroid.physicsObject.radius - 100 : 
-						+randomAsteroid.physicsObject.radius + 100);
-			spawnLoc.y = randomAsteroid.physicsObject.location.y + 
-					(HvlMath.randomInt(2) == 0 ? -randomAsteroid.physicsObject.radius - 100 : 
-						+randomAsteroid.physicsObject.radius + 100);
-			
-			if(shipType >= 333)
-				friendlyShips.add(new ShipFriendlyTrader(spawnLoc.x, spawnLoc.y, HvlMath.randomFloatBetween(0, 3.14f)));
-			else if(shipType < 333)
-				friendlyShips.add(new ShipFriendlyGunner(spawnLoc.x, spawnLoc.y, HvlMath.randomFloatBetween(0, 3.14f)));
-		}
-		
-		for (int i = 0; i < NUM_ENEMIES; i++) {
-			shipType = HvlMath.randomInt(1000);
-			HvlCoord2D spawnLoc = new HvlCoord2D();
-			Asteroid randomAsteroid = asteroids.get(HvlMath.randomInt(NUM_ASTEROIDS));
-			while(randomAsteroid.hasJr)
-				randomAsteroid = asteroids.get(HvlMath.randomInt(NUM_ASTEROIDS));
-			
-			spawnLoc.x = randomAsteroid.physicsObject.location.x + 
-					(HvlMath.randomInt(2) == 0 ? -randomAsteroid.physicsObject.radius - 100 : 
-						+randomAsteroid.physicsObject.radius + 100);
-			spawnLoc.y = randomAsteroid.physicsObject.location.y + 
-					(HvlMath.randomInt(2) == 0 ? -randomAsteroid.physicsObject.radius - 100 : 
-						+randomAsteroid.physicsObject.radius + 100);
-			
-
-		if(shipType >= 333)
-			enemyShips.add(new ShipEnemyConvoy(spawnLoc.x, spawnLoc.y, HvlMath.randomFloatBetween(0, 3.14f), false));
-		else if(shipType < 333)
-			enemyShips.add(new ShipEnemyGunner(spawnLoc.x, spawnLoc.y, HvlMath.randomFloatBetween(0, 3.14f), false));
-
-		}
-
 	}
 
 	public static void update(float delta) {
-		for (Asteroid a : asteroids) {
-			a.update(delta);
-			if (HvlMath.distance(Game.player.physicsObject.location, a.physicsObject.location) < 1200) {
-				a.draw();
-				a.physicsObject.canDealDamage = true;
-				a.physicsObject.canReceiveDamage = true;
-			} else {
-				a.physicsObject.canDealDamage = false;
-				a.physicsObject.canReceiveDamage = false;
+		for (Chunk c : chunks) {
+
+			float distance = HvlMath.distance(c.loc, Game.player.physicsObject.location);
+			if (distance < Chunk.CHUNK_SIZE/2 + Display.getWidth()) {
+				if (distance < HvlMath.distance(closestChunk.loc, Game.player.physicsObject.location))
+					closestChunk = c;
+	
+				c.update(delta);
 			}
 		}
-		
-		for(ShipFriendly ship : friendlyShips){
-			if (HvlMath.distance(Game.player.physicsObject.location, ship.physicsObject.location) < 1200) {
-				ship.update(delta, Game.player);
-				ship.draw(delta);
-				ship.physicsObject.canDealDamage = true;
-				ship.physicsObject.canReceiveDamage = true;
-			} else {
-				ship.physicsObject.canDealDamage = false;
-				ship.physicsObject.canReceiveDamage = false;
-			}
-		}
-		
-		for(ShipEnemy ship : enemyShips){
-			if (HvlMath.distance(Game.player.physicsObject.location, ship.physicsObject.location) < 1200) {
-				ship.update(delta, Game.player);
-				ship.draw(delta);
-				ship.physicsObject.canDealDamage = true;
-				ship.physicsObject.canReceiveDamage = true;
-			} else {
-				ship.physicsObject.canDealDamage = false;
-				ship.physicsObject.canReceiveDamage = false;
-			}
-		}
+
+		if (Game.player.physicsObject.location.x > closestChunk.loc.x + Chunk.CHUNK_SIZE / 8) // right
+			determineToGen(closestChunk.loc.x + Chunk.CHUNK_SIZE, closestChunk.loc.y);
+		if (Game.player.physicsObject.location.x < closestChunk.loc.x - Chunk.CHUNK_SIZE / 8) // left
+			determineToGen(closestChunk.loc.x - Chunk.CHUNK_SIZE, closestChunk.loc.y);
+		if (Game.player.physicsObject.location.y > closestChunk.loc.y + Chunk.CHUNK_SIZE / 8) // down
+			determineToGen(closestChunk.loc.x, closestChunk.loc.y + Chunk.CHUNK_SIZE);
+		if (Game.player.physicsObject.location.y < closestChunk.loc.y - Chunk.CHUNK_SIZE / 8) // up
+			determineToGen(closestChunk.loc.x, closestChunk.loc.y - Chunk.CHUNK_SIZE);
+
+		if (Game.player.physicsObject.location.x > closestChunk.loc.x + Chunk.CHUNK_SIZE / 8
+				&& Game.player.physicsObject.location.y > closestChunk.loc.y + Chunk.CHUNK_SIZE / 8) // right and down
+			determineToGen(closestChunk.loc.x + Chunk.CHUNK_SIZE, closestChunk.loc.y + Chunk.CHUNK_SIZE);
+		if (Game.player.physicsObject.location.x < closestChunk.loc.x - Chunk.CHUNK_SIZE / 8
+				&& Game.player.physicsObject.location.y > closestChunk.loc.y + Chunk.CHUNK_SIZE / 8) // left and down
+			determineToGen(closestChunk.loc.x - Chunk.CHUNK_SIZE, closestChunk.loc.y + Chunk.CHUNK_SIZE);
+		if (Game.player.physicsObject.location.x > closestChunk.loc.x + Chunk.CHUNK_SIZE / 8
+				&& Game.player.physicsObject.location.y < closestChunk.loc.y - Chunk.CHUNK_SIZE / 8) // right up
+			determineToGen(closestChunk.loc.x + Chunk.CHUNK_SIZE, closestChunk.loc.y - Chunk.CHUNK_SIZE);
+		if (Game.player.physicsObject.location.x < closestChunk.loc.x - Chunk.CHUNK_SIZE / 8
+				&& Game.player.physicsObject.location.y < closestChunk.loc.y - Chunk.CHUNK_SIZE / 8) // left up
+			determineToGen(closestChunk.loc.x - Chunk.CHUNK_SIZE, closestChunk.loc.y - Chunk.CHUNK_SIZE);
+
 	}
 }
