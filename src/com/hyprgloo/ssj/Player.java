@@ -37,7 +37,7 @@ public class Player {
 		physicsObject.update(delta);
 		
 		for(ShipFriendly ship : connectedShips)
-			ship.update(delta);
+			ship.update(delta, null);
 	}
 	
 	public void draw(float delta){
