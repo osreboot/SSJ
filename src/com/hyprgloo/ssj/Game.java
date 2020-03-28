@@ -18,6 +18,7 @@ public class Game {
 	public static Player player;
 
 	public static ArrayList<Projectile> projectiles;
+	public static ArrayList<Particle> particles;
 
 	public static float globalTimer = 0f;
 	
@@ -30,6 +31,7 @@ public class Game {
 
 		player = new Player();
 		projectiles = new ArrayList<>();
+		particles = new ArrayList<>();
 		
 		EnvironmentManager.init();
 	}
@@ -73,6 +75,10 @@ public class Game {
 		}
 		physicsObjects.removeIf(p -> p.isDead());
 
+		for(Particle particle : particles)
+			particle.update(delta);
+		particles.removeIf(p -> p.isDead());
+		
 		// TODO check if player dies
 	
 		projectiles.removeIf(p -> p.physicsObject.isDead());
@@ -86,6 +92,9 @@ public class Game {
 			public void run(){
 				
 				EnvironmentManager.update(delta);
+				
+				for(Particle particle : particles)
+					particle.draw(delta);
 				
 				// Update and draw the player
 				player.update(delta);
@@ -107,6 +116,9 @@ public class Game {
 				camera.doTransform(new HvlAction0(){
 					@Override
 					public void run(){
+						
+						for(Particle particle : particles)
+							particle.drawEmissive(delta);
 						
 						player.drawEmissive(delta);
 						
