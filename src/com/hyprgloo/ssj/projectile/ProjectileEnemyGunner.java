@@ -21,6 +21,7 @@ public class ProjectileEnemyGunner extends Projectile{
 		super(locationArg, speedArg, rotationArg, SIZE / 2f, false);
 		physicsObject.alliance = Alliance.ENEMY;
 		physicsObject.damage = 50f;
+		
 		life = DURATION_LIFE;
 	}
 

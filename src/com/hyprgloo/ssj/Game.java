@@ -70,9 +70,10 @@ public class Game {
 						if(physicsObjectCollidee != physicsObjectCollider &&
 								physicsObjectCollidee.alliance != physicsObjectCollider.alliance &&
 								physicsObjectCollidee.collidesWith(physicsObjectCollider)){
-							physicsObjectCollidee.hurt(physicsObjectCollider.damage);
-							if(physicsObjectCollidee.isDead())
+							physicsObjectCollidee.onCollision(physicsObjectCollider);
+							if(physicsObjectCollidee.isDead()){
 								physicsObjectCollidee.onDeath();
+							}
 						}
 					}
 				}

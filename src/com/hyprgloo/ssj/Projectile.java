@@ -1,15 +1,16 @@
 package com.hyprgloo.ssj;
 
+import com.hyprgloo.ssj.physics.PhysicsObjectProjectile;
 import com.osreboot.ridhvl.HvlCoord2D;
 
 public abstract class Projectile {
 
-	public PhysicsObject physicsObject;
+	public PhysicsObjectProjectile physicsObject;
 	
 	public boolean friendly;
 	
 	public Projectile(HvlCoord2D locationArg, HvlCoord2D speedArg, float rotationArg, float radiusArg, boolean friendlyArg){
-		physicsObject = new PhysicsObject(locationArg.x, locationArg.y, rotationArg, radiusArg);
+		physicsObject = new PhysicsObjectProjectile(locationArg.x, locationArg.y, rotationArg, radiusArg);
 		physicsObject.speed = speedArg;
 		friendly = friendlyArg;
 		

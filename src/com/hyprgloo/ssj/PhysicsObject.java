@@ -21,7 +21,7 @@ public class PhysicsObject {
 	
 	public Alliance alliance;
 	public float damage;
-	public boolean canDealDamage = true, canReceiveDamage = true;
+	public boolean canDealDamage = true, canReceiveDamage = true, isSolid = true;
 	private float health;
 
 	public PhysicsObject(float xArg, float yArg, float angleArg, float radiusArg){
@@ -104,5 +104,9 @@ public class PhysicsObject {
 	}
 	
 	public void onDeath(){}
+	
+	public void onCollision(PhysicsObject physicsObjectArg){
+		hurt(physicsObjectArg.damage);
+	}
 
 }
