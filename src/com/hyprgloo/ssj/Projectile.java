@@ -21,4 +21,6 @@ public abstract class Projectile {
 	
 	public abstract void draw(float delta);
 	
+	public abstract void drawEmissive(float delta);
+	
 }

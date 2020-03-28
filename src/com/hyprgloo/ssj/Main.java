@@ -21,7 +21,9 @@ public class Main extends HvlTemplateInteg2D{
 	INDEX_PLAYER_SHIP_EMISSIVE = 6,
 	INDEX_VIGNETTE = 7,
 	INDEX_CONVOY_ENEMY = 8,
-	INDEX_FRIENDLY_SHIP_0_EMISSIVE = 9;
+	INDEX_FRIENDLY_SHIP_0_EMISSIVE = 9,
+	INDEX_ENEMY_BULLET = 10,
+	INDEX_ENEMY_BULLET_EMISSIVE = 11;
 	
 	public static HvlFontPainter2D font;
 	
@@ -43,6 +45,8 @@ public class Main extends HvlTemplateInteg2D{
 		getTextureLoader().loadResource("Vignette");//7
 		getTextureLoader().loadResource("ConvoyEnemy");//8
 		getTextureLoader().loadResource("CargoShipEmissive");//9
+		getTextureLoader().loadResource("EnemyBullet");//10
+		getTextureLoader().loadResource("EnemyBulletEmissive");//11
 		
 		ArtManager.init();
 		

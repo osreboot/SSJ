@@ -37,5 +37,10 @@ public class ProjectileMerchantGunner extends Projectile{
 		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, SIZE, SIZE, Color.white);
 		hvlResetRotation();
 	}
+	
+	@Override
+	public void drawEmissive(float delta){
+		// TODO
+	}
 
 }

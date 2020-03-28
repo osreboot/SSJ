@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.hyprgloo.ssj.merchant.ShipEnemyGunner;
 import com.hyprgloo.ssj.merchant.ShipFriendlyGunner;
+import com.hyprgloo.ssj.merchant.ShipFriendlyGrenadier;
 import com.hyprgloo.ssj.merchant.ShipFriendlyTrader;
 import com.osreboot.ridhvl.HvlCoord2D;
 import com.osreboot.ridhvl.HvlMath;
@@ -59,8 +60,10 @@ public class Chunk {
 					+ (HvlMath.randomInt(2) == 0 ? -randomAsteroid.physicsObject.radius - 100
 							: +randomAsteroid.physicsObject.radius + 100) + loc.y;
 
-			if (shipType >= 333)
+			if (shipType >= 333 && shipType <= 800)
 				EnvironmentManager.friendlyShips.add(new ShipFriendlyTrader(spawnLoc.x, spawnLoc.y, HvlMath.randomFloatBetween(0, 3.14f)));
+			else if (shipType > 800)
+				EnvironmentManager.friendlyShips.add(new ShipFriendlyGrenadier(spawnLoc.x, spawnLoc.y, HvlMath.randomFloatBetween(0, 3.14f)));
 			else if (shipType < 333)
 				EnvironmentManager.friendlyShips.add(new ShipFriendlyGunner(spawnLoc.x, spawnLoc.y, HvlMath.randomFloatBetween(0, 3.14f)));
 		}

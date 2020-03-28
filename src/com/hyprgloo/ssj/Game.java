@@ -108,10 +108,12 @@ public class Game {
 						
 						player.drawEmissive(delta);
 						
+						for(Projectile projectile : projectiles){
+							projectile.drawEmissive(delta);
+						}
+						
 						// TODO others
-//						for(ShipFriendly ship : EnvironmentManager.friendlyShips){
-//							hvlDrawQuadc(ship.physicsObject.location.x, ship.physicsObject.location.y, ship.physicsObject.radius * 2f, ship.physicsObject.radius * 2f, Main.getTexture(Main.INDEX_FRIENDLY_SHIP_0_EMISSIVE));
-//						}
+						
 					}
 				});
 			}
