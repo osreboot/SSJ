@@ -6,6 +6,7 @@ import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
 
 import org.newdawn.slick.Color;
 
+import com.hyprgloo.ssj.PhysicsObject.Alliance;
 import com.osreboot.ridhvl.HvlCoord2D;
 
 public class Asteroid {
@@ -20,6 +21,8 @@ public class Asteroid {
 		rotationSpeed = rotationSpeedArg;
 		
 		physicsObject = new PhysicsObject(xArg, yArg, rotationArg, sizeArg);
+		physicsObject.alliance = Alliance.ENEMY;
+		physicsObject.damage = 50f;
 		 
 	}
 	

@@ -15,6 +15,8 @@ public class Game {
 	
 	public static HvlCamera2D camera;
 	
+	public static ArrayList<PhysicsObject> physicsObjects;
+	
 	public static Player player;
 	
 	public static ArrayList<ShipFriendly> idleShips;
@@ -26,6 +28,8 @@ public class Game {
 	
 	public static void reset(){
 		camera = new HvlCamera2D(0, 0, 0, 1f, HvlCamera2D.ALIGNMENT_CENTER);
+		
+		physicsObjects = new ArrayList<>();
 		
 		player = new Player();
 		idleShips = new ArrayList<>();
@@ -57,13 +61,27 @@ public class Game {
 		}
 		for(ShipFriendly ship : connectedShips)
 			idleShips.remove(ship);
+	
+		// Dealing damage across all entities
+		physicsObjects.removeIf(p -> p.isDead());
+		for(PhysicsObject physicsObjectCollidee : physicsObjects){
+			for(PhysicsObject physicsObjectCollider : physicsObjects){
+				if(physicsObjectCollidee != physicsObjectCollider &&
+						physicsObjectCollidee.alliance != physicsObjectCollider.alliance &&
+						physicsObjectCollidee.collidesWith(physicsObjectCollider)){
+					physicsObjectCollidee.hurt(physicsObjectCollider.damage);
+					if(physicsObjectCollidee.isDead())
+						physicsObjectCollidee.onDeath();
+				}
+			}
+		}
 		
+		// Removing all dead entities
 		// TODO check if player dies
-		
 		idleShips.removeIf(s -> s.physicsObject.isDead());
 		enemyShips.removeIf(s -> s.physicsObject.isDead());
 		projectiles.removeIf(p -> p.physicsObject.isDead());
-//		asteroids.removeIf(a -> a.)
+		asteroids.removeIf(a -> a.physicsObject.isDead());
 		
 		camera.setPosition(player.getBaseLocation().x, player.getBaseLocation().y);
 		camera.doTransform(new HvlAction0(){

@@ -30,6 +30,8 @@ public class PhysicsObject {
 		radius = radiusArg;
 		health = 100f;
 		alliance = Alliance.NEUTRAL;
+		
+		Game.physicsObjects.add(this);
 	}
 
 	public void connectToParent(PhysicsObject parentArg){
