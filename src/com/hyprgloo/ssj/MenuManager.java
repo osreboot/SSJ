@@ -41,33 +41,40 @@ public class MenuManager {
 			pauseFrame = new HvlRenderFrame(Display.getWidth(), Display.getHeight());
 		}catch(Exception e){}
 		
-		HvlArrangerBox defaultArrangerBox = new HvlArrangerBox(Display.getWidth(), Display.getHeight(), ArrangementStyle.VERTICAL);
-		defaultArrangerBox.setxAlign(0.05f);
+		HvlArrangerBox defaultArrangerBox = new HvlArrangerBox(Display.getWidth(), Display.getHeight(), ArrangementStyle.HORIZONTAL);
+		defaultArrangerBox.setxAlign(0.5f);
+		defaultArrangerBox.setyAlign(0.15f);
 		HvlComponentDefault.setDefault(defaultArrangerBox);
 
-		HvlLabeledButton defaultLabeledButton = new HvlLabeledButton(256, 64, new HvlComponentDrawable(){
+		HvlLabeledButton defaultLabeledButton = new HvlLabeledButton(256, 256, new HvlComponentDrawable(){
 			@Override
 			public void draw(float deltaArg, float xArg, float yArg, float widthArg, float heightArg){
-				hvlDrawQuad(xArg, yArg, widthArg, heightArg, Color.darkGray);
+				hvlDrawQuad(xArg, yArg, widthArg, heightArg, Main.getTexture(Main.INDEX_MENU_BUTT));
 			}
 		}, new HvlComponentDrawable(){
 			@Override
 			public void draw(float deltaArg, float xArg, float yArg, float widthArg, float heightArg){
-				hvlDrawQuad(xArg, yArg, widthArg, heightArg, Color.gray);
+				hvlDrawQuad(xArg, yArg, widthArg, heightArg, Main.getTexture(Main.INDEX_MENU_BUTT), Color.gray);
 			}
 		}, new HvlComponentDrawable(){
 			@Override
 			public void draw(float deltaArg, float xArg, float yArg, float widthArg, float heightArg){
-				hvlDrawQuad(xArg, yArg, widthArg, heightArg, Color.lightGray);
+				hvlDrawQuad(xArg, yArg, widthArg, heightArg, Main.getTexture(Main.INDEX_MENU_BUTT),Color.lightGray);
 			}
-		}, Main.font, "", Color.blue);
+		}, Main.font, "", Color.white);
 		
 		defaultLabeledButton.setTextScale(0.25f);
-		defaultLabeledButton.setyAlign(0.7f);
+		defaultLabeledButton.setyAlign(0.5f);
 		defaultLabeledButton.setxAlign(0.5f);
 		HvlComponentDefault.setDefault(defaultLabeledButton);
 		
+		
 		main.add(new HvlArrangerBox.Builder().build());
+
+		
+		main.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("Options").setWidth(200).setHeight(200).setClickedCommand(new HvlButtonMenuLink(options)).build());
+		main.getFirstArrangerBox().add(new HvlSpacer(BUTTON_SPACING, BUTTON_SPACING));
+
 		main.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("Play").setClickedCommand(new HvlAction1<HvlButton>(){
 			@Override
 			public void run(HvlButton aArg){
@@ -75,10 +82,32 @@ public class MenuManager {
 				Game.reset();
 			}
 		}).build());
-		main.getFirstArrangerBox().add(new HvlSpacer(0, BUTTON_SPACING));
-		main.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("Options").setClickedCommand(new HvlButtonMenuLink(options)).build());
-		main.getFirstArrangerBox().add(new HvlSpacer(0, BUTTON_SPACING));
-		main.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("Credits").setClickedCommand(new HvlButtonMenuLink(credits)).build());
+		main.getFirstArrangerBox().add(new HvlSpacer(BUTTON_SPACING, BUTTON_SPACING));
+		main.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("Credits").setWidth(200).setHeight(200).setClickedCommand(new HvlButtonMenuLink(credits)).build());
+		
+		main.add(new HvlArrangerBox.Builder().setxAlign(0.03f).setyAlign(0.95f).build());
+		main.getChildOfType(HvlArrangerBox.class, 1).add(new HvlLabeledButton.Builder().setText("Exit").setWidth(128).setHeight(128).setClickedCommand(new HvlAction1<HvlButton>(){
+			@Override
+			public void run(HvlButton aArg){
+				System.exit(0);
+			}
+		}).build());
+		
+		credits.add(new HvlArrangerBox.Builder().setxAlign(0.03f).setyAlign(0.95f).build());
+		credits.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("Back").setWidth(128).setHeight(128).setClickedCommand(new HvlAction1<HvlButton>(){
+			@Override
+			public void run(HvlButton aArg){
+				HvlMenu.setCurrent(main);
+			}
+		}).build());
+		
+		options.add(new HvlArrangerBox.Builder().setxAlign(0.03f).setyAlign(0.95f).build());
+		options.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("Back").setWidth(128).setHeight(128).setClickedCommand(new HvlAction1<HvlButton>(){
+			@Override
+			public void run(HvlButton aArg){
+				HvlMenu.setCurrent(main);
+			}
+		}).build());
 		
 		HvlMenu.setCurrent(splash);
 	}
