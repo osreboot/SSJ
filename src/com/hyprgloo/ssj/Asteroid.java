@@ -52,19 +52,20 @@ public class Asteroid {
 			}
 		}
 	
-		jr.physicsObject.update(delta);
 		physicsObject.update(delta);
-		
-		
+		jr.physicsObject.update(delta);
 	}
 	
 	public void draw() {
-		hvlRotate(physicsObject.location.x, physicsObject.location.y, Game.globalTimer * rotationSpeed);
-		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius, physicsObject.radius, Main.getTexture(Main.INDEX_ASTEROID));
-		if(jrSpawned) {
-		hvlDrawQuadc(jr.physicsObject.location.x, jr.physicsObject.location.y, jr.physicsObject.radius, jr.physicsObject.radius, Main.getTexture(Main.INDEX_ASTEROID));
-		}
+		hvlRotate(physicsObject.location.x, physicsObject.location.y, physicsObject.getVisualAngle());
+		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f, physicsObject.radius * 2f, Main.getTexture(Main.INDEX_ASTEROID));
 		hvlResetRotation();
+		
+		if(hasJr){
+			hvlRotate(jr.physicsObject.location.x, jr.physicsObject.location.y, jr.physicsObject.getVisualAngle());
+			hvlDrawQuadc(jr.physicsObject.location.x, jr.physicsObject.location.y, jr.physicsObject.radius * 2f, jr.physicsObject.radius * 2f, Main.getTexture(Main.INDEX_ASTEROID));
+			hvlResetRotation();
+		}
 		
 	}
 	
