@@ -78,7 +78,8 @@ public class Game {
 		camera.doTransform(new HvlAction0(){
 			@Override
 			public void run(){
-
+				
+				EnvironmentManager.update(delta);
 				// Update and draw the player
 				player.update(delta);
 				player.draw(delta);

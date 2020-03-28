@@ -69,8 +69,6 @@ public class ShipEnemyGunner extends ShipEnemy{
 				hasJr = false;
 			}else jr.physicsObject.update(delta);
 		}
-		
-		System.out.println(hasJr);
 	}
 	
 

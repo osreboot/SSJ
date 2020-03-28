@@ -74,7 +74,7 @@ public class EnvironmentManager {
 						+randomAsteroid.physicsObject.radius + 100);
 			
 
-			enemyShips.add(new ShipEnemyGunner(spawnLoc.x, spawnLoc.y, HvlMath.randomFloatBetween(0, 3.14f)));
+			enemyShips.add(new ShipEnemyGunner(spawnLoc.x, spawnLoc.y, HvlMath.randomFloatBetween(0, 3.14f), false));
 
 		}
 
@@ -107,7 +107,7 @@ public class EnvironmentManager {
 		
 		for(ShipEnemy ship : enemyShips){
 			if (HvlMath.distance(Game.player.physicsObject.location, ship.physicsObject.location) < 1200) {
-				ship.update(delta);
+				ship.update(delta, Game.player);
 				ship.draw(delta);
 				ship.physicsObject.canDealDamage = true;
 				ship.physicsObject.canReceiveDamage = true;
