@@ -11,8 +11,8 @@ import com.osreboot.ridhvl.HvlCoord2D;
 
 public class ProjectileEnemyGunner extends Projectile{
 
-	public static final float SIZE = 5f;
-	public static final float DURATION_LIFE = 1f;
+	public static final float SIZE = 10f;
+	public static final float DURATION_LIFE = 3f;
 	
 	private float life;
 	

@@ -34,12 +34,14 @@ public class Game {
 		asteroids = new ArrayList<>();
 		
 		// Spawn idle ships
-
 		idleShips.add(new ShipFriendlyGunner(500f, 500f, 0f));
 		idleShips.add(new ShipFriendlyGunner(300f, 500f, 0f));
 		idleShips.add(new ShipFriendlyGunner(500f, 300f, 0f));
 		idleShips.add(new ShipFriendlyGunner(400f, 400f, 0f));
+		
+		// Spawn enemy ships
 		enemyShips.add(new ShipEnemyGunner(100f, 100f, 0f));
+		
 		//Spawn asteroids
 		asteroids.add(new Asteroid(100f, 100f, 0f, 0f, 32f, 10f, 100f));
 	}
