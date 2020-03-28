@@ -16,14 +16,15 @@ import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.painter.HvlCursor;
 
 public class ShipFriendlyGunner extends ShipFriendly{
-
+	
+	public static final float SIZE = 16f;
 	public static final float DURATION_SHOT_COOLDOWN = 0.2f;
 	public static final float SPEED_PROJECTILE = 500f;
 	
 	private float shotCooldown;
 	
-	public ShipFriendlyGunner(float xArg, float yArg, float angleArg, float radiusArg){
-		super(xArg, yArg, angleArg, radiusArg);
+	public ShipFriendlyGunner(float xArg, float yArg, float angleArg){
+		super(xArg, yArg, angleArg, SIZE);
 		shotCooldown = 0f;
 	}
 
