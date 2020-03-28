@@ -4,12 +4,11 @@ import com.osreboot.ridhvl.HvlCoord2D;
 import com.osreboot.ridhvl.HvlMath;
 
 public class PhysicsObject {
-	
-	private static final float MAX_TRANSLATE = 5;
+
 	private static final float MAX_ROTATE = 100;
 
 	public HvlCoord2D location, speed;
-	public float angleSpeed, radius, weightMod;
+	public float angleSpeed, radius;
 	
 	private float angle;
 
@@ -65,7 +64,7 @@ public class PhysicsObject {
 			location.y = parent.location.y + ((float)Math.sin(Math.toRadians(parent.getVisualAngle() + connectionAngle)) * connectionDistance);
 		}else{
 			location.add(speed.multNew(delta));
-			angle += angleSpeed * delta * weightMod;
+			angle += angleSpeed * delta;
 			if(angleSpeed >= MAX_ROTATE) angleSpeed = MAX_ROTATE;
 			else if(angleSpeed <= -MAX_ROTATE) angleSpeed = -MAX_ROTATE;
 		}
