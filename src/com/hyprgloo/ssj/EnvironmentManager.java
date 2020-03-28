@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.osreboot.ridhvl.HvlCoord2D;
 import com.osreboot.ridhvl.HvlMath;
 
-public class AsteroidManager {
+public class EnvironmentManager {
 
 	public static ArrayList<Asteroid> asteroids;
 

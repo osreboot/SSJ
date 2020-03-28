@@ -39,7 +39,7 @@ public class Asteroid {
 			jr.physicsObject.connectToParent(physicsObject);
 		}
 
-		AsteroidManager.asteroids.add(this);
+		EnvironmentManager.asteroids.add(this);
 	}
 
 	public void assignType(boolean isJr) {
@@ -63,7 +63,7 @@ public class Asteroid {
 			if(jr.physicsObject.isDead()){
 				jr = null;
 				hasJr = false;
-			}else jr.physicsObject.update(delta);
+			} else jr.physicsObject.update(delta);
 		}
 	}
 
