@@ -9,7 +9,6 @@ import org.lwjgl.opengl.Display;
 
 import com.hyprgloo.ssj.Game;
 import com.hyprgloo.ssj.Main;
-import com.hyprgloo.ssj.PhysicsObject.Alliance;
 import com.hyprgloo.ssj.ShipFriendly;
 import com.hyprgloo.ssj.projectile.ProjectileMerchantGunner;
 import com.osreboot.ridhvl.HvlCoord2D;

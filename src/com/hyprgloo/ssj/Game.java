@@ -58,13 +58,13 @@ public class Game {
 		// Attach ships to the player if they collide
 		for(ShipFriendly ship : friendlyShips){
 			if(!ship.physicsObject.hasParent()){
-				if(player.connectedShips.contains(ship))
-					player.connectedShips.remove(ship);
+				if(player.isShipConnected(ship.physicsObject)){
+					player.disconnectShip(ship.physicsObject);
+				}
 				
 				PhysicsObject collisionObject = player.collidesWith(ship.physicsObject);
 				if(collisionObject != null){
-					player.connectedShips.add(ship);
-					ship.physicsObject.connectToParent(collisionObject);
+					player.connectShip(ship.physicsObject, collisionObject);
 				}
 			}
 		}

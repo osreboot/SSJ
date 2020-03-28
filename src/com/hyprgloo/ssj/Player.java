@@ -22,7 +22,7 @@ public class Player {
 	private float xsInput, ysInput;
 	public PhysicsObject physicsObject;
 
-	public ArrayList<ShipFriendly> connectedShips;
+	private ArrayList<PhysicsObject> connectedShips;
 
 	public Player() {
 		physicsObject = new PhysicsObject(0f, 0f, 0f, 16f);
@@ -66,7 +66,7 @@ public class Player {
 		
 		physicsObject.update(delta);
 		
-		connectedShips.removeIf(s -> s.physicsObject.isDead());
+		connectedShips.removeIf(p -> p.isDead());
 	
 	}
 
@@ -77,17 +77,30 @@ public class Player {
 		hvlResetRotation();
 	}
 
-//	public void connectShip(ShipFriendly shipArg) {
-//		connectedShips.add(shipArg);
-//		shipArg.physicsObject.connectToParent(physicsObject);
-//	}
+	public void connectShip(PhysicsObject shipPhysicsObjectArg, PhysicsObject collisionObjectArg) {
+		connectedShips.add(shipPhysicsObjectArg);
+		shipPhysicsObjectArg.connectToParent(collisionObjectArg);
+	}
+	
+	public void disconnectShip(PhysicsObject shipPhysicsObjectArg){
+		connectedShips.remove(shipPhysicsObjectArg);
+		ArrayList<PhysicsObject> childrenCopy = new ArrayList<>(shipPhysicsObjectArg.getChildren());
+		for(PhysicsObject child : childrenCopy){
+			disconnectShip(child);
+		}
+		shipPhysicsObjectArg.disconnectFromParent();
+	}
+	
+	public boolean isShipConnected(PhysicsObject shipArg){
+		return connectedShips.contains(shipArg);
+	}
 
 	public PhysicsObject collidesWith(PhysicsObject physicsObjectArg) {
 		if (physicsObject.collidesWith(physicsObjectArg))
 			return physicsObject;
-		for (ShipFriendly ship : connectedShips) {
-			if (ship.physicsObject.collidesWith(physicsObjectArg))
-				return ship.physicsObject;
+		for (PhysicsObject ship : connectedShips) {
+			if (ship.collidesWith(physicsObjectArg))
+				return ship;
 		}
 		return null;
 	}
@@ -95,9 +108,9 @@ public class Player {
 	public float distance(float xArg, float yArg) {
 		float minimumDistance = HvlMath.distance(physicsObject.location.x, physicsObject.location.y, xArg, yArg)
 				- physicsObject.radius;
-		for (ShipFriendly ship : connectedShips) {
-			float shipDistance = HvlMath.distance(ship.physicsObject.location.x, ship.physicsObject.location.y, xArg,
-					yArg) - ship.physicsObject.radius;
+		for (PhysicsObject ship : connectedShips) {
+			float shipDistance = HvlMath.distance(ship.location.x, ship.location.y, xArg,
+					yArg) - ship.radius;
 			minimumDistance = Math.min(minimumDistance, shipDistance);
 		}
 		return minimumDistance;

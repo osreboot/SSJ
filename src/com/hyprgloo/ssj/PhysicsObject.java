@@ -1,5 +1,7 @@
 package com.hyprgloo.ssj;
 
+import java.util.ArrayList;
+
 import com.osreboot.ridhvl.HvlCoord2D;
 import com.osreboot.ridhvl.HvlMath;
 
@@ -17,6 +19,7 @@ public class PhysicsObject {
 	private float angle;
 
 	private PhysicsObject parent;
+	private ArrayList<PhysicsObject> children;
 	private float connectionDistance, connectionAngle;
 
 	public Alliance alliance;
@@ -31,11 +34,12 @@ public class PhysicsObject {
 		health = 100f;
 		alliance = Alliance.NEUTRAL;
 
+		children = new ArrayList<>();
+		
 		Game.physicsObjects.add(this);
 	}
 
 	public void connectToParent(PhysicsObject parentArg){
-		if(parentArg == this) throw new RuntimeException("TRIED TO CONNECT A PHYSICS OBJECT TO ITSELF!!!");
 		if(!hasParent()){
 			parent = parentArg;
 			connectionDistance = HvlMath.distance(parent.location, location);
@@ -44,11 +48,15 @@ public class PhysicsObject {
 			speed.y = 0;
 			angleSpeed = 0;
 			angle = -parent.getVisualAngle() - connectionAngle + angle;
+			
+			parent.children.add(this);
 		}
 	}
 
 	public void disconnectFromParent(){
 		if(hasParent()){
+			parent.children.remove(this);
+			
 			speed = new HvlCoord2D(parent.speed);
 			angle = getVisualAngle();
 			parent = null;
@@ -112,6 +120,10 @@ public class PhysicsObject {
 
 	public void onCollision(PhysicsObject physicsObjectArg){
 		hurt(physicsObjectArg.damage);
+	}
+	
+	public ArrayList<PhysicsObject> getChildren(){
+		return children;
 	}
 
 }
