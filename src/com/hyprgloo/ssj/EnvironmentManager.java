@@ -13,7 +13,7 @@ public class EnvironmentManager {
 	private static final int NUM_ASTEROIDS = 2000;
 	private static final int NUM_FRIENDLIES = 500;
 	private static final int NUM_ENEMIES = 200;
-	private static final int WORLD_SIZE = 25000;
+	private static final int WORLD_SIZE = 10000;
 
 	public static ArrayList<Asteroid> asteroids;
 	public static ArrayList<ShipFriendly> friendlyShips;
