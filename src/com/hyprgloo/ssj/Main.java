@@ -13,7 +13,8 @@ public class Main extends HvlTemplateInteg2D{
 	public static final int
 	INDEX_FONT = 0,
 	INDEX_SPLASH = 1,
-	INDEX_PLAYER_SHIP = 2;
+	INDEX_PLAYER_SHIP = 2,
+	INDEX_FRIENDLY_SHIP_0 = 3;
 	
 	public static HvlFontPainter2D font;
 	
@@ -26,6 +27,7 @@ public class Main extends HvlTemplateInteg2D{
 		getTextureLoader().loadResource("Font");//0
 		getTextureLoader().loadResource("HYPRGLOO");//1
 		getTextureLoader().loadResource("HeroShip");//2
+		getTextureLoader().loadResource("CargoShip");//3
 		
 		
 		font = new HvlFontPainter2D(getTexture(INDEX_FONT), HvlFontPainter2D.Preset.FP_AGOFFICIAL);

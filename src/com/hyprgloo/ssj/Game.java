@@ -13,10 +13,10 @@ public class Game {
 		idleShips = new ArrayList<>();
 		
 		// Spawn idle ships
-		idleShips.add(new ShipFriendly(500f, 500f, 0f, 20f));
-		idleShips.add(new ShipFriendly(300f, 500f, 0f, 15f));
-		idleShips.add(new ShipFriendly(500f, 300f, 0f, 30f));
-		idleShips.add(new ShipFriendly(400f, 400f, 0f, 20f));
+		idleShips.add(new ShipFriendly(500f, 500f, 0f, 16f));
+		idleShips.add(new ShipFriendly(300f, 500f, 0f, 16f));
+		idleShips.add(new ShipFriendly(500f, 300f, 0f, 16f));
+		idleShips.add(new ShipFriendly(400f, 400f, 0f, 16f));
 	}
 	
 	public static void update(float delta){

@@ -38,7 +38,7 @@ public class ShipFriendly {
 	
 	public void draw(float delta){
 		hvlRotate(physicsObject.location.x, physicsObject.location.y, physicsObject.getVisualAngle());
-		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f, physicsObject.radius * 2f, Main.getTexture(Main.INDEX_PLAYER_SHIP));
+		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f, physicsObject.radius * 2f, Main.getTexture(Main.INDEX_FRIENDLY_SHIP_0));
 		hvlResetRotation();
 	}
 	
