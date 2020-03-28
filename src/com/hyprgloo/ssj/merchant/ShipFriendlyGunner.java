@@ -26,8 +26,6 @@ public class ShipFriendlyGunner extends ShipFriendly{
 	
 	public ShipFriendlyGunner(float xArg, float yArg, float angleArg){
 		super(xArg, yArg, angleArg, SIZE);
-		physicsObject.alliance = Alliance.FRIENDLY;
-		physicsObject.damage = 100f;
 		shotCooldown = 0f;
 	}
 

@@ -4,12 +4,15 @@ import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
 
 import java.util.ArrayList;
 
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 
-import com.hyprgloo.ssj.merchant.ShipEnemyGunner;
 import com.hyprgloo.ssj.merchant.ShipFriendlyGunner;
+import com.hyprgloo.ssj.projectile.ProjectileEnemyGunner;
+import com.osreboot.ridhvl.HvlCoord2D;
 import com.osreboot.ridhvl.action.HvlAction0;
 import com.osreboot.ridhvl.painter.HvlCamera2D;
+import com.osreboot.ridhvl.painter.HvlCursor;
 
 public class Game {
 
@@ -19,7 +22,7 @@ public class Game {
 
 	public static Player player;
 
-	public static ArrayList<ShipFriendly> idleShips;
+	public static ArrayList<ShipFriendly> friendlyShips;
 	public static ArrayList<ShipEnemy> enemyShips;
 	public static ArrayList<Projectile> projectiles;
 
@@ -31,33 +34,40 @@ public class Game {
 		physicsObjects = new ArrayList<>();
 
 		player = new Player();
-		idleShips = new ArrayList<>();
+		friendlyShips = new ArrayList<>();
 		enemyShips = new ArrayList<>();
 		projectiles = new ArrayList<>();
 
 		// Spawn idle ships
-		idleShips.add(new ShipFriendlyGunner(500f, 500f, 0f));
-		idleShips.add(new ShipFriendlyGunner(300f, 500f, 0f));
-		idleShips.add(new ShipFriendlyGunner(500f, 300f, 0f));
-		idleShips.add(new ShipFriendlyGunner(400f, 400f, 0f));
+		friendlyShips.add(new ShipFriendlyGunner(500f, 500f, 0f));
+		friendlyShips.add(new ShipFriendlyGunner(300f, 500f, 0f));
+		friendlyShips.add(new ShipFriendlyGunner(500f, 300f, 0f));
+		friendlyShips.add(new ShipFriendlyGunner(400f, 400f, 0f));
 
 		// Spawn enemy ships
-		enemyShips.add(new ShipEnemyGunner(100f, 100f, 0f));
+//		enemyShips.add(new ShipEnemyGunner(100f, 100f, 0f));
 
 		AsteroidManager.initAsteroids();
 	}
 
 	public static void update(float delta){
+		if(Mouse.isButtonDown(0)){
+			new ProjectileEnemyGunner(HvlCursor.getCursorPosition().addNew(camera.getX(), camera.getY()).add(camera.getAlignment()), new HvlCoord2D(), 0);
+		}
+		
 		// Attach ships to the player if they collide
-		ArrayList<ShipFriendly> connectedShips = new ArrayList<>();	
-		for(ShipFriendly ship : idleShips){
-			if(player.collidesWith(ship.physicsObject)){
-				player.connectShip(ship);
-				connectedShips.add(ship);
+		for(ShipFriendly ship : friendlyShips){
+			if(!ship.physicsObject.hasParent()){
+				if(player.connectedShips.contains(ship))
+					player.connectedShips.remove(ship);
+				
+				PhysicsObject collisionObject = player.collidesWith(ship.physicsObject);
+				if(collisionObject != null){
+					player.connectedShips.add(ship);
+					ship.physicsObject.connectToParent(collisionObject);
+				}
 			}
 		}
-		for(ShipFriendly ship : connectedShips)
-			idleShips.remove(ship);
 
 		// Dealing damage across all entities
 		physicsObjects.removeIf(p -> p.isDead());
@@ -81,7 +91,7 @@ public class Game {
 
 		// Removing all dead entities
 		// TODO check if player dies
-		idleShips.removeIf(s -> s.physicsObject.isDead());
+		friendlyShips.removeIf(s -> s.physicsObject.isDead());
 		enemyShips.removeIf(s -> s.physicsObject.isDead());
 		projectiles.removeIf(p -> p.physicsObject.isDead());
 		AsteroidManager.asteroids.removeIf(a -> a.physicsObject.isDead());
@@ -95,7 +105,7 @@ public class Game {
 				hvlDrawQuadc(0, 0, 500f, 500f, Color.darkGray);
 
 				// Update and draw all idle ships
-				for(ShipFriendly ship : idleShips){
+				for(ShipFriendly ship : friendlyShips){
 					ship.update(delta, player);
 					ship.draw(delta);
 				}

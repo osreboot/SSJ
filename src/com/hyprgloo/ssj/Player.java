@@ -7,6 +7,7 @@ import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
 import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
+import org.newdawn.slick.Color;
 
 import com.hyprgloo.ssj.PhysicsObject.Alliance;
 import com.osreboot.ridhvl.HvlCoord2D;
@@ -21,7 +22,7 @@ public class Player {
 	private float xsInput, ysInput;
 	public PhysicsObject physicsObject;
 
-	private ArrayList<ShipFriendly> connectedShips;
+	public ArrayList<ShipFriendly> connectedShips;
 
 	public Player() {
 		physicsObject = new PhysicsObject(0f, 0f, 0f, 16f);
@@ -66,34 +67,29 @@ public class Player {
 		physicsObject.update(delta);
 		
 		connectedShips.removeIf(s -> s.physicsObject.isDead());
-		for(ShipFriendly ship : connectedShips)
-			ship.update(delta, null);
 	
 	}
 
 	public void draw(float delta) {
 		hvlRotate(physicsObject.location.x, physicsObject.location.y, physicsObject.getVisualAngle());
 		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f,
-				physicsObject.radius * 2f, Main.getTexture(Main.INDEX_PLAYER_SHIP));
+				physicsObject.radius * 2f, Main.getTexture(Main.INDEX_PLAYER_SHIP), physicsObject.isDead() ? Color.darkGray : Color.white);
 		hvlResetRotation();
-
-		for (ShipFriendly ship : connectedShips)
-			ship.draw(delta);
 	}
 
-	public void connectShip(ShipFriendly shipArg) {
-		connectedShips.add(shipArg);
-		shipArg.physicsObject.connectToParent(physicsObject);
-	}
+//	public void connectShip(ShipFriendly shipArg) {
+//		connectedShips.add(shipArg);
+//		shipArg.physicsObject.connectToParent(physicsObject);
+//	}
 
-	public boolean collidesWith(PhysicsObject physicsObjectArg) {
+	public PhysicsObject collidesWith(PhysicsObject physicsObjectArg) {
 		if (physicsObject.collidesWith(physicsObjectArg))
-			return true;
+			return physicsObject;
 		for (ShipFriendly ship : connectedShips) {
 			if (ship.physicsObject.collidesWith(physicsObjectArg))
-				return true;
+				return ship.physicsObject;
 		}
-		return false;
+		return null;
 	}
 
 	public float distance(float xArg, float yArg) {

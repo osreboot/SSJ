@@ -10,19 +10,18 @@ public class PhysicsObject {
 	public static enum Alliance{
 		NEUTRAL, FRIENDLY, ENEMY
 	}
-	
+
 	public HvlCoord2D location, speed;
 	public float angleSpeed, radius;
-	
+
 	private float angle;
 
 	private PhysicsObject parent;
 	private float connectionDistance, connectionAngle;
-	
+
 	public Alliance alliance;
-	public float damage;
+	public float damage, health;
 	public boolean canDealDamage = true, canReceiveDamage = true, isSolid = true;
-	private float health;
 
 	public PhysicsObject(float xArg, float yArg, float angleArg, float radiusArg){
 		location = new HvlCoord2D(xArg, yArg);
@@ -31,11 +30,12 @@ public class PhysicsObject {
 		radius = radiusArg;
 		health = 100f;
 		alliance = Alliance.NEUTRAL;
-		
+
 		Game.physicsObjects.add(this);
 	}
 
 	public void connectToParent(PhysicsObject parentArg){
+		if(parentArg == this) throw new RuntimeException("TRIED TO CONNECT A PHYSICS OBJECT TO ITSELF!!!");
 		if(!hasParent()){
 			parent = parentArg;
 			connectionDistance = HvlMath.distance(parent.location, location);
@@ -49,6 +49,7 @@ public class PhysicsObject {
 
 	public void disconnectFromParent(){
 		if(hasParent()){
+			speed = new HvlCoord2D(parent.speed);
 			angle = getVisualAngle();
 			parent = null;
 		}
@@ -63,18 +64,22 @@ public class PhysicsObject {
 			return angle + parent.getVisualAngle() + connectionAngle;
 		else return angle;
 	}
-	
+
 	public void setBaseAngle(float angleArg){
 		angle = angleArg;
 	}
 
 	public void update(float delta){
 		if(hasParent()){
-			speed.x = 0;
-			speed.y = 0;
-			angleSpeed = 0;
-			location.x = parent.location.x + ((float)Math.cos(Math.toRadians(parent.getVisualAngle() + connectionAngle)) * connectionDistance);
-			location.y = parent.location.y + ((float)Math.sin(Math.toRadians(parent.getVisualAngle() + connectionAngle)) * connectionDistance);
+			if(parent.isDead()){
+				disconnectFromParent();
+			}else{
+				speed.x = 0;
+				speed.y = 0;
+				angleSpeed = 0;
+				location.x = parent.location.x + ((float)Math.cos(Math.toRadians(parent.getVisualAngle() + connectionAngle)) * connectionDistance);
+				location.y = parent.location.y + ((float)Math.sin(Math.toRadians(parent.getVisualAngle() + connectionAngle)) * connectionDistance);
+			}
 		}else{
 			location.add(speed.multNew(delta));
 			angle += angleSpeed * delta;
@@ -86,25 +91,25 @@ public class PhysicsObject {
 	public boolean collidesWith(float xArg, float yArg, float radiusArg){
 		return HvlMath.distance(location.x, location.y, xArg, yArg) < radius + radiusArg;
 	}
-	
+
 	public boolean collidesWith(PhysicsObject physicsObjectArg){
 		return collidesWith(physicsObjectArg.location.x, physicsObjectArg.location.y, physicsObjectArg.radius);
 	}
-	
+
 	public boolean collidesWith(float xArg, float yArg){
 		return collidesWith(xArg, yArg, 0f);
 	}
-	
+
 	public boolean isDead(){
 		return health <= 0f;
 	}
-	
+
 	public void hurt(float damageArg){
 		health -= damageArg;
 	}
-	
+
 	public void onDeath(){}
-	
+
 	public void onCollision(PhysicsObject physicsObjectArg){
 		hurt(physicsObjectArg.damage);
 	}
