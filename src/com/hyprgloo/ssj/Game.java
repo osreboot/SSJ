@@ -73,7 +73,6 @@ public class Game {
 		}
 		physicsObjects.removeIf(p -> p.isDead());
 
-		// Removing all dead entities
 		// TODO check if player dies
 	
 		projectiles.removeIf(p -> p.physicsObject.isDead());
