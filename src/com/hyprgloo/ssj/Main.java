@@ -19,7 +19,8 @@ public class Main extends HvlTemplateInteg2D{
 	INDEX_ASTEROID = 4,
 	INDEX_PLASMA = 5,
 	INDEX_PLAYER_SHIP_EMISSIVE = 6,
-	INDEX_VIGNETTE = 7;
+	INDEX_VIGNETTE = 7,
+	INDEX_CONVOY_ENEMY = 8;
 	
 	public static HvlFontPainter2D font;
 	
@@ -39,6 +40,7 @@ public class Main extends HvlTemplateInteg2D{
 		getTextureLoader().loadResource("Plasma");//5
 		getTextureLoader().loadResource("HeroShip32Emissive");//6
 		getTextureLoader().loadResource("Vignette");//7
+		getTextureLoader().loadResource("ConvoyEnemy");//8
 		
 		ArtManager.init();
 		
