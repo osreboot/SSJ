@@ -9,8 +9,8 @@ import com.osreboot.ridhvl.action.HvlAction0;
 import com.osreboot.ridhvl.painter.HvlCamera2D;
 
 public class Game {
-	
-	public static final int END_DISTANCE = 50000;
+
+	public static final int END_DISTANCE = 10000;
 
 	public static HvlCamera2D camera;
 
@@ -23,10 +23,10 @@ public class Game {
 
 	public static float globalTimer = 0f;
 	public static float messageTimer = 0f;
-	
+
 	static boolean debugCam = false;
 
-	public static void reset(){
+	public static void reset() {
 		camera = new HvlCamera2D(0, 0, 0, debugCam ? 0.2f : 1f, HvlCamera2D.ALIGNMENT_CENTER);
 
 		physicsObjects = new ArrayList<>();
@@ -34,40 +34,66 @@ public class Game {
 		player = new Player();
 		projectiles = new ArrayList<>();
 		particles = new ArrayList<>();
-		
+
 		EnvironmentManager.init();
 	}
 
-	public static void update(float delta){
-//		if(Mouse.isButtonDown(0)){
-//			new ProjectileEnemyGunner(HvlCursor.getCursorPosition().addNew(camera.getX(), camera.getY()).add(camera.getAlignment()), new HvlCoord2D(), 0);
-//		}
+	public static void story(int stage) {
+		if (stage == 0) {
+			if (globalTimer < 10f) {
+				float alpha = 1f - (Math.abs(globalTimer / 5 - 0.5f));
+				Main.font.drawWordc(
+						"A signal from deep space has been trying to reach you,"
+								+ "\n          but the dense asteroid field is interfering!"
+								+ "\n                          Get to deep space!",
+						Display.getWidth() / 2, Display.getHeight() / 2 + 150, new Color(1f, 1f, 1f, alpha), 0.18f);
+			}
+		}
+
+		if (stage == 1) {
+			if (player.progress < END_DISTANCE)
+				messageTimer = globalTimer + 10;
+			else {
+
+				float alpha = 1f - (Math.abs((messageTimer - globalTimer) / 5 - 0.5f));
+				Main.font.drawWordc(
+						"Message Received!," + "\n  Looks like some coordinates..." + "\n       Let's check it out.",
+						Display.getWidth() / 2, Display.getHeight() / 2 + 150, new Color(1f, 1f, 1f, alpha), 0.18f);
+			}
+		}
+	}
+
+	public static void update(float delta) {
+		// if(Mouse.isButtonDown(0)){
+		// new ProjectileEnemyGunner(HvlCursor.getCursorPosition().addNew(camera.getX(),
+		// camera.getY()).add(camera.getAlignment()), new HvlCoord2D(), 0);
+		// }
 
 		// Attach ships to the player if they collide
-		for(ShipFriendly ship : EnvironmentManager.friendlyShips){
-			if(!ship.physicsObject.hasParent()){
-				if(player.isShipConnected(ship.physicsObject)){
+		for (ShipFriendly ship : EnvironmentManager.friendlyShips) {
+			if (!ship.physicsObject.hasParent()) {
+				if (player.isShipConnected(ship.physicsObject)) {
 					player.disconnectShip(ship.physicsObject);
 				}
-				
+
 				PhysicsObject collisionObject = player.collidesWith(ship.physicsObject);
-				if(collisionObject != null){
+				if (collisionObject != null) {
 					player.connectShip(ship.physicsObject, collisionObject);
 				}
 			}
 		}
-		
+
 		// Dealing damage across all entities
 		physicsObjects.removeIf(p -> p.isDead());
-		for(PhysicsObject physicsObjectCollidee : physicsObjects){
-			if(physicsObjectCollidee.canReceiveDamage){
-				for(PhysicsObject physicsObjectCollider : physicsObjects){
-					if(physicsObjectCollider.canDealDamage){
-						if(physicsObjectCollidee != physicsObjectCollider &&
-								physicsObjectCollidee.alliance != physicsObjectCollider.alliance &&
-								physicsObjectCollidee.collidesWith(physicsObjectCollider)){
+		for (PhysicsObject physicsObjectCollidee : physicsObjects) {
+			if (physicsObjectCollidee.canReceiveDamage) {
+				for (PhysicsObject physicsObjectCollider : physicsObjects) {
+					if (physicsObjectCollider.canDealDamage) {
+						if (physicsObjectCollidee != physicsObjectCollider
+								&& physicsObjectCollidee.alliance != physicsObjectCollider.alliance
+								&& physicsObjectCollidee.collidesWith(physicsObjectCollider)) {
 							physicsObjectCollidee.onCollision(physicsObjectCollider);
-							if(physicsObjectCollidee.isDead()){
+							if (physicsObjectCollidee.isDead()) {
 								physicsObjectCollidee.onDeath();
 							}
 						}
@@ -77,85 +103,73 @@ public class Game {
 		}
 		physicsObjects.removeIf(p -> p.isDead());
 
-		for(Particle particle : particles)
+		for (Particle particle : particles)
 			particle.update(delta);
 		particles.removeIf(p -> p.isDead());
-		
+
 		// TODO check if player dies
-	
+
 		projectiles.removeIf(p -> p.physicsObject.isDead());
 
 		ArtManager.drawBackground(player.getBaseLocation().x, player.getBaseLocation().y);
 
-		
-		if(debugCam) Main.font.drawWord("Diff: "+EnvironmentManager.closestChunk.difficultyLevel, 10, 10, Color.green, 0.3f);
-		camera.setPosition(player.getBaseLocation().x / (debugCam ? 5 : 1), player.getBaseLocation().y / (debugCam ? 5 : 1));
-		camera.doTransform(new HvlAction0(){
+		if (debugCam)
+			Main.font.drawWord("Diff: " + EnvironmentManager.closestChunk.difficultyLevel, 10, 10, Color.green, 0.3f);
+		camera.setPosition(player.getBaseLocation().x / (debugCam ? 5 : 1),
+				player.getBaseLocation().y / (debugCam ? 5 : 1));
+		camera.doTransform(new HvlAction0() {
 			@Override
-			public void run(){
-				
-				for(Particle particle : particles)
+			public void run() {
+
+				for (Particle particle : particles)
 					particle.draw(delta);
-				
+
 				EnvironmentManager.update(delta);
-				
+
 				// Update and draw the player
 				player.update(delta);
 				player.draw(delta);
 
-				for(Projectile projectile : projectiles){
+				for (Projectile projectile : projectiles) {
 					projectile.update(delta);
 					projectile.draw(delta);
 				}
 			}
 		});
 		player.drawHUD();
-		if(globalTimer < 10f) {
-			float alpha = 1f - (Math.abs(globalTimer/5 - 0.5f));
-			Main.font.drawWordc("A signal from deep space has been trying to reach you,"
-					+ "\n          but the dense asteroid field is interfering!"
-					+ "\n                          Get to deep space!", 
-					Display.getWidth()/2, Display.getHeight()/2+150, new Color(1f, 1f, 1f, alpha), 0.18f);
-		}
 		
-		if(player.progress < END_DISTANCE)
-			messageTimer = globalTimer + 10;
-		else {
-			float alpha = 1f - (Math.abs(globalTimer/5 - 0.5f));
-			Main.font.drawWordc("Message Received!,"
-					+ "\n  Looks like some coordinates..."
-					+ "\n       Let's check it out.", 
-					Display.getWidth()/2, Display.getHeight()/2+150, new Color(1f, 1f, 1f, alpha), 0.18f);
-		}
-			
+		if(globalTimer < 15f)
+			story(0);
+		else
+			story(1);
 
 		ArtManager.drawVignette();
-		
-		ArtManager.blurFrame.doCapture(new HvlAction0(){
+
+		ArtManager.blurFrame.doCapture(new HvlAction0() {
 			@Override
-			public void run(){
-				camera.doTransform(new HvlAction0(){
+			public void run() {
+				camera.doTransform(new HvlAction0() {
 					@Override
-					public void run(){
-						
-						for(Particle particle : particles)
+					public void run() {
+
+						for (Particle particle : particles)
 							particle.drawEmissive(delta);
-						
+
 						player.drawEmissive(delta);
-						
-						for(Projectile projectile : projectiles){
+
+						for (Projectile projectile : projectiles) {
 							projectile.drawEmissive(delta);
 						}
-						
+
 						// TODO others
-						
+
 					}
 				});
 			}
 		});
-		
+
 		ArtManager.drawEmissive();
-		
+
 		globalTimer += delta;
 	}
 }
