@@ -29,9 +29,11 @@ public class AsteroidManager {
 	
 	public static void update() {
 		for(Asteroid a : asteroids) {
+			a.assignType();
 			if(HvlMath.distance(Game.player.physicsObject.location, a.physicsObject.location) < 1200) {
 				a.draw();
 			}
+			System.out.println(a.hasJr);
 		}
 	}
 }
