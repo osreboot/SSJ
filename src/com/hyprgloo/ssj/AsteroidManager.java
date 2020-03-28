@@ -24,18 +24,15 @@ public class AsteroidManager {
 				asPos.y = HvlMath.randomFloatBetween(-50000, 50000);
 			}
 
-			Asteroid a = new Asteroid(asPos, false);
-			asteroids.add(a);
+			new Asteroid(asPos);
 		}
 
 	}
 
 	public static void update(float delta) {
 		for (Asteroid a : asteroids) {
-			a.assignType();
 			a.update(delta);
 			if (HvlMath.distance(Game.player.physicsObject.location, a.physicsObject.location) < 1200) {
-				
 				a.draw();
 				a.physicsObject.canDealDamage = true;
 				a.physicsObject.canReceiveDamage = true;
