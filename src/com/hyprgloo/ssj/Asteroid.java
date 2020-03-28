@@ -10,9 +10,10 @@ import com.osreboot.ridhvl.HvlCoord2D;
 
 public class Asteroid {
 
-	float rotationSpeed;
+	private float rotationSpeed;
+	public PhysicsObject physicsObject;
 	
-	private PhysicsObject physicsObject;
+	private boolean typeAssigned;
 
 	public Asteroid(float xArg, float yArg, float xSpeedArg, float ySpeedArg, float rotationArg, float rotationSpeedArg, float sizeArg) {
 		
@@ -20,6 +21,14 @@ public class Asteroid {
 		
 		physicsObject = new PhysicsObject(xArg, yArg, rotationArg, sizeArg);
 		 
+	}
+	
+	public void assignType() {
+		if(!typeAssigned) {
+			
+			
+			
+		}
 	}
 	
 	public void update(float delta) {
