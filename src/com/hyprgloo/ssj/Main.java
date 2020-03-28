@@ -56,8 +56,6 @@ public class Main extends HvlTemplateInteg2D{
 		getTextureLoader().loadResource("FriendlyBulletEmissive");//14
 		getTextureLoader().loadResource("menuButton");//15
 
-
-
 		ArtManager.init();
 
 		font = new HvlFontPainter2D(getTexture(INDEX_FONT), HvlFontPainter2D.Preset.FP_AGOFFICIAL);
