@@ -45,7 +45,7 @@ public class ShipEnemyGunner extends ShipEnemy{
 	public void assignType(boolean isJr) {
 		if(!hasJr && !isJr) {
 			typeHandler = HvlMath.randomIntBetween(0, 100);
-			if(typeHandler < 15){
+			if(typeHandler < 150){
 				hasJr = true;
 			}else {
 				hasJr = false;
@@ -63,6 +63,25 @@ public class ShipEnemyGunner extends ShipEnemy{
 			HvlCoord2D projectileSpeed = Game.player.getBaseLocation().subtractNew(physicsObject.location).normalize().mult(SPEED_PROJECTILE);
 			new ProjectileEnemyGunner(physicsObject.location, projectileSpeed, 0f);
 		}
+		
+		
+		
+		
+		
+		if(hasJr) {
+		jr.shotCooldown = HvlMath.stepTowards(jr.shotCooldown, delta, 0f);
+		if(jr.shotCooldown == 0f){
+			jr.shotCooldown = DURATION_SHOT_COOLDOWN;
+			HvlCoord2D projectileSpeed = Game.player.getBaseLocation().subtractNew(jr.physicsObject.location).normalize().mult(SPEED_PROJECTILE);
+			new ProjectileEnemyGunner(jr.physicsObject.location, projectileSpeed, 0f);
+		}
+		}
+		
+		
+		
+		
+		
+		
 		if(hasJr){
 			if(jr.physicsObject.isDead()){
 				jr = null;
