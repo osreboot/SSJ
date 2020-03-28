@@ -16,9 +16,11 @@ public class Game {
 	public static ArrayList<Projectile> projectiles;
 
 	public static float globalTimer = 0f;
+	
+	static boolean debugCam = false;
 
 	public static void reset(){
-		camera = new HvlCamera2D(0, 0, 0, 1f, HvlCamera2D.ALIGNMENT_CENTER);
+		camera = new HvlCamera2D(0, 0, 0, debugCam ? 0.2f : 1f, HvlCamera2D.ALIGNMENT_CENTER);
 
 		physicsObjects = new ArrayList<>();
 
@@ -34,7 +36,7 @@ public class Game {
 //		}
 		
 		// Attach ships to the player if they collide
-		for(ShipFriendly ship : EnvironmentManager.friendlyShips){
+		for(ShipFriendly ship : EnvironmentManager.closestChunk.friendlyShips){
 			if(!ship.physicsObject.hasParent()){
 				if(player.isShipConnected(ship.physicsObject)){
 					player.disconnectShip(ship.physicsObject);
@@ -69,14 +71,12 @@ public class Game {
 
 		// Removing all dead entities
 		// TODO check if player dies
-		EnvironmentManager.friendlyShips.removeIf(s -> s.physicsObject.isDead());
-		EnvironmentManager.enemyShips.removeIf(s -> s.physicsObject.isDead());
+	
 		projectiles.removeIf(p -> p.physicsObject.isDead());
-		EnvironmentManager.asteroids.removeIf(a -> a.physicsObject.isDead());
 
 		ArtManager.drawBackground(player.getBaseLocation().x, player.getBaseLocation().y);
 		
-		camera.setPosition(player.getBaseLocation().x, player.getBaseLocation().y);
+		camera.setPosition(player.getBaseLocation().x / (debugCam ? 5 : 1), player.getBaseLocation().y / (debugCam ? 5 : 1));
 		camera.doTransform(new HvlAction0(){
 			@Override
 			public void run(){
