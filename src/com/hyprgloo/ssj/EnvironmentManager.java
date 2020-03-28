@@ -86,4 +86,23 @@ public class EnvironmentManager {
 			determineToGen(closestChunk.loc.x - Chunk.CHUNK_SIZE, closestChunk.loc.y - Chunk.CHUNK_SIZE);
 
 	}
+	
+	public static void drawEmissive(float delta){
+		for (Chunk c : chunks) {
+
+			float distance = HvlMath.distance(c.loc, Game.player.physicsObject.location);
+			if (distance < Chunk.CHUNK_SIZE/2 + Display.getWidth()) {
+				if (distance < HvlMath.distance(closestChunk.loc, Game.player.physicsObject.location))
+					closestChunk = c;
+				
+				c.drawEmissive(delta);
+			}
+		}
+		
+		for (ShipFriendly ship : friendlyShips) {
+			if (HvlMath.distance(Game.player.physicsObject.location, ship.physicsObject.location) < 1200) {
+				ship.drawEmissive(delta);
+			}
+		}
+	}
 }

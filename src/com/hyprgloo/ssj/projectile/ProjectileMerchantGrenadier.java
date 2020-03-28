@@ -7,6 +7,7 @@ import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
 import org.newdawn.slick.Color;
 
 import com.hyprgloo.ssj.Game;
+import com.hyprgloo.ssj.Main;
 import com.hyprgloo.ssj.PhysicsObject.Alliance;
 import com.hyprgloo.ssj.Projectile;
 import com.osreboot.ridhvl.HvlCoord2D;
@@ -15,12 +16,12 @@ import com.osreboot.ridhvl.painter.HvlCursor;
 
 public class ProjectileMerchantGrenadier extends Projectile{
 
-	public static final float SIZE = 10f;
+	public static final float SIZE = 12f;
 	public static final float DURATION_LIFE = 5f;
 	public static final float SPEED_ROTATION = 240f;
 	public static final float SPEED_TRANSLATION = 400f;
 	
-	public static final Color COLOR_SPARKS = Color.white;
+	public static final Color COLOR_SPARKS = new Color(0.5f, 0.5f, 1f);
 	
 	private float angle, life;
 	
@@ -56,13 +57,15 @@ public class ProjectileMerchantGrenadier extends Projectile{
 	@Override
 	public void draw(float delta){
 		hvlRotate(physicsObject.location, physicsObject.getVisualAngle() + 90f);
-		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, SIZE, SIZE * 2f, Color.white);
+		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, SIZE, SIZE * 2f, Main.getTexture(Main.INDEX_FRIENDLY_MISSILE));
 		hvlResetRotation();
 	}
 	
 	@Override
 	public void drawEmissive(float delta){
-		// TODO
+		hvlRotate(physicsObject.location, physicsObject.getVisualAngle() + 90f);
+		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, SIZE, SIZE * 1.5f, Main.getTexture(Main.INDEX_FRIENDLY_MISSILE_EMISSIVE));
+		hvlResetRotation();
 	}
 
 }

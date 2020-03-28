@@ -16,7 +16,7 @@ public abstract class ShipFriendly {
 	private boolean boosted = false;
 	
 	public ShipFriendly(float xArg, float yArg, float angleArg, float radiusArg, Color... scrapColorsArg){
-		physicsObject = new PhysicsObjectShip(xArg, yArg, angleArg, radiusArg, scrapColorsArg);
+		physicsObject = new PhysicsObjectShip(xArg, yArg, angleArg, radiusArg, false, scrapColorsArg);
 		physicsObject.alliance = Alliance.FRIENDLY;
 		physicsObject.damage = 100f;
 	}
@@ -40,5 +40,7 @@ public abstract class ShipFriendly {
 	public abstract void updateConnected(float delta);
 	
 	public abstract void draw(float delta);
+	
+	public abstract void drawEmissive(float delta);
 	
 }
