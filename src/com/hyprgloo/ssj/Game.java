@@ -18,6 +18,9 @@ public class Game {
 	
 	public static ArrayList<ShipFriendly> idleShips;
 	public static ArrayList<Projectile> projectiles;
+	public static ArrayList<Asteroid> asteroids;
+	
+	public static float globalTimer = 0f;
 	
 	public static void reset(){
 		camera = new HvlCamera2D(0, 0, 0, 1f, HvlCamera2D.ALIGNMENT_CENTER);
@@ -25,12 +28,16 @@ public class Game {
 		player = new Player();
 		idleShips = new ArrayList<>();
 		projectiles = new ArrayList<>();
+		asteroids = new ArrayList<>();
 		
 		// Spawn idle ships
 		idleShips.add(new ShipFriendlyGunner(500f, 500f, 0f, 16f));
 		idleShips.add(new ShipFriendlyGunner(300f, 500f, 0f, 16f));
 		idleShips.add(new ShipFriendlyGunner(500f, 300f, 0f, 16f));
 		idleShips.add(new ShipFriendlyGunner(400f, 400f, 0f, 16f));
+		
+		//Spawn asteroids
+		asteroids.add(new Asteroid(100f, 100f, 0f, 0f, 32f, 10f, 100f));
 	}
 	
 	public static void update(float delta){
@@ -61,6 +68,12 @@ public class Game {
 					ship.draw(delta);
 				}
 				
+				//Update and draw asteroids
+				for(Asteroid a : asteroids){
+					a.update(delta);
+					a.draw();
+				}
+				
 				// Update and draw the player
 				player.update(delta);
 				player.draw(delta);
@@ -72,5 +85,6 @@ public class Game {
 				
 			}
 		});
+		globalTimer += delta;
 	}
 }
