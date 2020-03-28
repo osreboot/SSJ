@@ -42,7 +42,7 @@ public class Game {
 		idleShips.add(new ShipFriendlyGunner(400f, 400f, 0f));
 
 		// Spawn enemy ships
-		enemyShips.add(new ShipEnemyGunner(100f, 100f, 0f));
+		enemyShips.add(new ShipEnemyGunner(100f, 100f, 0f, false));
 
 		AsteroidManager.initAsteroids();
 	}
@@ -104,7 +104,7 @@ public class Game {
 
 				// Update and draw all enemy ships
 				for(ShipEnemy ship : enemyShips){
-					ship.update(delta);
+					ship.update(delta, player);
 					ship.draw(delta);
 				}
 
