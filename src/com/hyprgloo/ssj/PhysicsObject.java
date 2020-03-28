@@ -5,6 +5,8 @@ import com.osreboot.ridhvl.HvlMath;
 
 public class PhysicsObject {
 
+	private static final float MAX_ROTATE = 100;
+
 	public HvlCoord2D location, speed;
 	public float angleSpeed, radius;
 	
@@ -63,6 +65,8 @@ public class PhysicsObject {
 		}else{
 			location.add(speed.multNew(delta));
 			angle += angleSpeed * delta;
+			if(angleSpeed >= MAX_ROTATE) angleSpeed = MAX_ROTATE;
+			else if(angleSpeed <= -MAX_ROTATE) angleSpeed = -MAX_ROTATE;
 		}
 	}
 
