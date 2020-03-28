@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.osreboot.ridhvl.HvlCoord2D;
 import com.osreboot.ridhvl.HvlMath;
 
-public class AsteroidManager {
+public class EnvironmentManager {
 
 	public static ArrayList<Asteroid> asteroids;
 
@@ -24,7 +24,7 @@ public class AsteroidManager {
 				asPos.y = HvlMath.randomFloatBetween(-50000, 50000);
 			}
 
-			new Asteroid(asPos);
+			new Asteroid(asPos, false, 0);
 		}
 
 	}

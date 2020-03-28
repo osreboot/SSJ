@@ -18,12 +18,13 @@ public class Asteroid {
 	private boolean typeAssigned = false;
 	Asteroid jr = null;
 
-	public Asteroid(HvlCoord2D pos) {
+	public Asteroid(HvlCoord2D pos, boolean isJr, float parSize) {
 		float rotationArg = HvlMath.randomFloatBetween(0, 3.14f);
-		float rotationSpeedArg = HvlMath.randomFloatBetween(-200, 200);
-		float sizeArg = HvlMath.randomFloatBetween(25, 250);
+		float rotationSpeedArg = HvlMath.randomFloatBetween(-100, 100);
+		
+		float sizeArg = isJr ? HvlMath.randomFloatBetween(parSize/4, parSize/2) : HvlMath.randomFloatBetween(25, 250);
 
-		assignType();
+		assignType(isJr);
 
 		physicsObject = new PhysicsObject(pos.x, pos.y, rotationArg, sizeArg);
 		physicsObject.angleSpeed = rotationSpeedArg;
@@ -33,16 +34,16 @@ public class Asteroid {
 		physicsObject.canDealDamage = false;
 
 		if(hasJr){
-			jr = new Asteroid(new HvlCoord2D(physicsObject.location.x, physicsObject.location.y));
+			jr = new Asteroid(new HvlCoord2D(physicsObject.location.x, physicsObject.location.y), true, physicsObject.radius);
 			jr.physicsObject.location.x += physicsObject.radius + jr.physicsObject.radius;
 			jr.physicsObject.connectToParent(physicsObject);
 		}
 
-		AsteroidManager.asteroids.add(this);
+		EnvironmentManager.asteroids.add(this);
 	}
 
-	public void assignType() {
-		if(!typeAssigned && !hasJr) {
+	public void assignType(boolean isJr) {
+		if(!typeAssigned && !hasJr && !isJr) {
 			typeHandler = HvlMath.randomIntBetween(0, 100);
 			if(typeHandler < 20){
 				hasJr = true;
@@ -63,7 +64,7 @@ public class Asteroid {
 			if(jr.physicsObject.isDead()){
 				jr = null;
 				hasJr = false;
-			}else jr.physicsObject.update(delta);
+			} else jr.physicsObject.update(delta);
 		}
 	}
 

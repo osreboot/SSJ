@@ -27,7 +27,7 @@ public class Main extends HvlTemplateInteg2D{
 	public void initialize() {
 		getTextureLoader().loadResource("Font");//0
 		getTextureLoader().loadResource("HYPRGLOO");//1
-		getTextureLoader().loadResource("HeroShip");//2
+		getTextureLoader().loadResource("HeroShip32");//2
 		getTextureLoader().loadResource("CargoShip");//3
 		getTextureLoader().loadResource("Asteroid");//4
 		
