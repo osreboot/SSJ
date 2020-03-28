@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
 
+import com.hyprgloo.ssj.PhysicsObject.Alliance;
 import com.osreboot.ridhvl.HvlCoord2D;
 import com.osreboot.ridhvl.HvlMath;
 
@@ -16,24 +17,26 @@ public class Player {
 	public static final float ACCELERATION = 400f;
 	public static final float ROTATION_ACCE = 300f;
 	private static final float MAX_TRANSLATE = 250;
-
+	
+	private float xsInput, ysInput;
 	public PhysicsObject physicsObject;
 
 	private ArrayList<ShipFriendly> connectedShips;
 
 	public Player() {
 		physicsObject = new PhysicsObject(0f, 0f, 0f, 16f);
-
+		physicsObject.alliance = Alliance.FRIENDLY;
+		physicsObject.damage = 100f;
+		xsInput = 0;
+		ysInput = 0;
 		connectedShips = new ArrayList<>();
 	}
 
 	public void update(float delta) {
-		float xsInput = (Keyboard.isKeyDown(Keyboard.KEY_A) ? -ACCELERATION/getConnectedShipsWeight() : 0)
+		xsInput = (Keyboard.isKeyDown(Keyboard.KEY_A) ? -ACCELERATION/getConnectedShipsWeight() : 0)
 				+ (Keyboard.isKeyDown(Keyboard.KEY_D) ? ACCELERATION/getConnectedShipsWeight() : 0);
-		float ysInput = (Keyboard.isKeyDown(Keyboard.KEY_W) ? -ACCELERATION/getConnectedShipsWeight() : 0)
+		ysInput = (Keyboard.isKeyDown(Keyboard.KEY_W) ? -ACCELERATION/getConnectedShipsWeight() : 0)
 				+ (Keyboard.isKeyDown(Keyboard.KEY_S) ? ACCELERATION/getConnectedShipsWeight() : 0);
-
-		
 
 		if (physicsObject.speed.x >= MAX_TRANSLATE)
 			physicsObject.speed.x = MAX_TRANSLATE;
@@ -62,6 +65,7 @@ public class Player {
 		
 		physicsObject.update(delta);
 		
+		connectedShips.removeIf(s -> s.physicsObject.isDead());
 		for(ShipFriendly ship : connectedShips)
 			ship.update(delta, null);
 	

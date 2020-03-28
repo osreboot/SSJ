@@ -4,6 +4,7 @@ import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlResetRotation;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
 
+import com.hyprgloo.ssj.PhysicsObject.Alliance;
 import com.osreboot.ridhvl.HvlCoord2D;
 import com.osreboot.ridhvl.HvlMath;
 
@@ -29,7 +30,10 @@ public class Asteroid {
 		rotationSpeed = rotationSpeedArg;
 		jrType = jrArg;
 		physicsObject = new PhysicsObject(pos.x, pos.y, rotationArg, sizeArg);
-		 
+		physicsObject.alliance = Alliance.ENEMY;
+		physicsObject.damage = 100f;
+		physicsObject.canReceiveDamage = false;
+		physicsObject.canDealDamage = false;
 	}
 	
 	public void assignType() {
