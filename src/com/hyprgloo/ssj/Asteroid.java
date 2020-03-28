@@ -17,16 +17,13 @@ public class Asteroid {
 	private int typeHandler;
 	private boolean typeAssigned = false;
 	private boolean jrSpawned = false;
-	private boolean jrType;
 	Asteroid jr = null;
 
 	public Asteroid(HvlCoord2D pos, boolean jrArg) {
-	    Asteroid jr;
 		float rotationArg = HvlMath.randomFloatBetween(0, 3.14f);
 		float rotationSpeedArg = HvlMath.randomFloatBetween(-200, 200);
-		float sizeArg = (jrArg)?20:HvlMath.randomFloatBetween(25, 250);
+		float sizeArg = HvlMath.randomFloatBetween(25, 250);
 		
-		jrType = jrArg;
 		physicsObject = new PhysicsObject(pos.x, pos.y, rotationArg, sizeArg);
 		physicsObject.angleSpeed = rotationSpeedArg;
 		physicsObject.alliance = Alliance.ENEMY;
@@ -36,8 +33,13 @@ public class Asteroid {
 	}
 	
 	public void assignType() {
-		if(!typeAssigned) {
-			hasJr = true;
+		if(!typeAssigned && !hasJr) {
+			typeHandler = HvlMath.randomIntBetween(0, 100);
+			if(typeHandler < 20){
+				hasJr = true;
+			}else {
+				hasJr = false;
+			}
 			typeAssigned = true;
 		}
 	}
@@ -45,14 +47,15 @@ public class Asteroid {
 	public void update(float delta) {
 		if(hasJr) {
 			if(!jrSpawned) {
-				jr = new Asteroid(new HvlCoord2D(physicsObject.location.x + 100, physicsObject.location.y + 100), true);
+				jr = new Asteroid(new HvlCoord2D(physicsObject.location.x, physicsObject.location.y), true);
+				jr.physicsObject.location.x += physicsObject.radius + jr.physicsObject.radius;
 				jr.physicsObject.connectToParent(physicsObject);
 				jrSpawned = true;
 			}
 		}
 	
 		physicsObject.update(delta);
-		jr.physicsObject.update(delta);
+		if(hasJr) jr.physicsObject.update(delta);
 	}
 	
 	public void draw() {
