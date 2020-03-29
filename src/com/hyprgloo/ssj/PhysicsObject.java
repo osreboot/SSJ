@@ -2,6 +2,9 @@ package com.hyprgloo.ssj;
 
 import java.util.ArrayList;
 
+import org.newdawn.slick.Color;
+
+import com.hyprgloo.ssj.particle.ParticleSpark;
 import com.osreboot.ridhvl.HvlCoord2D;
 import com.osreboot.ridhvl.HvlMath;
 
@@ -115,7 +118,8 @@ public class PhysicsObject {
 	public void hurt(float damageArg){
 		health -= damageArg;
 		if(HvlMath.distance(location, Game.player.getBaseLocation())*10 < 5){
-			Main.getSound(Main.INDEX_HURTY).playAsSoundEffect(HvlMath.randomFloatBetween(1.3f, 1.5f), 0.05f, false);
+			Main.getSound(Main.INDEX_HURTY).playAsSoundEffect(HvlMath.randomFloatBetween(1.3f, 1.5f), 0.3f, false);
+			ParticleSpark.createSparkExplosion(Game.player.physicsObject.location, Color.yellow);
 		}
 		
 	}
