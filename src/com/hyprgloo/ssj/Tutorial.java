@@ -1,14 +1,14 @@
 package com.hyprgloo.ssj;
 
+import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
+
 import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
 
 import com.osreboot.ridhvl.HvlMath;
-import com.osreboot.ridhvl.action.HvlAction0r;
-import com.osreboot.ridhvl.action.HvlAction2;
 
-public class Tutorial {
+public abstract class Tutorial {
 
 	public static final float DURATION_TUTORIAL = 10f;
 	
@@ -21,18 +21,18 @@ public class Tutorial {
 
 	public static void init(){
 		tutorials = new ArrayList<>();
-		tutorials.add(new Tutorial(new HvlAction0r<Boolean>(){
+		tutorials.add(new Tutorial(){
 			@Override
-			public Boolean run(){
+			public boolean shouldSpawn(){
 				return true;
 			}
-		}, new HvlAction2<Tutorial, Float>(){
+
 			@Override
-			public void run(Tutorial t, Float delta){
-				Main.font.drawWord("TUTORIAL", 0, 0, Color.red);
-				if(t.timer <= 0) t.complete = true;
+			public void display(float delta){
+				displayText("TUTORIAL YESSSSSS", 500, 500);
+				if(timer <= 0) complete = true;
 			}
-		}));
+		});
 	}
 	
 	public static void gameReset(){
@@ -43,7 +43,7 @@ public class Tutorial {
 		if(Options.tutorials){
 			if(current == null){
 				for(Tutorial t : tutorials){
-					if(!t.complete && t.spawn.run()){
+					if(!t.complete && t.shouldSpawn()){
 						current = t;
 						current.timer = DURATION_TUTORIAL;
 						break;
@@ -59,20 +59,26 @@ public class Tutorial {
 	}
 
 	public boolean complete;
-	public HvlAction0r<Boolean> spawn;
-	public HvlAction2<Tutorial, Float> draw;
 
-	private float timer = 0f;
+	public float timer = 0f;
 
-	public Tutorial(HvlAction0r<Boolean> spawnArg, HvlAction2<Tutorial, Float> drawArg){
+	public Tutorial(){
 		timer = DURATION_TUTORIAL;
-		spawn = spawnArg;
-		draw = drawArg;
 	}
 
 	public void draw(float delta){
 		timer = HvlMath.stepTowards(timer, delta, 0f);
-		draw.run(this, delta);
+		display(delta);
 	}
+	
+	public void displayText(String text, float x, float y){
+		float width = Main.font.getLineWidth(text) * 0.25f;
+		float height = Main.font.getLineHeight(text) * 0.25f;
+		hvlDrawQuadc(x, y, width, height, Color.darkGray);
+		Main.font.drawWordc(text, x, y, Color.white, 0.25f);
+	}
+	
+	public abstract boolean shouldSpawn();
+	public abstract void display(float delta);
 
 }
