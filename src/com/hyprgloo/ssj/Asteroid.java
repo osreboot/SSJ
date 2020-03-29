@@ -21,7 +21,9 @@ public class Asteroid {
 	
 	public PhysicsObject physicsObject;
 	private float tempHealth = 0.00001f;
+	private float jrTempHealth = 0.00001f;
 	private float impactFlash = 0f;
+	private float jrFlash = 0f;
 
 	public boolean hasJr = false;
 	private int typeHandler;
@@ -93,6 +95,23 @@ public class Asteroid {
 //			hvlDrawQuadc(jr.physicsObject.location.x, jr.physicsObject.location.y, jr.physicsObject.radius * 2f * 1.333333f, jr.physicsObject.radius * 2f * 1.333333f, Main.getTexture(Main.INDEX_ASTEROID_HALO), COLOR_HALO);
 			hvlDrawQuadc(jr.physicsObject.location.x, jr.physicsObject.location.y, jr.physicsObject.radius * 2f * 1.333333f, jr.physicsObject.radius * 2f * 1.333333f, Main.getTexture(textureJr));
 			hvlResetRotation();
+			
+			if(jr.physicsObject.health < jrTempHealth) {
+				jrFlash = 0.7f;
+			}
+			if(jrFlash >= 0f) {
+				jrFlash -= delta*2;
+				hvlRotate(jr.physicsObject.location.x, jr.physicsObject.location.y, jr.physicsObject.getVisualAngle());
+				if(textureJr == Main.INDEX_ASTEROID0) {
+				hvlDrawQuadc(jr.physicsObject.location.x, jr.physicsObject.location.y, jr.physicsObject.radius * 2f * 1.333333f, jr.physicsObject.radius * 2f * 1.333333f, Main.getTexture(Main.INDEX_ASTEROID0_HURT), new Color(1f, 1f, 1f, jrFlash));
+				}else if(textureJr == Main.INDEX_ASTEROID1) {
+				hvlDrawQuadc(jr.physicsObject.location.x, jr.physicsObject.location.y, jr.physicsObject.radius * 2f * 1.333333f, jr.physicsObject.radius * 2f * 1.333333f, Main.getTexture(Main.INDEX_ASTEROID1_HURT), new Color(1f, 1f, 1f, jrFlash));
+				}else if(textureJr == Main.INDEX_ASTEROID2) {
+				hvlDrawQuadc(jr.physicsObject.location.x, jr.physicsObject.location.y, jr.physicsObject.radius * 2f * 1.333333f, jr.physicsObject.radius * 2f * 1.333333f, Main.getTexture(Main.INDEX_ASTEROID2_HURT), new Color(1f, 1f, 1f, jrFlash));
+				}
+				hvlResetRotation();
+			}
+			jrTempHealth = jr.physicsObject.health;
 		}
 		
 		if(physicsObject.health < tempHealth) {
@@ -112,6 +131,7 @@ public class Asteroid {
 		}
 		
 		tempHealth = physicsObject.health;
+		
 
 	}
 
