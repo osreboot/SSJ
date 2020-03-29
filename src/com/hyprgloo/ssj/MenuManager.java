@@ -144,12 +144,22 @@ public class MenuManager {
 		
 		options.add(new HvlArrangerBox.Builder().build());
 		options.add(new HvlArrangerBox.Builder().setxAlign(0.03f).setyAlign(0.95f).build());
-		options.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("Audio: " + (Options.sound ? "ON" : "OFF")).setWidth(250).setHeight(250).setTextScale(0.21f)
+		options.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("SFX: " + (Options.sound ? "ON" : "OFF")).setWidth(250).setHeight(250).setTextScale(0.21f)
 				.setClickedCommand(new HvlAction1<HvlButton>(){
 					@Override
 					public void run(HvlButton a){
 						Options.sound = !Options.sound;
-						((HvlLabeledButton)a).setText("Audio: " + (Options.sound ? "ON" : "OFF"));
+						((HvlLabeledButton)a).setText("SFX: " + (Options.sound ? "ON" : "OFF"));
+					}
+				}).build());
+		options.getFirstArrangerBox().add(new HvlSpacer(BUTTON_SPACING, BUTTON_SPACING));
+		
+		options.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("Music: " + (Options.sound ? "ON" : "OFF")).setWidth(250).setHeight(250).setTextScale(0.21f)
+				.setClickedCommand(new HvlAction1<HvlButton>(){
+					@Override
+					public void run(HvlButton a){
+						Options.music = !Options.music;
+						((HvlLabeledButton)a).setText("Music: " + (Options.music ? "ON" : "OFF"));
 					}
 				}).build());
 		options.getFirstArrangerBox().add(new HvlSpacer(BUTTON_SPACING, BUTTON_SPACING));
@@ -222,8 +232,8 @@ public class MenuManager {
 			hvlDrawQuadc(Display.getWidth() / 2, Display.getHeight() / 2, 512, 512, Main.getTexture(Main.INDEX_SPLASH),
 					new Color(1f, 1f, 1f, alpha));
 		} else if (HvlMenu.getCurrent() == main) {
-			Main.font.drawWordc("TITLE", Display.getWidth()/2+4, Display.getHeight()/2+154, Color.gray);
-			Main.font.drawWordc("TITLE", Display.getWidth()/2, Display.getHeight()/2+150, Color.white);
+			Main.font.drawWordc("Astral Aggregation", Display.getWidth()/2+4, Display.getHeight()/2+154, Color.gray);
+			Main.font.drawWordc("Astral Aggregation", Display.getWidth()/2, Display.getHeight()/2+150, Color.white);
 		} else if (HvlMenu.getCurrent() == game) {
 			Game.update(delta);
 		
