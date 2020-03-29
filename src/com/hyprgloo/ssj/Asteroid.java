@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import org.newdawn.slick.Color;
 
 import com.hyprgloo.ssj.PhysicsObject.Alliance;
+import com.hyprgloo.ssj.physics.PhysicsObjectAsteroid;
 import com.osreboot.ridhvl.HvlCoord2D;
 import com.osreboot.ridhvl.HvlMath;
 
@@ -36,7 +37,7 @@ public class Asteroid {
 		texture = Main.INDEX_ASTEROID0 + HvlMath.randomInt(3);
 		textureJr = Main.INDEX_ASTEROID0 + HvlMath.randomInt(3);
 
-		physicsObject = new PhysicsObject(pos.x, pos.y, rotationArg, sizeArg);
+		physicsObject = new PhysicsObjectAsteroid(pos.x, pos.y, rotationArg, sizeArg);
 		physicsObject.angleSpeed = rotationSpeedArg;
 		physicsObject.alliance = Alliance.ENEMY;
 		physicsObject.damage = 100f;
