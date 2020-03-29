@@ -41,6 +41,7 @@ class Portal {
 				}
 				if(HvlMath.distance(p.location, this.loc) < 50) {
 					MenuManager.win = true;
+					if(Options.sound)Main.getSound(Main.INDEX_ESCAPE).playAsSoundEffect(0.9f, 0.2f, false);
 					HvlMenu.setCurrent(MenuManager.end);
 				}
 			}

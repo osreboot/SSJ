@@ -10,6 +10,7 @@ import org.newdawn.slick.Color;
 
 import com.hyprgloo.ssj.Game;
 import com.hyprgloo.ssj.Main;
+import com.hyprgloo.ssj.Options;
 import com.hyprgloo.ssj.Projectile;
 import com.hyprgloo.ssj.ShipFriendly;
 import com.hyprgloo.ssj.projectile.ProjectileMerchantGunner;
@@ -52,7 +53,7 @@ public class ShipFriendlyGunner extends ShipFriendly{
 
 			//			if(HvlMath.randomFloatBetween(0f, 1f) < chanceScale)
 			if(!Game.playedFriendlyGunnerSound){
-				Main.getSound(Main.INDEX_SHOOT).playAsSoundEffect(HvlMath.randomFloatBetween(0.5f, 1f), 0.1f, false);
+				if(Options.sound)Main.getSound(Main.INDEX_SHOOT).playAsSoundEffect(HvlMath.randomFloatBetween(0.5f, 1f), 0.1f, false);
 				Game.playedFriendlyGunnerSound = true;
 			}
 			HvlCoord2D projectileSpeed = HvlCursor.getCursorPosition().addNew(Game.player.getBaseLocation()).add(-Display.getWidth()/2, -Display.getHeight()/2)

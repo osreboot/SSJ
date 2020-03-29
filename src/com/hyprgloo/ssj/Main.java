@@ -65,7 +65,8 @@ public class Main extends HvlTemplateInteg2D{
 	INDEX_SIGNAL = 8,
 	INDEX_SIGNAL_2 = 9,
 	INDEX_SHOOT = 10,
-	INDEX_ASTEROID_BOOM = 11;
+	INDEX_ASTEROID_BOOM = 11,
+	INDEX_ESCAPE = 12;
 
 	public static HvlFontPainter2D font;
 
@@ -131,6 +132,7 @@ public class Main extends HvlTemplateInteg2D{
 		getSoundLoader().loadResource("Signal2");//9
 		getSoundLoader().loadResource("Shoot");//10
 		getSoundLoader().loadResource("AsteroidBoom");//11
+		getSoundLoader().loadResource("Escape");//12
 
 		Options.init();
 		Tutorial.init();

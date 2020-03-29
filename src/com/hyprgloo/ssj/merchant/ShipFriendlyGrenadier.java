@@ -10,6 +10,7 @@ import org.newdawn.slick.Color;
 
 import com.hyprgloo.ssj.Game;
 import com.hyprgloo.ssj.Main;
+import com.hyprgloo.ssj.Options;
 import com.hyprgloo.ssj.ShipFriendly;
 import com.hyprgloo.ssj.projectile.ProjectileMerchantGrenadier;
 import com.osreboot.ridhvl.HvlCoord2D;
@@ -47,7 +48,7 @@ public class ShipFriendlyGrenadier extends ShipFriendly{
 		}
 		if(shotCooldown == 0f && Mouse.isButtonDown(0)){
 			if(soundCooldown >= 0.1f) {
-			Main.getSound(Main.INDEX_PEW).playAsSoundEffect(HvlMath.randomFloatBetween(0.85f, 1f),0.05f, false);
+				if(Options.sound)Main.getSound(Main.INDEX_PEW).playAsSoundEffect(HvlMath.randomFloatBetween(0.85f, 1f),0.05f, false);
 			soundCooldown = 0;
 			
 			}

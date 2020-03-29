@@ -4,6 +4,7 @@ import org.newdawn.slick.Color;
 
 import com.hyprgloo.ssj.Game;
 import com.hyprgloo.ssj.Main;
+import com.hyprgloo.ssj.Options;
 import com.hyprgloo.ssj.PhysicsObject;
 import com.hyprgloo.ssj.Player;
 import com.hyprgloo.ssj.particle.ParticleScrap;
@@ -14,6 +15,7 @@ public class PhysicsObjectShip extends PhysicsObject{
 
 	public Color[] scrapColors;
 	public boolean bigExplosion;
+	private float volume;
 	
 	public PhysicsObjectShip(float xArg, float yArg, float angleArg, float radiusArg, boolean bigExplosionArg, Color... scrapColorsArg){
 		super(xArg, yArg, angleArg, radiusArg);
@@ -25,8 +27,10 @@ public class PhysicsObjectShip extends PhysicsObject{
 	public void onCollision(PhysicsObject physicsObjectArg){
 		super.onCollision(physicsObjectArg);
 		if(isDead()){
+			volume = 0.5f/((HvlMath.distance(location, Game.player.getBaseLocation())/30f));
+			if(volume > 0.45f) volume = 0.45f;
 			if(HvlMath.distance(location, Game.player.getBaseLocation()) < 500) {
-				Main.getSound(Main.INDEX_CRASH).playAsSoundEffect(HvlMath.randomFloatBetween(0.8f, 1f), 0.5f/((HvlMath.distance(location, Game.player.getBaseLocation())/30f)), false);
+				if(Options.sound)Main.getSound(Main.INDEX_CRASH).playAsSoundEffect(HvlMath.randomFloatBetween(0.8f, 1f), volume, false);
 			}
 			
 			ParticleScrap.createScrapExplosion(location, bigExplosion, scrapColors);
