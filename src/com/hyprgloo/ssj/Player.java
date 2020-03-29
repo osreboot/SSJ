@@ -19,10 +19,10 @@ public class Player {
 	public static final float ACCELERATION = 400f;
 	public static final float ROTATION_ACCE = 300f;
 	private static final float MAX_TRANSLATE = 250;
-	
+
 	private float xsInput, ysInput;
 	public PhysicsObject physicsObject;
-
+	public boolean done;
 	private ArrayList<PhysicsObject> connectedShips;
 
 	public Player() {
@@ -32,21 +32,27 @@ public class Player {
 		physicsObject.health = 400f;
 		xsInput = 0;
 		ysInput = 0;
+		done = false;
 		connectedShips = new ArrayList<>();
 	}
 
-	public float progress; 
+	public float progress;
+
 	public void initHUD() {
 		progress = 0;
 	}
-	
+
 	public void drawHUD() {
-		progress = HvlMath.distance(physicsObject.location.x, physicsObject.location.y, 0, 0)/Game.END_DISTANCE;
-		if(progress >= 1) progress = 1;
+		if (!done)
+			progress = HvlMath.distance(physicsObject.location.x, physicsObject.location.y, 0, 0) / Game.END_DISTANCE;
+		if (progress >= 1) {
+			progress = 1;
+			done = true;
+		}
 		hvlDrawQuadc(200, 100, 310, 40, Main.getTexture(Main.INDEX_PROG_BAR));
-		hvlDrawQuad(50, 85, 300*progress, 30, Color.green);
+		hvlDrawQuad(50, 85, 300 * progress, 30, Color.green);
 	}
-	
+
 	public void update(float delta) {
 		xsInput = (Keyboard.isKeyDown(Keyboard.KEY_A) ? -ACCELERATION : 0)
 				+ (Keyboard.isKeyDown(Keyboard.KEY_D) ? ACCELERATION : 0);
@@ -57,40 +63,41 @@ public class Player {
 			physicsObject.speed.x = MAX_TRANSLATE;
 		else if (physicsObject.speed.x <= -MAX_TRANSLATE)
 			physicsObject.speed.x = -MAX_TRANSLATE;
-		
+
 		if (physicsObject.speed.y >= MAX_TRANSLATE)
 			physicsObject.speed.y = MAX_TRANSLATE;
 		else if (physicsObject.speed.y <= -MAX_TRANSLATE)
 			physicsObject.speed.y = -MAX_TRANSLATE;
-		
+
 		if (!Keyboard.isKeyDown(Keyboard.KEY_A) || !Keyboard.isKeyDown(Keyboard.KEY_D))
-			physicsObject.speed.x = HvlMath.stepTowards(physicsObject.speed.x, delta * ACCELERATION/2, 0);
+			physicsObject.speed.x = HvlMath.stepTowards(physicsObject.speed.x, delta * ACCELERATION / 2, 0);
 		if (!Keyboard.isKeyDown(Keyboard.KEY_W) || !Keyboard.isKeyDown(Keyboard.KEY_S))
-			physicsObject.speed.y = HvlMath.stepTowards(physicsObject.speed.y, delta * ACCELERATION/2, 0);
-		
+			physicsObject.speed.y = HvlMath.stepTowards(physicsObject.speed.y, delta * ACCELERATION / 2, 0);
+
 		physicsObject.speed.add(xsInput * delta, ysInput * delta);
 
 		float angleInput = (Keyboard.isKeyDown(Keyboard.KEY_Q) ? -ROTATION_ACCE : 0)
 				+ (Keyboard.isKeyDown(Keyboard.KEY_E) ? ROTATION_ACCE : 0);
-	
+
 		if (!Keyboard.isKeyDown(Keyboard.KEY_Q) || !Keyboard.isKeyDown(Keyboard.KEY_E))
-			physicsObject.angleSpeed = HvlMath.stepTowards(physicsObject.angleSpeed, delta * ACCELERATION/5, 0);
+			physicsObject.angleSpeed = HvlMath.stepTowards(physicsObject.angleSpeed, delta * ACCELERATION / 5, 0);
 
 		physicsObject.angleSpeed += angleInput * delta;
-		
+
 		physicsObject.update(delta);
-		
+
 		connectedShips.removeIf(p -> p.isDead());
-	
+
 	}
 
 	public void draw(float delta) {
 		hvlRotate(physicsObject.location.x, physicsObject.location.y, physicsObject.getVisualAngle());
 		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f,
-				physicsObject.radius * 2f, Main.getTexture(Main.INDEX_PLAYER_SHIP), physicsObject.isDead() ? Color.darkGray : Color.white);
+				physicsObject.radius * 2f, Main.getTexture(Main.INDEX_PLAYER_SHIP),
+				physicsObject.isDead() ? Color.darkGray : Color.white);
 		hvlResetRotation();
 	}
-	
+
 	public void drawEmissive(float delta) {
 		hvlRotate(physicsObject.location.x, physicsObject.location.y, physicsObject.getVisualAngle());
 		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f,
@@ -102,17 +109,17 @@ public class Player {
 		connectedShips.add(shipPhysicsObjectArg);
 		shipPhysicsObjectArg.connectToParent(collisionObjectArg);
 	}
-	
-	public void disconnectShip(PhysicsObject shipPhysicsObjectArg){
+
+	public void disconnectShip(PhysicsObject shipPhysicsObjectArg) {
 		connectedShips.remove(shipPhysicsObjectArg);
 		ArrayList<PhysicsObject> childrenCopy = new ArrayList<>(shipPhysicsObjectArg.getChildren());
-		for(PhysicsObject child : childrenCopy){
+		for (PhysicsObject child : childrenCopy) {
 			disconnectShip(child);
 		}
 		shipPhysicsObjectArg.disconnectFromParent();
 	}
-	
-	public boolean isShipConnected(PhysicsObject shipArg){
+
+	public boolean isShipConnected(PhysicsObject shipArg) {
 		return connectedShips.contains(shipArg);
 	}
 
@@ -130,8 +137,7 @@ public class Player {
 		float minimumDistance = HvlMath.distance(physicsObject.location.x, physicsObject.location.y, xArg, yArg)
 				- physicsObject.radius;
 		for (PhysicsObject ship : connectedShips) {
-			float shipDistance = HvlMath.distance(ship.location.x, ship.location.y, xArg,
-					yArg) - ship.radius;
+			float shipDistance = HvlMath.distance(ship.location.x, ship.location.y, xArg, yArg) - ship.radius;
 			minimumDistance = Math.min(minimumDistance, shipDistance);
 		}
 		return minimumDistance;

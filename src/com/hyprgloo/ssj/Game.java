@@ -1,16 +1,35 @@
 package com.hyprgloo.ssj;
 
+import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawLine;
+import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
+import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlResetRotation;
+import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
+
 import java.util.ArrayList;
 
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
+import com.osreboot.ridhvl.HvlCoord2D;
+import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.action.HvlAction0;
 import com.osreboot.ridhvl.painter.HvlCamera2D;
 
+
+class Portal {
+	HvlCoord2D loc;
+	public Portal(HvlCoord2D loc) {
+		this.loc = loc;
+	}
+	
+	public void draw() {
+		hvlDrawQuadc(loc.x, loc.y, 300, 300, Color.cyan);
+	}	
+}
+
 public class Game {
 
-	public static final int END_DISTANCE = 10000;
+	public static final int END_DISTANCE = 1000;
 
 	public static HvlCamera2D camera;
 
@@ -38,6 +57,9 @@ public class Game {
 		EnvironmentManager.init();
 	}
 
+	
+	public static boolean portalSpawned = false;
+	public static Portal p;
 	public static void story(int stage) {
 		if (stage == 0) {
 			if (globalTimer < 10f) {
@@ -51,14 +73,28 @@ public class Game {
 		}
 
 		if (stage == 1) {
-			if (player.progress < END_DISTANCE)
+			if (player.progress < 1)
 				messageTimer = globalTimer + 10;
 			else {
-
 				float alpha = 1f - (Math.abs((messageTimer - globalTimer) / 5 - 0.5f));
 				Main.font.drawWordc(
-						"Message Received!," + "\n  Looks like some coordinates..." + "\n       Let's check it out.",
+				  "     Message Received!,"
+				+ "\nLooks like some coordinates..."
+				+ "\n      Let's check it out.",
 						Display.getWidth() / 2, Display.getHeight() / 2 + 150, new Color(1f, 1f, 1f, alpha), 0.18f);
+				
+				if(messageTimer - globalTimer < 0f) {
+					float angle = HvlMath.randomFloatBetween(-3.14f, 3.14f);
+					float x = (float) (6000 * Math.cos(angle));
+					float y = (float) (6000 * Math.sin(angle));
+					
+					if(!portalSpawned) {
+						p = new Portal(new HvlCoord2D(x,y));
+						portalSpawned = true;
+					}
+					
+					stage = 2;
+				}
 			}
 		}
 	}
@@ -134,6 +170,11 @@ public class Game {
 					projectile.update(delta);
 					projectile.draw(delta);
 				}
+				
+				if(portalSpawned) {
+					p.draw();
+					hvlDrawLine(p.loc.x, p.loc.y, player.physicsObject.location.x, player.physicsObject.location.y, Color.cyan);
+				}
 			}
 		});
 		player.drawHUD();
@@ -162,6 +203,8 @@ public class Game {
 						for (Projectile projectile : projectiles) {
 							projectile.drawEmissive(delta);
 						}
+						
+						
 
 						// TODO others
 
@@ -175,3 +218,6 @@ public class Game {
 		globalTimer += delta;
 	}
 }
+
+
+
