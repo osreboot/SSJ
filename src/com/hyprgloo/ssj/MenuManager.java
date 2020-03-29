@@ -35,7 +35,7 @@ public class MenuManager {
 	private static final float BUTTON_SPACING = 32f;
 
 	public static HvlMenu splash, main, credits, options, game, end, pause;
-	private static HvlRenderFrame pauseFrame;
+	public static HvlRenderFrame pauseFrame;
 
 	public static boolean escapeHeld;
 	
@@ -58,8 +58,7 @@ public class MenuManager {
 
 		try {
 			pauseFrame = new HvlRenderFrame(Display.getWidth(), Display.getHeight());
-		} catch (Exception e) {
-		}
+		} catch (Exception e) {}
 
 		HvlArrangerBox defaultArrangerBox = new HvlArrangerBox(Display.getWidth(), Display.getHeight(),
 				ArrangementStyle.HORIZONTAL);
@@ -199,8 +198,13 @@ public class MenuManager {
 
 	public static void update(float delta) {
 		
-		if(HvlMenu.getCurrent() != game)
+		if(HvlMenu.getCurrent() != game && HvlMenu.getCurrent() != pause)
 			ArtManager.drawBackground(backX, backY);
+		
+		if (HvlMenu.getCurrent() == pause) {
+			hvlDrawQuad(0, 0, Display.getWidth(), Display.getHeight(), pauseFrame);
+			hvlDrawQuad(0, 0, Display.getWidth(), Display.getHeight(), new Color(0f, 0f, 0f, 0.4f));
+		}
 
 		HvlMenu.updateMenus(delta);
 
@@ -221,6 +225,8 @@ public class MenuManager {
 			Main.font.drawWordc("TITLE", Display.getWidth()/2, Display.getHeight()/2+150, Color.white);
 		} else if (HvlMenu.getCurrent() == game) {
 			Game.update(delta);
+		
+			
 			if(!Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
 				escapeHeld = false;
 			}
@@ -260,6 +266,7 @@ public class MenuManager {
 			Main.font.drawWordc("Made in 48 hours for Stay Safe! Game Jam", Display.getWidth() / 2,
 					Display.getHeight() * 18 / 20 + 16, Color.lightGray, 0.15f);
 		} else if (HvlMenu.getCurrent() == pause) {
+			
 			if(!Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
 				escapeHeld = false;
 			}

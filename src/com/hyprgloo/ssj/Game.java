@@ -1,5 +1,6 @@
 package com.hyprgloo.ssj;
 
+import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuad;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlResetRotation;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
@@ -27,13 +28,13 @@ class Portal {
 	public void draw(float delta) {
 		for(PhysicsObject p : Game.physicsObjects) {
 			if(HvlMath.distance(p.location, this.loc) < 10000 && p != Game.player.physicsObject && !(p instanceof PhysicsObjectShip && p.hasParent())) {
-				p.location.x = HvlMath.stepTowards(p.location.x, (100000/HvlMath.distance(p.location, this.loc))*delta, this.loc.x);
-				p.location.y = HvlMath.stepTowards(p.location.y, (100000/HvlMath.distance(p.location, this.loc))*delta, this.loc.y);
+				p.location.x = HvlMath.stepTowards(p.location.x, (200000/HvlMath.distance(p.location, this.loc))*delta, this.loc.x);
+				p.location.y = HvlMath.stepTowards(p.location.y, (200000/HvlMath.distance(p.location, this.loc))*delta, this.loc.y);
 				if(HvlMath.distance(p.location, this.loc) < 200)
 					p.health = 0;
 			} else if (p == Game.player.physicsObject && HvlMath.distance(p.location, this.loc) < 1000) {
-				p.location.x = HvlMath.stepTowards(p.location.x, (50000/HvlMath.distance(p.location, this.loc))*delta, this.loc.x);
-				p.location.y = HvlMath.stepTowards(p.location.y, (50000/HvlMath.distance(p.location, this.loc))*delta, this.loc.y);
+				p.location.x = HvlMath.stepTowards(p.location.x, (200000/HvlMath.distance(p.location, this.loc))*delta, this.loc.x);
+				p.location.y = HvlMath.stepTowards(p.location.y, (200000/HvlMath.distance(p.location, this.loc))*delta, this.loc.y);
 				for(PhysicsObject f : Game.physicsObjects) {
 					f.canDealDamage = false;
 					f.canReceiveDamage = false;
@@ -53,7 +54,7 @@ class Portal {
 
 public class Game {
 
-	public static final int END_DISTANCE = 200;
+	public static final int END_DISTANCE = 25000;
 
 	public static HvlCamera2D camera;
 
@@ -96,8 +97,8 @@ public class Game {
 	public static void spawnPortal(float delta) {
 		
 		float angle = HvlMath.randomFloatBetween(-3.14f, 3.14f);
-		float x = (float) (200 * Math.cos(angle));
-		float y = (float) (200 * Math.sin(angle));
+		float x = (float) (6000 * Math.cos(angle));
+		float y = (float) (6000 * Math.sin(angle));
 					
 		portalCount += delta;
 		
@@ -157,36 +158,42 @@ public class Game {
 		}
 		projectiles.removeIf(p -> p.physicsObject.isDead());
 
-		ArtManager.drawBackground(player.getBaseLocation().x, player.getBaseLocation().y);
-
-		if (debugCam)
-			Main.font.drawWord("Diff: " + EnvironmentManager.closestChunk.difficultyLevel, 10, 10, Color.green, 0.3f);
-		camera.setPosition(player.getBaseLocation().x / (debugCam ? 5 : 1),
-				player.getBaseLocation().y / (debugCam ? 5 : 1));
-		camera.doTransform(new HvlAction0() {
+		MenuManager.pauseFrame.doCapture(true, new HvlAction0(){
 			@Override
-			public void run() {
-
-				for (Particle particle : particles)
-					particle.draw(delta);
-
-				EnvironmentManager.update(delta);
-
-				// Update and draw the player
-				player.update(delta);
-				player.draw(delta);
-
-				for (Projectile projectile : projectiles) {
-					projectile.update(delta);
-					projectile.draw(delta);
-				}
-				
-				if(portalSpawned) {
-					p.draw(delta);
-				}
+			public void run(){
+				ArtManager.drawBackground(player.getBaseLocation().x, player.getBaseLocation().y);
+		
+				if (debugCam)
+					Main.font.drawWord("Diff: " + EnvironmentManager.closestChunk.difficultyLevel, 10, 10, Color.green, 0.3f);
+				camera.setPosition(player.getBaseLocation().x / (debugCam ? 5 : 1),
+						player.getBaseLocation().y / (debugCam ? 5 : 1));
+				camera.doTransform(new HvlAction0() {
+					@Override
+					public void run() {
+		
+						for (Particle particle : particles)
+							particle.draw(delta);
+		
+						EnvironmentManager.update(delta);
+		
+						// Update and draw the player
+						player.update(delta);
+						player.draw(delta);
+		
+						for (Projectile projectile : projectiles) {
+							projectile.update(delta);
+							projectile.draw(delta);
+						}
+						
+						if(portalSpawned) {
+							p.draw(delta);
+						}
+					}
+				});
+				player.drawHUD(delta);
 			}
 		});
-		player.drawHUD(delta);
+		hvlDrawQuad(0, 0, Display.getWidth(), Display.getHeight(), MenuManager.pauseFrame);
 
 		ArtManager.drawVignette();
 
