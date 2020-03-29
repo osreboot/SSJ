@@ -54,8 +54,10 @@ public class Player {
 		hvlDrawQuad(50, 85, 300 * progress, 30, Color.green);
 		
 		if(Game.portalSpawned) {
-			hvlRotate(Display.getWidth()/2, Display.getHeight()-100, HvlMath.fullRadians(physicsObject.location, Game.p.loc));
-			hvlDrawQuadc(Display.getWidth()/2, Display.getHeight()-100, 5, 100, Color.cyan);
+			hvlDrawQuadc(Display.getWidth()/2, Display.getHeight()-100, 105, 105, Main.getTexture(Main.INDEX_MENU_BUTT));
+			hvlRotate(Display.getWidth()/2, Display.getHeight()-100, (float) (180/Math.PI) * HvlMath.fullRadians(physicsObject.location, Game.p.loc));
+			hvlDrawQuadc(Display.getWidth()/2-50, Display.getHeight()- 100, 40, 8, Main.getTexture(Main.INDEX_ARROW));
+			hvlDrawQuadc(Display.getWidth()/2, Display.getHeight()-100, 80, 3, Color.cyan);
 			hvlResetRotation();
 		}
 	}
