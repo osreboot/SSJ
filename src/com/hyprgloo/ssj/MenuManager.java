@@ -3,6 +3,7 @@ package com.hyprgloo.ssj;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuad;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
@@ -22,12 +23,15 @@ import com.osreboot.ridhvl.menu.component.HvlArrangerBox.ArrangementStyle;
 import com.osreboot.ridhvl.menu.component.collection.HvlLabeledButton;
 import com.osreboot.ridhvl.painter.HvlRenderFrame;
 
+
 public class MenuManager {
 
 	private static final float BUTTON_SPACING = 32f;
 
 	private static HvlMenu splash, main, credits, options, game, end, pause;
 	private static HvlRenderFrame pauseFrame;
+	
+	public static boolean escapeHeld;
 
 	public static void init() {
 		main = new HvlMenu();
@@ -142,6 +146,17 @@ public class MenuManager {
 		} else if (HvlMenu.getCurrent() == main) {
 		} else if (HvlMenu.getCurrent() == game) {
 			Game.update(delta);
+				if(!Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
+					escapeHeld = false;
+				}
+				if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE) && !escapeHeld){
+					escapeHeld = true;
+					if(HvlMenu.getCurrent()==MenuManager.game) {
+						HvlMenu.setCurrent(MenuManager.pause);
+					} else if(HvlMenu.getCurrent()==MenuManager.pause) {
+						HvlMenu.setCurrent(MenuManager.game);
+					}	
+				}
 		} else if (HvlMenu.getCurrent() == credits) {
 			Main.font.drawWordc("CREDITS", (Display.getWidth() / 2) + 4, (Display.getHeight() / 8) + 4, Color.darkGray,
 					0.5f);
@@ -169,6 +184,17 @@ public class MenuManager {
 
 			Main.font.drawWordc("Made in 48 hours for Stay Safe! Game Jam", Display.getWidth() / 2,
 					Display.getHeight() * 18 / 20 + 16, Color.lightGray, 0.15f);
+		} else if (HvlMenu.getCurrent() == pause) {
+			if(!Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
+				escapeHeld = false;
+			}
+			if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE) && !escapeHeld){
+				escapeHeld = true;
+					HvlMenu.setCurrent(MenuManager.game);
+			}
+			
+			Main.font.drawWordc("ESC to unpause", Display.getWidth() / 2, Display.getHeight() / 8, Color.lightGray, 0.5f);
+			
 		}
 
 	}
