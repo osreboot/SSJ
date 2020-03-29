@@ -172,6 +172,8 @@ public class Game {
 			public void run(){
 				ArtManager.drawBackground(player.getBaseLocation().x, player.getBaseLocation().y);
 		
+				Tutorial.tickPre(delta);
+				
 				if (debugCam)
 					Main.font.drawWord("Diff: " + EnvironmentManager.closestChunk.difficultyLevel, 10, 10, Color.green, 0.3f);
 				camera.setPosition(player.getBaseLocation().x / (debugCam ? 5 : 1),
@@ -200,6 +202,8 @@ public class Game {
 					}
 				});
 				player.drawHUD(delta);
+				
+				Tutorial.tickPost(delta);
 			}
 		});
 		hvlDrawQuad(0, 0, Display.getWidth(), Display.getHeight(), MenuManager.pauseFrame);
@@ -234,8 +238,6 @@ public class Game {
 		});
 
 		ArtManager.drawEmissive();
-
-		Tutorial.update(delta);
 		
 		globalTimer += delta;
 	}

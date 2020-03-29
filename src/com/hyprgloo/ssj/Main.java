@@ -51,7 +51,11 @@ public class Main extends HvlTemplateInteg2D{
 	INDEX_ICON_RAM = 37,
 	INDEX_ICON_TURRET = 38,
 	INDEX_ICON_MISSILE = 39,
-	INDEX_MENU_BUTT_EMISSIVE = 40;
+	INDEX_MENU_BUTT_EMISSIVE = 40,
+	INDEX_CIRCLE = 41,
+	INDEX_ARROW_UP = 42,
+	INDEX_ARROW_LEFT = 43,
+	INDEX_CHECK = 44;
 
 	public static final int
 	INDEX_CLICK = 0,
@@ -120,7 +124,11 @@ public class Main extends HvlTemplateInteg2D{
 		getTextureLoader().loadResource("IconTurret");//38
 		getTextureLoader().loadResource("IconMissile");//39
 		getTextureLoader().loadResource("menuButtonEmissive");//40
-
+		getTextureLoader().loadResource("Circle");//41
+		getTextureLoader().loadResource("ArrowUp");//42
+		getTextureLoader().loadResource("ArrowLeft");//43
+		getTextureLoader().loadResource("Check");//44
+		
 		getSoundLoader().loadResource("Click");//0
 		getSoundLoader().loadResource("Crash");//1
 		getSoundLoader().loadResource("Hurty");//2
