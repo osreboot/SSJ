@@ -215,11 +215,6 @@ public class MenuManager {
 		HvlMenu.updateMenus(delta);
 
 		if (HvlMenu.getCurrent() == splash) {
-
-			// TODO: DELETE WHEN PUBLISHED IS READY
-			HvlMenu.setCurrent(main);
-			//////////////////////////////////////
-
 			splashProgress += delta / 4f;
 			if (splashProgress >= 1f || (splashProgress > 0.25f && Mouse.isButtonDown(0)))
 				HvlMenu.setCurrent(main);
