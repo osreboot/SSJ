@@ -38,14 +38,19 @@ public class ShipFriendlyGrenadier extends ShipFriendly{
 
 	@Override
 	public void updateConnected(float delta){
+		System.out.println(soundCooldown);
 		shotCooldown = HvlMath.stepTowards(shotCooldown, delta, 0f);
+		if(soundCooldown < 0.1f) {
+			soundCooldown += delta;
+		}
 		if(soundCooldown > 0.1f) {
 			soundCooldown = 0.1f;
 		}
 		if(shotCooldown == 0f && Mouse.isButtonDown(0)){
 			if(soundCooldown >= 0.1f) {
 			Main.getSound(Main.INDEX_PEW).playAsSoundEffect(HvlMath.randomFloatBetween(0.85f, 1f),0.05f, false);
-			soundCooldown += delta;
+			soundCooldown = 0;
+			
 			}
 			shotCooldown = DURATION_SHOT_COOLDOWN;
 			HvlCoord2D projectileSpeed = HvlCursor.getCursorPosition().addNew(Game.player.getBaseLocation()).add(-Display.getWidth()/2, -Display.getHeight()/2)
