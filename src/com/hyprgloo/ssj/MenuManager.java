@@ -67,7 +67,10 @@ public class MenuManager {
 				"Space, the final frontier. YOUR final frontier.",
 				"YOU PERISHED IN DEEP SPACE",
 				"Pressure vessel breach. You died.",
-				"Rescue vessel pilot lost. Portal closed."
+				"Rescue vessel pilot lost. Portal closed.",
+				"Code SB-129: Vessel Destroyed",
+				"You seem to have a bad Motivator. Ship destroyed.",
+				"Lost contact with rescue vessel,\n           contact Starport 77"
 				};
 		
 		cursorFocus = new HvlCoord2D();
