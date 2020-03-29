@@ -31,7 +31,7 @@ public class Chunk {
 		loc = locA;
 		asteroids = new ArrayList<>();
 		
-		difficultyLevel = HvlMath.distance(loc.x, loc.y, 0, 0)/CHUNK_SIZE;
+		difficultyLevel = (HvlMath.distance(loc.x, loc.y, 0, 0)/CHUNK_SIZE)-1;
 		
 		enemyShips = new ArrayList<>();
 

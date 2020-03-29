@@ -90,7 +90,6 @@ public class Game {
 					
 					if(!portalSpawned) {
 						p = new Portal(new HvlCoord2D(x,y));
-						
 						portalSpawned = true;
 					}
 					

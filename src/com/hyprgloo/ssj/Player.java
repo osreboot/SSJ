@@ -39,25 +39,23 @@ public class Player {
 
 	public float progress;
 
-	public void initHUD() {
-		progress = 0;
-	}
-
 	public void drawHUD() {
-		if (!done)
+		if (!done) {
 			progress = HvlMath.distance(physicsObject.location.x, physicsObject.location.y, 0, 0) / Game.END_DISTANCE;
+			hvlDrawQuadc(200, 100, 310, 40, Main.getTexture(Main.INDEX_PROG_BAR));
+			hvlDrawQuad(50, 85, 300 * progress, 30, Color.cyan);
+		}
 		if (progress >= 1) {
 			progress = 1;
 			done = true;
 		}
-		hvlDrawQuadc(200, 100, 310, 40, Main.getTexture(Main.INDEX_PROG_BAR));
-		hvlDrawQuad(50, 85, 300 * progress, 30, Color.green);
+		
 		
 		if(Game.portalSpawned) {
-			hvlDrawQuadc(Display.getWidth()/2, Display.getHeight()-100, 105, 105, Main.getTexture(Main.INDEX_MENU_BUTT));
-			hvlRotate(Display.getWidth()/2, Display.getHeight()-100, (float) (180/Math.PI) * HvlMath.fullRadians(physicsObject.location, Game.p.loc));
-			hvlDrawQuadc(Display.getWidth()/2-50, Display.getHeight()- 100, 40, 8, Main.getTexture(Main.INDEX_ARROW));
-			hvlDrawQuadc(Display.getWidth()/2, Display.getHeight()-100, 80, 3, Color.cyan);
+			hvlDrawQuadc(200, 100, 105, 105, Main.getTexture(Main.INDEX_MENU_BUTT));
+			hvlRotate(200, 100, (float) (180/Math.PI) * HvlMath.fullRadians(physicsObject.location, Game.p.loc));
+			hvlDrawQuadc(150, 100, 40, 8, Main.getTexture(Main.INDEX_ARROW));
+			hvlDrawQuadc(200, 100, 80, 3, Color.cyan);
 			hvlResetRotation();
 		}
 	}
