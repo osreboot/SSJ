@@ -61,7 +61,7 @@ class Portal {
 
 public class Game {
 
-	public static final int END_DISTANCE = 12500;
+	public static final int END_DISTANCE = 200;
 
 	public static HvlCamera2D camera;
 
@@ -82,6 +82,8 @@ public class Game {
 	public static float whiteFade = 1f;
 
 	public static void reset() {
+		whiteFade = 1f;
+		MenuManager.win = false;
 		camera = new HvlCamera2D(0, 0, 0, debugCam ? 0.2f : 1f, HvlCamera2D.ALIGNMENT_CENTER);
 
 		physicsObjects = new ArrayList<>();
