@@ -232,8 +232,8 @@ public class MenuManager {
 			hvlDrawQuadc(Display.getWidth() / 2, Display.getHeight() / 2, 512, 512, Main.getTexture(Main.INDEX_SPLASH),
 					new Color(1f, 1f, 1f, alpha));
 		} else if (HvlMenu.getCurrent() == main) {
-			Main.font.drawWordc("Astral Aggregation", Display.getWidth()/2+4, Display.getHeight()/2+154, Color.gray);
-			Main.font.drawWordc("Astral Aggregation", Display.getWidth()/2, Display.getHeight()/2+150, Color.white);
+			Main.font.drawWordc("Astral Aggregation", Display.getWidth()/2+4, Display.getHeight()/2+114, Color.gray, 0.7f);
+			Main.font.drawWordc("Astral Aggregation", Display.getWidth()/2, Display.getHeight()/2+110, Color.white, 0.7f);
 		} else if (HvlMenu.getCurrent() == game) {
 			Game.update(delta);
 		
