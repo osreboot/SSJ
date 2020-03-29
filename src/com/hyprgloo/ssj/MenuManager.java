@@ -280,7 +280,7 @@ public class MenuManager {
 		} else if (HvlMenu.getCurrent() == end) {
 			Game.whiteFade = HvlMath.stepTowards(Game.whiteFade, delta*1.2f, 0f);
 			hvlDrawQuad(0, 0, Display.getWidth(), Display.getHeight(), new Color(1f, 1f, 1f, Game.whiteFade));
-			String s = win ? "Congratulations! You saved " + Game.player.connectedShips.size() + " ships!" : "YOU PERISHED ON THE FINAL FRONTIER";
+			String s = win ? "Congratulations! You saved " + Game.player.connectedShips.size() + " ship"+ (Game.player.connectedShips.size() == 1 ? "" : "s") + "!" : "YOU PERISHED ON THE FINAL FRONTIER";
 			Main.font.drawWordc(s, Display.getWidth()/2, 250, Color.white, 0.3f);
 		}
 
