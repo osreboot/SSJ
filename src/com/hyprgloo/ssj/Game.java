@@ -60,7 +60,7 @@ class Portal {
 
 public class Game {
 
-	public static final int END_DISTANCE = 200;
+	public static final int END_DISTANCE = 12500;
 
 	public static HvlCamera2D camera;
 
