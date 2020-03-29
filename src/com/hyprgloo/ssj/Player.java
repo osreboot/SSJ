@@ -26,6 +26,7 @@ public class Player {
 	private static final float MAX_TRANSLATE = 250;
 
 	private float xsInput, ysInput;
+	private boolean done;
 	public PhysicsObject physicsObject;
 	private ArrayList<PhysicsObject> connectedShips;
 	
@@ -48,16 +49,24 @@ public class Player {
 		shieldCount = 0;
 		turretCount = 0;
 		missileCount = 0;
+		
+		done = false;
 	}
 
 	public float progress;
 
 	public void drawHUD() {
-		if (!Game.portalSpawned) {
+		
+		if(!done)
 			progress = HvlMath.distance(physicsObject.location.x, physicsObject.location.y, 0, 0) / Game.END_DISTANCE;
-			if (progress >= 1) {
-				progress = 1;
-			}
+
+		if (progress >= 1) {
+			progress = 1;
+			done = true;
+		}
+		
+		if (!Game.portalSpawned) {
+		
 			hvlDrawQuadc(140, 30, 240, 30, Main.getTexture(Main.INDEX_PROG_BAR));
 			hvlDrawQuad(25, 20, 230 * progress, 20, Color.cyan);
 			Main.font.drawWordc("Distance to Deep Space", 140, 30, Color.white, 0.1f);

@@ -322,7 +322,7 @@ public class MenuManager {
 			hoverAmount = HvlMath.stepTowards(hoverAmount, delta * 5f, hover ? 1f : 0f);
 			lightsAngle += delta * (hover ? 50f : 20f);
 			if(hover && !beeped){
-				if(Options.sound) Main.getSound(Main.INDEX_MENU_ROLLY).playAsSoundEffect(1f, 0.25f, false);
+				if(Options.sound) Main.getSound(Main.INDEX_MENU_ROLLY_2).playAsSoundEffect(0.5f, 0.05f, false);
 				beeped = true;
 			}
 			if(!hover) beeped = false;
