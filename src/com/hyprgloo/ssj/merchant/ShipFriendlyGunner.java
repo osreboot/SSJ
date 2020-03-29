@@ -17,18 +17,22 @@ import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.painter.HvlCursor;
 
 public class ShipFriendlyGunner extends ShipFriendly{
-	
+
 	public static final float SIZE = 16f;
 	public static final float DURATION_SHOT_COOLDOWN = 0.2f;
 	public static final float SPEED_PROJECTILE = 500f;
-	
-	public static final Color COLOR_SCRAP = Color.red;
-	
-	private float shotCooldown;
-	
+
+	public static final Color COLOR_SCRAP_0 = new Color(0.06f, 0.7f, 0.94f);
+	public static final Color COLOR_SCRAP_1 = new Color(1.0f, 0.6f, 0.15f);
+	public static final Color COLOR_SCRAP_2 = new Color(0.1f, 1f, 1f);
+	public static final Color COLOR_EMISSIVE = new Color(1f, 1f, 1f, 0.5f);
+
+	private float shotCooldown, lastAngle;
+
 	public ShipFriendlyGunner(float xArg, float yArg, float angleArg){
-		super(xArg, yArg, angleArg, SIZE, COLOR_SCRAP);
+		super(xArg, yArg, angleArg, SIZE, COLOR_SCRAP_0, COLOR_SCRAP_1, COLOR_SCRAP_2);
 		shotCooldown = 0f;
+		lastAngle = 0f;
 	}
 
 	@Override
@@ -46,14 +50,22 @@ public class ShipFriendlyGunner extends ShipFriendly{
 	public void draw(float delta){
 		hvlRotate(physicsObject.location.x, physicsObject.location.y, physicsObject.getVisualAngle());
 		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f, physicsObject.radius * 2f, Main.getTexture(Main.INDEX_FRIENDLY_GUN_SHIP));
+		hvlResetRotation();
+
+		if(physicsObject.hasParent()){
+			HvlCoord2D target = HvlCursor.getCursorPosition().addNew(Game.camera.getX(), Game.camera.getY()).add(Game.camera.getAlignment());
+			lastAngle = (float)Math.toDegrees(HvlMath.fullRadians(target, physicsObject.location));
+		}
+
+		hvlRotate(physicsObject.location.x, physicsObject.location.y, lastAngle - 90f);
 		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f, physicsObject.radius * 2f, Main.getTexture(Main.INDEX_FRIENDLY_GUN));
 		hvlResetRotation();
 	}
-	
+
 	@Override
 	public void drawEmissive(float delta){
 		hvlRotate(physicsObject.location.x, physicsObject.location.y, physicsObject.getVisualAngle());
-		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f, physicsObject.radius * 2f, Main.getTexture(Main.INDEX_FRIENDLY_GUN_SHIP_EMMISSIVE));
+		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f, physicsObject.radius * 2f, Main.getTexture(Main.INDEX_FRIENDLY_GUN_SHIP_EMMISSIVE), COLOR_EMISSIVE);
 		hvlResetRotation();
 	}
 
