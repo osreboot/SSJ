@@ -38,7 +38,6 @@ public class ShipFriendlyGrenadier extends ShipFriendly{
 
 	@Override
 	public void updateConnected(float delta){
-		System.out.println(soundCooldown);
 		shotCooldown = HvlMath.stepTowards(shotCooldown, delta, 0f);
 		if(soundCooldown < 0.1f) {
 			soundCooldown += delta;

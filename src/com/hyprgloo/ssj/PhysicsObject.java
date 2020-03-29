@@ -114,6 +114,10 @@ public class PhysicsObject {
 
 	public void hurt(float damageArg){
 		health -= damageArg;
+		if(HvlMath.distance(location, Game.player.getBaseLocation())*10 < 5){
+			Main.getSound(Main.INDEX_HURTY).playAsSoundEffect(HvlMath.randomFloatBetween(1.3f, 1.5f), 0.05f, false);
+		}
+		
 	}
 
 	public void onDeath(){}
