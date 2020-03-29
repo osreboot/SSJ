@@ -28,6 +28,7 @@ public class ShipFriendlyGrenadier extends ShipFriendly{
 	public static final Color COLOR_EMISSIVE = new Color(1f, 1f, 1f, 0.5f);
 	
 	private float shotCooldown, turretAngle;
+	private float soundCooldown = 0.1f;
 	
 	public ShipFriendlyGrenadier(float xArg, float yArg, float angleArg){
 		super(xArg, yArg, angleArg, SIZE, COLOR_SCRAP_0, COLOR_SCRAP_1, COLOR_SCRAP_2);
@@ -38,7 +39,14 @@ public class ShipFriendlyGrenadier extends ShipFriendly{
 	@Override
 	public void updateConnected(float delta){
 		shotCooldown = HvlMath.stepTowards(shotCooldown, delta, 0f);
+		if(soundCooldown > 0.1f) {
+			soundCooldown = 0.1f;
+		}
 		if(shotCooldown == 0f && Mouse.isButtonDown(0)){
+			if(soundCooldown >= 0.1f) {
+			Main.getSound(Main.INDEX_PEW).playAsSoundEffect(HvlMath.randomFloatBetween(0.85f, 1f),0.05f, false);
+			soundCooldown += delta;
+			}
 			shotCooldown = DURATION_SHOT_COOLDOWN;
 			HvlCoord2D projectileSpeed = HvlCursor.getCursorPosition().addNew(Game.player.getBaseLocation()).add(-Display.getWidth()/2, -Display.getHeight()/2)
 					.subtract(physicsObject.location).normalize().mult(SPEED_PROJECTILE);
