@@ -21,6 +21,7 @@ import com.osreboot.ridhvl.painter.HvlCamera2D;
 class Portal {
 	HvlCoord2D loc;
 	float rad = 0f;
+	public float endTimer = 2f;
 	public Portal(HvlCoord2D loc) {
 		this.loc = loc;
 	}
@@ -41,13 +42,17 @@ class Portal {
 				}
 				if(HvlMath.distance(p.location, this.loc) < 50) {
 					MenuManager.win = true;
-					if(Options.sound)Main.getSound(Main.INDEX_ESCAPE).playAsSoundEffect(0.9f, 0.2f, false);
-					HvlMenu.setCurrent(MenuManager.end);
+					endTimer -= delta;
+					if(endTimer <= 0) {
+						if(Options.sound)Main.getSound(Main.INDEX_ESCAPE).playAsSoundEffect(0.9f, 0.2f, false);
+						HvlMenu.setCurrent(MenuManager.end);
+					}
 				}
 			}
 		}
 		rad += 1500 * delta;
 		hvlRotate(this.loc, rad);
+		hvlDrawQuadc(loc.x,loc.y,800,800, Main.getTexture(Main.INDEX_PORTALHALO));
 		hvlDrawQuadc(loc.x, loc.y, 300, 300, Main.getTexture(Main.INDEX_PORTAL));
 		hvlResetRotation();
 	}
@@ -239,7 +244,8 @@ public class Game {
 			}
 		});
 
-		ArtManager.drawEmissive();
+		if(!MenuManager.win)
+			ArtManager.drawEmissive();
 		
 		globalTimer += delta;
 	}

@@ -64,7 +64,8 @@ public class Main extends HvlTemplateInteg2D{
 	INDEX_ASTEROID2_HURT = 50,
 	INDEX_PORTAL = 51,
 	INDEX_PLASMA_2 = 52,
-			INDEX_PLASMA_3 = 53;
+	INDEX_PLASMA_3 = 53,
+	INDEX_PORTALHALO = 54;
 
 	public static final int
 	INDEX_CLICK = 0,
@@ -146,6 +147,7 @@ public class Main extends HvlTemplateInteg2D{
 		getTextureLoader().loadResource("portal");//51
 		getTextureLoader().loadResource("Plasma2");//52
 		getTextureLoader().loadResource("Plasma3");//53
+		getTextureLoader().loadResource("PortalHalo");//54
 
 		getSoundLoader().loadResource("Click");//0
 		getSoundLoader().loadResource("Crash");//1
@@ -164,7 +166,7 @@ public class Main extends HvlTemplateInteg2D{
 
 		Options.init();
 		Tutorial.init();
-		
+
 		ArtManager.init();
 
 		font = new HvlFontPainter2D(getTexture(INDEX_FONT), HvlFontPainter2D.Preset.FP_AGOFFICIAL);
@@ -181,7 +183,7 @@ public class Main extends HvlTemplateInteg2D{
 		if(getSound(INDEX_MUSIC).isPlaying() && !Options.music){
 			getSound(INDEX_MUSIC).stop();
 		}
-		
+
 		MenuManager.update(delta);
 	}
 
