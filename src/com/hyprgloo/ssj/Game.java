@@ -46,9 +46,9 @@ class Portal {
 				}
 			}
 		}
-		rad += 500 * delta;
+		rad += 1500 * delta;
 		hvlRotate(this.loc, rad);
-		hvlDrawQuadc(loc.x, loc.y, 300, 300, Color.cyan);
+		hvlDrawQuadc(loc.x, loc.y, 300, 300, Main.getTexture(Main.INDEX_PORTAL));
 		hvlResetRotation();
 	}
 }
