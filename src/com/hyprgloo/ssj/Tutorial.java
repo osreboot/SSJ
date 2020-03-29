@@ -1,5 +1,6 @@
 package com.hyprgloo.ssj;
 
+import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawLine;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
 
 import java.util.ArrayList;
@@ -7,10 +8,13 @@ import java.util.ArrayList;
 import org.newdawn.slick.Color;
 
 import com.osreboot.ridhvl.HvlMath;
+import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
 
 public abstract class Tutorial {
 
-	public static final float DURATION_TUTORIAL = 10f;
+	public static final float DURATION_TUTORIAL = 7.5f;
+	
+	public static final Color COLOR_TUTORIAL_BACKGROUND = new Color(0f, 0f, 0.5f);
 	
 	private static ArrayList<Tutorial> tutorials;
 	private static Tutorial current;
@@ -29,7 +33,8 @@ public abstract class Tutorial {
 
 			@Override
 			public void display(float delta){
-				displayText("TUTORIAL YESSSSSS", 500, 500);
+				point(400, 400, 50, 50, 100, 50);
+				displayText("TUTORIAL YESSSSSS", 400, 400);
 				if(timer <= 0) complete = true;
 			}
 		});
@@ -71,11 +76,19 @@ public abstract class Tutorial {
 		display(delta);
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void displayText(String text, float x, float y){
 		float width = Main.font.getLineWidth(text) * 0.25f;
 		float height = Main.font.getLineHeight(text) * 0.25f;
-		hvlDrawQuadc(x, y, width, height, Color.darkGray);
-		Main.font.drawWordc(text, x, y, Color.white, 0.25f);
+		HvlPainter2D.hvlForceRefresh();
+		hvlDrawQuadc(x - 2f, y - 2f, width + 4f, height + 4f, COLOR_TUTORIAL_BACKGROUND);
+		Main.font.drawWordc(text, x - 1f, y - 1f, Color.gray, 0.25f);
+		Main.font.drawWordc(text, x + 1f, y + 1f, Color.white, 0.25f);
+	}
+	
+	public void point(float fromX, float fromY, float toX, float toY, float toWidth, float toHeight){
+		hvlDrawLine(fromX, fromY, toX, toY, Color.blue, 8f);
+		hvlDrawQuadc(toX, toY, toWidth, toHeight, Color.blue);
 	}
 	
 	public abstract boolean shouldSpawn();
