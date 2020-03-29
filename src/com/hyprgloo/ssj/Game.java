@@ -21,6 +21,7 @@ import com.osreboot.ridhvl.painter.HvlCamera2D;
 class Portal {
 	HvlCoord2D loc;
 	float rad = 0f;
+	private float whitefade = 1f;
 	public float endTimer = 2f;
 	public Portal(HvlCoord2D loc) {
 		this.loc = loc;
