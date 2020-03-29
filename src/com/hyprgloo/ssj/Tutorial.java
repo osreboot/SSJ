@@ -194,7 +194,7 @@ public abstract class Tutorial {
 			@Override
 			protected void displayPost(float delta){
 				displayText("Get to deep space to", Display.getWidth()/2, 96f, true);
-				displayText("locate the escape!", Display.getWidth()/2, 96f + 64f, true);
+				displayText("locate the escape portal!", Display.getWidth()/2, 96f + 64f, true);
 			}
 		};
 		tutorials.add(tutorialDeepSpace);
@@ -248,6 +248,29 @@ public abstract class Tutorial {
 			}
 		};
 		tutorials.add(tutorialEnemies);
+
+		// TUTORIAL : PORTAL TRACKER ======================
+		Tutorial tutorialPortalTracker = new Tutorial(){
+			@Override
+			public boolean shouldSpawn(){
+				if(tutorialDeepSpace.complete && Game.portalSpawned){
+					return true;
+				}
+				return false;
+			}
+			@Override
+			protected void displayPre(float delta){
+				point(Display.getWidth()/2, 96f, 100, 100, 120);
+
+				complete = timer <= 0;
+			}
+			@Override
+			protected void displayPost(float delta){
+				displayText("Escape portal located! Follow", Display.getWidth()/2, 96f, true);
+				displayText("the tracker!", Display.getWidth()/2, 96f + 64f, true);
+			}
+		};
+		tutorials.add(tutorialPortalTracker);
 	}
 
 	public static void gameReset(){
@@ -327,9 +350,10 @@ public abstract class Tutorial {
 			hvlDrawQuadc(toX, toY, toWidth, toHeight, Color.blue);
 	}
 
-	public void point(float fromX, float fromY, float toX, float toY){
+	public void point(float fromX, float fromY, float toX, float toY, float diameter){
 		hvlDrawLine(fromX, fromY, toX, toY, Color.blue, 4f);
-		hvlDrawQuadc(toX, toY, 8f, 8f, Main.getTexture(Main.INDEX_CIRCLE), Color.blue);
+		if(Main.getNewestInstance().getTimer().getTotalTime() * 5f % 2f > 1f)
+			hvlDrawQuadc(toX, toY, diameter, diameter, Main.getTexture(Main.INDEX_CIRCLE), Color.blue);
 	}
 
 	public void pointShip(float fromX, float fromY, float toX, float toY){
