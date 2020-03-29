@@ -23,12 +23,14 @@ public class ShipFriendlyGrenadier extends ShipFriendly{
 	public static final float SPEED_PROJECTILE = 500f;
 	
 	public static final Color COLOR_SCRAP = Color.blue;
+	public static final Color COLOR_EMISSIVE = new Color(1f, 1f, 1f, 0.5f);
 	
-	private float shotCooldown;
+	private float shotCooldown, turretAngle;
 	
 	public ShipFriendlyGrenadier(float xArg, float yArg, float angleArg){
 		super(xArg, yArg, angleArg, SIZE, COLOR_SCRAP);
 		shotCooldown = 0f;
+		turretAngle = 0f;
 	}
 
 	@Override
@@ -38,14 +40,19 @@ public class ShipFriendlyGrenadier extends ShipFriendly{
 			shotCooldown = DURATION_SHOT_COOLDOWN;
 			HvlCoord2D projectileSpeed = HvlCursor.getCursorPosition().addNew(Game.player.getBaseLocation()).add(-Display.getWidth()/2, -Display.getHeight()/2)
 					.subtract(physicsObject.location).normalize().mult(SPEED_PROJECTILE);
-			new ProjectileMerchantGrenadier(physicsObject.location, projectileSpeed, physicsObject.getVisualAngle());
+			new ProjectileMerchantGrenadier(physicsObject.location, projectileSpeed, physicsObject.getVisualAngle() + turretAngle);
 		}
+		
+		turretAngle += delta * 50f;
 	}
 
 	@Override
 	public void draw(float delta){
 		hvlRotate(physicsObject.location.x, physicsObject.location.y, physicsObject.getVisualAngle());
 		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f, physicsObject.radius * 2f, Main.getTexture(Main.INDEX_FRIENDLY_MISSILE_SHIP));
+		hvlResetRotation();
+		
+		hvlRotate(physicsObject.location.x, physicsObject.location.y, physicsObject.getVisualAngle() + turretAngle - 90f);
 		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f, physicsObject.radius * 2f, Main.getTexture(Main.INDEX_FRIENDLY_MISSILE_LAUNCH));
 		hvlResetRotation();
 	}
@@ -53,7 +60,7 @@ public class ShipFriendlyGrenadier extends ShipFriendly{
 	@Override
 	public void drawEmissive(float delta){
 		hvlRotate(physicsObject.location.x, physicsObject.location.y, physicsObject.getVisualAngle());
-		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f, physicsObject.radius * 2f, Main.getTexture(Main.INDEX_FRIENDLY_MISSILE_SHIP_EMMISSIVE));
+		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f, physicsObject.radius * 2f, Main.getTexture(Main.INDEX_FRIENDLY_MISSILE_SHIP_EMMISSIVE), COLOR_EMISSIVE);
 		hvlResetRotation();
 	}
 
