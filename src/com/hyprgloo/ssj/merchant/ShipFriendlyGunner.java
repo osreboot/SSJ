@@ -40,7 +40,7 @@ public class ShipFriendlyGunner extends ShipFriendly{
 		shotCooldown = HvlMath.stepTowards(shotCooldown, delta, 0f);
 		if(shotCooldown == 0f && Mouse.isButtonDown(0)){
 			shotCooldown = DURATION_SHOT_COOLDOWN;
-			Main.getSound(Main.INDEX_PEW).playAsSoundEffect(HvlMath.randomFloatBetween(0.85f, 1f),0.12f, false);
+			Main.getSound(Main.INDEX_SHOOT).playAsSoundEffect(HvlMath.randomFloatBetween(0.5f, 1f),0.1f, false);
 			HvlCoord2D projectileSpeed = HvlCursor.getCursorPosition().addNew(Game.player.getBaseLocation()).add(-Display.getWidth()/2, -Display.getHeight()/2)
 					.subtract(physicsObject.location).normalize().mult(SPEED_PROJECTILE);
 			new ProjectileMerchantGunner(physicsObject.location, projectileSpeed, 0f);
