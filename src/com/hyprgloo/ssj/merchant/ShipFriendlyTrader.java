@@ -9,37 +9,43 @@ import org.newdawn.slick.Color;
 import com.hyprgloo.ssj.Main;
 import com.hyprgloo.ssj.PhysicsObject.Alliance;
 import com.hyprgloo.ssj.ShipFriendly;
+import com.osreboot.ridhvl.HvlMath;
 
 public class ShipFriendlyTrader extends ShipFriendly{
 
 	public static final float SIZE = 16f;
-	
+
 	public static final Color COLOR_SCRAP_0 = new Color(1.0f, 0.6f, 0.2f);
 	public static final Color COLOR_SCRAP_1 = Color.red;
+
+	private boolean secret;
 
 	public ShipFriendlyTrader(float xArg, float yArg, float angleArg){
 		super(xArg, yArg, angleArg, SIZE, COLOR_SCRAP_0, COLOR_SCRAP_1);
 		physicsObject.alliance = Alliance.FRIENDLY;
 		physicsObject.damage = 100f;
+		secret = HvlMath.randomFloatBetween(0f, 100f) < 1f;
 	}
 
 
 	@Override
 	public void draw(float delta){
 		hvlRotate(physicsObject.location.x, physicsObject.location.y, physicsObject.getVisualAngle());
-		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f, physicsObject.radius * 2f, Main.getTexture(Main.INDEX_FRIENDLY_SHIP_0));
+		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f, physicsObject.radius * 2f, Main.getTexture(secret ? Main.INDEX_SECRET : Main.INDEX_FRIENDLY_SHIP_0));
 		hvlResetRotation();
 	}
 
 	@Override
 	public void updateConnected(float delta) {
-	
+
 	}
-	
+
 	@Override
 	public void drawEmissive(float delta){
-		hvlRotate(physicsObject.location.x, physicsObject.location.y, physicsObject.getVisualAngle());
-		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f, physicsObject.radius * 2f, Main.getTexture(Main.INDEX_FRIENDLY_SHIP_0_EMISSIVE));
-		hvlResetRotation();
+		if(!secret){
+			hvlRotate(physicsObject.location.x, physicsObject.location.y, physicsObject.getVisualAngle());
+			hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f, physicsObject.radius * 2f, Main.getTexture(Main.INDEX_FRIENDLY_SHIP_0_EMISSIVE));
+			hvlResetRotation();
+		}
 	}
 }

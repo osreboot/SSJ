@@ -65,7 +65,9 @@ public class Main extends HvlTemplateInteg2D{
 	INDEX_PORTAL = 51,
 	INDEX_PLASMA_2 = 52,
 	INDEX_PLASMA_3 = 53,
-	INDEX_PORTALHALO = 54;
+	INDEX_PORTALHALO = 54,
+	INDEX_STAR = 55,
+	INDEX_SECRET = 56;
 
 	public static final int
 	INDEX_CLICK = 0,
@@ -148,6 +150,8 @@ public class Main extends HvlTemplateInteg2D{
 		getTextureLoader().loadResource("Plasma2");//52
 		getTextureLoader().loadResource("Plasma3");//53
 		getTextureLoader().loadResource("PortalHalo");//54
+		getTextureLoader().loadResource("Star");//55
+		getTextureLoader().loadResource("Secret");//56
 
 		getSoundLoader().loadResource("Click");//0
 		getSoundLoader().loadResource("Crash");//1
