@@ -120,7 +120,7 @@ public class Player {
 	public void connectShip(PhysicsObject shipPhysicsObjectArg, PhysicsObject collisionObjectArg) {
 		connectedShips.add(shipPhysicsObjectArg);
 		shipPhysicsObjectArg.connectToParent(collisionObjectArg);
-		Main.getSound(Main.INDEX_CLICK).playAsSoundEffect(1f, 0.25f, false);
+		Main.getSound(Main.INDEX_CLICK).playAsSoundEffect(HvlMath.randomFloatBetween(0.85f, 1f), 0.25f, false);
 	}
 
 	public void disconnectShip(PhysicsObject shipPhysicsObjectArg) {
