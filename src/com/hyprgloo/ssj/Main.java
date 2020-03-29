@@ -56,7 +56,9 @@ public class Main extends HvlTemplateInteg2D{
 	INDEX_ARROW_UP = 42,
 	INDEX_ARROW_LEFT = 43,
 	INDEX_CHECK = 44,
-	INDEX_ASTEROID_FRAG = 45;
+	INDEX_ASTEROID_FRAG_1 = 45,
+	INDEX_ASTEROID_FRAG_2 = 46,
+	INDEX_ASTEROID_FRAG_3 = 47;
 
 	public static final int
 	INDEX_CLICK = 0,
@@ -130,6 +132,8 @@ public class Main extends HvlTemplateInteg2D{
 		getTextureLoader().loadResource("ArrowLeft");//43
 		getTextureLoader().loadResource("Check");//44
 		getTextureLoader().loadResource("asteroid_fragment");//45
+		getTextureLoader().loadResource("asteroid_fragment2");//46
+		getTextureLoader().loadResource("asteroid_fragment3");//47
 		
 		getSoundLoader().loadResource("Click");//0
 		getSoundLoader().loadResource("Crash");//1
