@@ -41,7 +41,11 @@ public class Main extends HvlTemplateInteg2D{
 	INDEX_FRIENDLY_GUN = 27,
 	INDEX_FRIENDLY_MISSILE_SHIP = 28,
 	INDEX_FRIENDLY_MISSILE_SHIP_EMMISSIVE = 29,
-	INDEX_FRIENDLY_MISSILE_LAUNCH = 30;
+	INDEX_FRIENDLY_MISSILE_LAUNCH = 30,
+	INDEX_ASTEROID0 = 31,
+	INDEX_ASTEROID1 = 32,
+	INDEX_ASTEROID2 = 33,
+	INDEX_ASTEROID_HALO = 34;
 
 	public static HvlFontPainter2D font;
 
@@ -84,6 +88,10 @@ public class Main extends HvlTemplateInteg2D{
 		getTextureLoader().loadResource("MissileShip");//28
 		getTextureLoader().loadResource("MissileShipEmissive");//29
 		getTextureLoader().loadResource("MissileLauncher");//30
+		getTextureLoader().loadResource("Asteroid0");//31
+		getTextureLoader().loadResource("Asteroid1");//32
+		getTextureLoader().loadResource("Asteroid2");//33
+		getTextureLoader().loadResource("AsteroidHalo");//34
 
 		ArtManager.init();
 
