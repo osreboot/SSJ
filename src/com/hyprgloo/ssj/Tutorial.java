@@ -65,7 +65,7 @@ public abstract class Tutorial {
 			}
 			@Override
 			protected void displayPost(float delta){
-				displayText("Welcome to NAME!", Display.getWidth()/2, 64, taskComplete); // TODO NAME HERE
+				displayText("Welcome to Astral Aggregation!", Display.getWidth()/2, 64, taskComplete); // TODO NAME HERE
 				displayText("Use WASD to move.", Display.getWidth()/2, 128, taskComplete);
 				drawTaskCheckMark(Display.getWidth()/2 + 128f + 128f, 128);
 

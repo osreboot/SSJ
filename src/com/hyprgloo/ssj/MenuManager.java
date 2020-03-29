@@ -160,7 +160,7 @@ public class MenuManager {
 					public void run(HvlButton a){
 						Options.music = !Options.music;
 						((HvlLabeledButton)a).setText("Music: " + (Options.music ? "ON" : "OFF"));
-					}
+					}w
 				}).build());
 		options.getFirstArrangerBox().add(new HvlSpacer(BUTTON_SPACING, BUTTON_SPACING));
 
@@ -232,8 +232,8 @@ public class MenuManager {
 			hvlDrawQuadc(Display.getWidth() / 2, Display.getHeight() / 2, 512, 512, Main.getTexture(Main.INDEX_SPLASH),
 					new Color(1f, 1f, 1f, alpha));
 		} else if (HvlMenu.getCurrent() == main) {
-			Main.font.drawWordc("TITLE", Display.getWidth()/2+4, Display.getHeight()/2+154, Color.gray);
-			Main.font.drawWordc("TITLE", Display.getWidth()/2, Display.getHeight()/2+150, Color.white);
+			Main.font.drawWordc("Astral Aggregation", Display.getWidth()/2+4, Display.getHeight()/2+154, Color.gray);
+			Main.font.drawWordc("Astral Aggregation", Display.getWidth()/2, Display.getHeight()/2+150, Color.white);
 		} else if (HvlMenu.getCurrent() == game) {
 			Game.update(delta);
 		

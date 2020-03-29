@@ -87,7 +87,7 @@ public class Main extends HvlTemplateInteg2D{
 	public static HvlShader emissive;
 
 	public Main() {
-		super(144, 1280, 720, "TITLE by HYPRGLOO", "HeroShip32", new HvlDisplayModeDefault());
+		super(144, 1280, 720, "Astral Aggregation by HYPRGLOO", "HeroShip32", new HvlDisplayModeDefault());
 	}
 
 	@Override
