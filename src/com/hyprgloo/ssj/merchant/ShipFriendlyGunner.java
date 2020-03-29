@@ -10,6 +10,7 @@ import org.newdawn.slick.Color;
 
 import com.hyprgloo.ssj.Game;
 import com.hyprgloo.ssj.Main;
+import com.hyprgloo.ssj.Projectile;
 import com.hyprgloo.ssj.ShipFriendly;
 import com.hyprgloo.ssj.projectile.ProjectileMerchantGunner;
 import com.osreboot.ridhvl.HvlCoord2D;
@@ -40,7 +41,20 @@ public class ShipFriendlyGunner extends ShipFriendly{
 		shotCooldown = HvlMath.stepTowards(shotCooldown, delta, 0f);
 		if(shotCooldown == 0f && Mouse.isButtonDown(0)){
 			shotCooldown = DURATION_SHOT_COOLDOWN;
-			Main.getSound(Main.INDEX_SHOOT).playAsSoundEffect(HvlMath.randomFloatBetween(0.5f, 1f),0.1f, false);
+
+			//			float particleCount = 0;
+			//			for(Projectile p : Game.projectiles){
+			//				if(p instanceof ProjectileMerchantGunner)
+			//					particleCount++;
+			//			}
+			//			float volumeScale = HvlMath.limit(HvlMath.map(particleCount, 0, 100, 0.1f, 0.01f), 0.01f, 0.1f);
+			//			float chanceScale = HvlMath.limit(HvlMath.map(particleCount, 20, 200, 1f, 0.5f), 0.5f, 1f);
+
+			//			if(HvlMath.randomFloatBetween(0f, 1f) < chanceScale)
+			if(!Game.playedFriendlyGunnerSound){
+				Main.getSound(Main.INDEX_SHOOT).playAsSoundEffect(HvlMath.randomFloatBetween(0.5f, 1f), 0.1f, false);
+				Game.playedFriendlyGunnerSound = true;
+			}
 			HvlCoord2D projectileSpeed = HvlCursor.getCursorPosition().addNew(Game.player.getBaseLocation()).add(-Display.getWidth()/2, -Display.getHeight()/2)
 					.subtract(physicsObject.location).normalize().mult(SPEED_PROJECTILE);
 			new ProjectileMerchantGunner(physicsObject.location, projectileSpeed, 0f);

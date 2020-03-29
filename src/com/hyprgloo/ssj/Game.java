@@ -64,6 +64,8 @@ public class Game {
 
 	public static ArrayList<Projectile> projectiles;
 	public static ArrayList<Particle> particles;
+	
+	public static boolean playedFriendlyGunnerSound;
 
 	public static float globalTimer = 0f;
 	public static float messageTimer = 0f;
@@ -79,6 +81,8 @@ public class Game {
 		projectiles = new ArrayList<>();
 		particles = new ArrayList<>();
 
+		playedFriendlyGunnerSound = false;
+		
 		EnvironmentManager.init();
 		
 		p = null;
@@ -113,6 +117,8 @@ public class Game {
 		// new ProjectileEnemyGunner(HvlCursor.getCursorPosition().addNew(camera.getX(),
 		// camera.getY()).add(camera.getAlignment()), new HvlCoord2D(), 0);
 		// }
+		
+		playedFriendlyGunnerSound = false;
 
 		// Attach ships to the player if they collide
 		for (ShipFriendly ship : EnvironmentManager.friendlyShips) {
