@@ -44,7 +44,8 @@ public class Main extends HvlTemplateInteg2D{
 	INDEX_FRIENDLY_MISSILE_LAUNCH = 30,
 	INDEX_ASTEROID0 = 31,
 	INDEX_ASTEROID1 = 32,
-	INDEX_ASTEROID2 = 33;
+	INDEX_ASTEROID2 = 33,
+	INDEX_ASTEROID_HALO = 34;
 
 	public static HvlFontPainter2D font;
 
@@ -90,6 +91,7 @@ public class Main extends HvlTemplateInteg2D{
 		getTextureLoader().loadResource("Asteroid0");//31
 		getTextureLoader().loadResource("Asteroid1");//32
 		getTextureLoader().loadResource("Asteroid2");//33
+		getTextureLoader().loadResource("AsteroidHalo");//34
 
 		ArtManager.init();
 
