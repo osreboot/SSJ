@@ -84,6 +84,7 @@ public class Game {
 		portalSpawned = false;
 		
 		globalTimer = 0f;
+		portalCount = 0f;
 		
 		Tutorial.gameReset();
 	}
@@ -91,42 +92,18 @@ public class Game {
 	
 	public static boolean portalSpawned = false;
 	public static Portal p;
-	public static void story(int stage) {
-		if (stage == 0) {
-			if (globalTimer < 10f) {
-				float alpha = 1f - (Math.abs(globalTimer / 5 - 0.5f));
-				Main.font.drawWordc(
-						"A signal from deep space has been trying to reach you,"
-								+ "\n          but the dense asteroid field is interfering!"
-								+ "\n                          Get to deep space!",
-						Display.getWidth() / 2, Display.getHeight() / 2 + 150, new Color(1f, 1f, 1f, alpha), 0.18f);
-			}
-		}
-
-		if (stage == 1) {
-			if (player.progress < 1)
-				messageTimer = globalTimer + 10;
-			else {
-				float alpha = 1f - (Math.abs((messageTimer - globalTimer) / 5 - 0.5f));
-				Main.font.drawWordc(
-				  "     Message Received!,"
-				+ "\nLooks like some coordinates..."
-				+ "\n      Let's check it out.",
-						Display.getWidth() / 2, Display.getHeight() / 2 + 150, new Color(1f, 1f, 1f, alpha), 0.18f);
-				
-				if(messageTimer - globalTimer < 0f) {
-					float angle = HvlMath.randomFloatBetween(-3.14f, 3.14f);
-					float x = (float) (200 * Math.cos(angle));
-					float y = (float) (200 * Math.sin(angle));
+	public static float portalCount = 0f;
+	public static void spawnPortal(float delta) {
+		
+		float angle = HvlMath.randomFloatBetween(-3.14f, 3.14f);
+		float x = (float) (200 * Math.cos(angle));
+		float y = (float) (200 * Math.sin(angle));
 					
-					if(!portalSpawned) {
-						p = new Portal(new HvlCoord2D(x,y));
-						portalSpawned = true;
-					}
-					
-					stage = 2;
-				}
-			}
+		portalCount += delta;
+		
+		if (!portalSpawned && portalCount > 10f) {
+			p = new Portal(new HvlCoord2D(x, y));
+			portalSpawned = true;
 		}
 	}
 
@@ -209,12 +186,7 @@ public class Game {
 				}
 			}
 		});
-		player.drawHUD();
-		
-		if(globalTimer < 15f)
-			story(0);
-		else
-			story(1);
+		player.drawHUD(delta);
 
 		ArtManager.drawVignette();
 
