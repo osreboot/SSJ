@@ -14,7 +14,7 @@ import com.osreboot.ridhvl.HvlMath;
 
 public class Chunk {
 
-	private static final int NUM_ASTEROIDS = 40;
+	private static final int NUM_ASTEROIDS = 35;
 	private static final int NUM_FRIENDLIES = 30;
 	private static final int NUM_ENEMIES = 5;
 

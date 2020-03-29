@@ -27,9 +27,9 @@ class Portal {
 	
 	public void draw(float delta) {
 		for(PhysicsObject p : Game.physicsObjects) {
-			if(HvlMath.distance(p.location, this.loc) < 10000 && p != Game.player.physicsObject && !(p instanceof PhysicsObjectShip && p.hasParent())) {
-				p.location.x = HvlMath.stepTowards(p.location.x, (200000/HvlMath.distance(p.location, this.loc))*delta, this.loc.x);
-				p.location.y = HvlMath.stepTowards(p.location.y, (200000/HvlMath.distance(p.location, this.loc))*delta, this.loc.y);
+			if(HvlMath.distance(p.location, this.loc) < 4000 && p != Game.player.physicsObject && !(p instanceof PhysicsObjectShip && p.hasParent())) {
+				p.location.x = HvlMath.stepTowards(p.location.x, (100000/HvlMath.distance(p.location, this.loc))*delta, this.loc.x);
+				p.location.y = HvlMath.stepTowards(p.location.y, (100000/HvlMath.distance(p.location, this.loc))*delta, this.loc.y);
 				if(HvlMath.distance(p.location, this.loc) < 200)
 					p.health = 0;
 			} else if (p == Game.player.physicsObject && HvlMath.distance(p.location, this.loc) < 1000) {
@@ -55,7 +55,7 @@ class Portal {
 
 public class Game {
 
-	public static final int END_DISTANCE = 25000;
+	public static final int END_DISTANCE = 12500;
 
 	public static HvlCamera2D camera;
 
@@ -104,13 +104,13 @@ public class Game {
 	public static void spawnPortal(float delta) {
 		
 		float angle = HvlMath.randomFloatBetween(-3.14f, 3.14f);
-		float x = (float) (6000 * Math.cos(angle));
-		float y = (float) (6000 * Math.sin(angle));
+		float x = (float) (4000 * Math.cos(angle));
+		float y = (float) (4000 * Math.sin(angle));
 					
 		portalCount += delta;
 		
 		if (!portalSpawned && portalCount > 10f) {
-			p = new Portal(new HvlCoord2D(x, y));
+			p = new Portal(new HvlCoord2D(x + player.physicsObject.location.x, y + player.physicsObject.location.y));
 			portalSpawned = true;
 		}
 	}
