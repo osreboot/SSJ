@@ -66,7 +66,8 @@ public class Main extends HvlTemplateInteg2D{
 	INDEX_SIGNAL_2 = 9,
 	INDEX_SHOOT = 10,
 	INDEX_ASTEROID_BOOM = 11,
-	INDEX_ESCAPE = 12;
+	INDEX_ESCAPE = 12,
+	INDEX_MUSIC = 13;
 
 	public static HvlFontPainter2D font;
 
@@ -133,6 +134,7 @@ public class Main extends HvlTemplateInteg2D{
 		getSoundLoader().loadResource("Shoot");//10
 		getSoundLoader().loadResource("AsteroidBoom");//11
 		getSoundLoader().loadResource("Escape");//12
+		getSoundLoader().loadResource("Chaos_Frontier");//13
 
 		Options.init();
 		Tutorial.init();
@@ -147,6 +149,13 @@ public class Main extends HvlTemplateInteg2D{
 
 	@Override
 	public void update(float delta) {
+		if(!getSound(INDEX_MUSIC).isPlaying() && Options.sound){
+			getSound(INDEX_MUSIC).playAsSoundEffect(1.0f, 0.175f, false);
+		}
+		if(getSound(INDEX_MUSIC).isPlaying() && !Options.sound){
+			getSound(INDEX_MUSIC).stop();
+		}
+		
 		MenuManager.update(delta);
 	}
 
