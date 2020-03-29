@@ -40,6 +40,8 @@ public class MenuManager {
 	public static boolean escapeHeld;
 	
 	public static boolean win;
+	
+	public static float backX, backY;
 
 	public static HashMap<HvlLabeledButton, LabeledButtonAlias> buttonAliases;
 
@@ -129,6 +131,7 @@ public class MenuManager {
 				.setClickedCommand(new HvlAction1<HvlButton>() {
 					@Override
 					public void run(HvlButton aArg) {
+						randomizeBackdrop();
 						HvlMenu.setCurrent(main);
 					}
 				}).build());
@@ -158,6 +161,7 @@ public class MenuManager {
 				.setClickedCommand(new HvlAction1<HvlButton>() {
 					@Override
 					public void run(HvlButton aArg) {
+						randomizeBackdrop();
 						HvlMenu.setCurrent(main);
 					}
 				}).build());
@@ -175,6 +179,7 @@ public class MenuManager {
 				.setClickedCommand(new HvlAction1<HvlButton>() {
 					@Override
 					public void run(HvlButton aArg) {
+						randomizeBackdrop();
 						HvlMenu.setCurrent(main);
 					}
 				}).build());
@@ -182,8 +187,9 @@ public class MenuManager {
 		end.add(new HvlArrangerBox.Builder().setyAlign(0.7f).build());
 		end.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("Return").setWidth(250).setHeight(250).setTextScale(0.21f)
 				.setClickedCommand(new HvlButtonMenuLink(main)).build());
-
-
+		
+		randomizeBackdrop();
+		
 		HvlMenu.setCurrent(splash);
 	}
 
@@ -192,6 +198,9 @@ public class MenuManager {
 	static String textC = "";
 
 	public static void update(float delta) {
+		
+		if(HvlMenu.getCurrent() != game)
+			ArtManager.drawBackground(backX, backY);
 
 		HvlMenu.updateMenus(delta);
 
@@ -208,6 +217,8 @@ public class MenuManager {
 			hvlDrawQuadc(Display.getWidth() / 2, Display.getHeight() / 2, 512, 512, Main.getTexture(Main.INDEX_SPLASH),
 					new Color(1f, 1f, 1f, alpha));
 		} else if (HvlMenu.getCurrent() == main) {
+			Main.font.drawWordc("TITLE", Display.getWidth()/2+4, Display.getHeight()/2+154, Color.gray);
+			Main.font.drawWordc("TITLE", Display.getWidth()/2, Display.getHeight()/2+150, Color.white);
 		} else if (HvlMenu.getCurrent() == game) {
 			Game.update(delta);
 			if(!Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
@@ -265,6 +276,7 @@ public class MenuManager {
 		}
 
 		if(HvlMenu.getCurrent() != game){
+
 			Color emissiveColor = new Color(0f, 0f, 0.6f, 1f);
 
 			ArrayList<HvlLabeledButton> buttons = getAllButtons(HvlMenu.getCurrent());
@@ -279,6 +291,7 @@ public class MenuManager {
 			}
 
 			ArtManager.drawVignette();
+
 			ArtManager.blurFrame.doCapture(new HvlAction0() {
 				@Override
 				public void run() {
@@ -321,6 +334,11 @@ public class MenuManager {
 			}
 		}
 		return output;
+	}
+	
+	private static void randomizeBackdrop() {
+		backX = HvlMath.randomIntBetween(-10000, 10000);
+		backY = HvlMath.randomIntBetween(-10000, 10000);
 	}
 
 	public static class LabeledButtonAlias{
