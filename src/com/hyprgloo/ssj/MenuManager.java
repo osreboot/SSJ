@@ -34,10 +34,12 @@ public class MenuManager {
 
 	private static final float BUTTON_SPACING = 32f;
 
-	private static HvlMenu splash, main, credits, options, game, end, pause;
+	public static HvlMenu splash, main, credits, options, game, end, pause;
 	private static HvlRenderFrame pauseFrame;
 
 	public static boolean escapeHeld;
+	
+	public static boolean win;
 
 	public static HashMap<HvlLabeledButton, LabeledButtonAlias> buttonAliases;
 
@@ -131,8 +133,10 @@ public class MenuManager {
 					}
 				}).build());
 
+		
+		options.add(new HvlArrangerBox.Builder().build());
 		options.add(new HvlArrangerBox.Builder().setxAlign(0.03f).setyAlign(0.95f).build());
-		options.add(new HvlLabeledButton.Builder().setText("Audio: " + (Options.sound ? "ON" : "OFF")).setX(Display.getWidth()/2 - 220).setY(100).setWidth(200).setHeight(200)
+		options.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("Audio: " + (Options.sound ? "ON" : "OFF")).setWidth(250).setHeight(250).setTextScale(0.21f)
 				.setClickedCommand(new HvlAction1<HvlButton>(){
 					@Override
 					public void run(HvlButton a){
@@ -140,7 +144,9 @@ public class MenuManager {
 						((HvlLabeledButton)a).setText("Audio: " + (Options.sound ? "ON" : "OFF"));
 					}
 				}).build());
-		options.add(new HvlLabeledButton.Builder().setText("Tutorials: " + (Options.tutorials ? "ON" : "OFF")).setX(Display.getWidth()/2 + 20).setY(100).setWidth(200).setHeight(200)
+		options.getFirstArrangerBox().add(new HvlSpacer(BUTTON_SPACING, BUTTON_SPACING));
+
+		options.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("Tutorials: " + (Options.tutorials ? "ON" : "OFF")).setWidth(250).setHeight(250).setTextScale(0.18f)
 				.setClickedCommand(new HvlAction1<HvlButton>(){
 					@Override
 					public void run(HvlButton a){
@@ -148,7 +154,7 @@ public class MenuManager {
 						((HvlLabeledButton)a).setText("Tutorials:" + (Options.tutorials ? "ON" : "OFF"));
 					}
 				}).build());
-		options.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("Back").setWidth(128).setHeight(128)
+		options.getChildOfType(HvlArrangerBox.class, 1).add(new HvlLabeledButton.Builder().setText("Back").setWidth(128).setHeight(128)
 				.setClickedCommand(new HvlAction1<HvlButton>() {
 					@Override
 					public void run(HvlButton aArg) {
@@ -249,6 +255,9 @@ public class MenuManager {
 
 			Main.font.drawWordc("Pause", Display.getWidth() / 2, Display.getHeight() / 8, Color.lightGray, 0.5f);
 
+		} else if (HvlMenu.getCurrent() == end) {
+			String s = win ? "Congratulations! You saved " + Game.player.connectedShips.size() + " ships!" : "You perished in the final frontier.";
+			Main.font.drawWordc(s, Display.getWidth()/2, 250, Color.white, 0.3f);
 		}
 
 		if(HvlMenu.getCurrent() != game){

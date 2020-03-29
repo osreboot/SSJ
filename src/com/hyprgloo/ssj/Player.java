@@ -28,7 +28,7 @@ public class Player {
 	private float xsInput, ysInput;
 	private boolean done;
 	public PhysicsObject physicsObject;
-	private ArrayList<PhysicsObject> connectedShips;
+	public ArrayList<PhysicsObject> connectedShips;
 	
 	private float iconShieldUpdate, iconTurretUpdate, iconMissileUpdate;
 	private int shieldCount, turretCount, missileCount;

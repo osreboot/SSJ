@@ -13,6 +13,7 @@ import com.hyprgloo.ssj.physics.PhysicsObjectShip;
 import com.osreboot.ridhvl.HvlCoord2D;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.action.HvlAction0;
+import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.painter.HvlCamera2D;
 
 
@@ -25,8 +26,24 @@ class Portal {
 	
 	public void draw(float delta) {
 		for(PhysicsObject p : Game.physicsObjects) {
-			if(HvlMath.distance(p.location, this.loc) < 300 && p != Game.player.physicsObject && !(p instanceof PhysicsObjectShip && p.hasParent())) {
-				p.health = 0;
+			if(HvlMath.distance(p.location, this.loc) < 10000 && p != Game.player.physicsObject && !(p instanceof PhysicsObjectShip && p.hasParent())) {
+				p.location.x = HvlMath.stepTowards(p.location.x, (100000/HvlMath.distance(p.location, this.loc))*delta, this.loc.x);
+				p.location.y = HvlMath.stepTowards(p.location.y, (100000/HvlMath.distance(p.location, this.loc))*delta, this.loc.y);
+				if(HvlMath.distance(p.location, this.loc) < 200)
+					p.health = 0;
+			} else if (p == Game.player.physicsObject && HvlMath.distance(p.location, this.loc) < 1000) {
+				p.location.x = HvlMath.stepTowards(p.location.x, (50000/HvlMath.distance(p.location, this.loc))*delta, this.loc.x);
+				p.location.y = HvlMath.stepTowards(p.location.y, (50000/HvlMath.distance(p.location, this.loc))*delta, this.loc.y);
+				p.health = 400f;
+				for(ShipFriendly f : EnvironmentManager.friendlyShips) {
+					if(f.physicsObject.hasParent() && Game.player.connectedShips.contains(f)) {
+						f.physicsObject.health = 200f;
+					}
+				}
+				if(HvlMath.distance(p.location, this.loc) < 50) {
+					MenuManager.win = true;
+					HvlMenu.setCurrent(MenuManager.end);
+				}
 			}
 		}
 		rad += 500 * delta;
@@ -38,7 +55,7 @@ class Portal {
 
 public class Game {
 
-	public static final int END_DISTANCE = 25000;
+	public static final int END_DISTANCE = 200;
 
 	public static HvlCamera2D camera;
 
@@ -97,8 +114,8 @@ public class Game {
 				
 				if(messageTimer - globalTimer < 0f) {
 					float angle = HvlMath.randomFloatBetween(-3.14f, 3.14f);
-					float x = (float) (6000 * Math.cos(angle));
-					float y = (float) (6000 * Math.sin(angle));
+					float x = (float) (200 * Math.cos(angle));
+					float y = (float) (200 * Math.sin(angle));
 					
 					if(!portalSpawned) {
 						p = new Portal(new HvlCoord2D(x,y));
