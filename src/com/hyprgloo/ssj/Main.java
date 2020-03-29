@@ -62,10 +62,9 @@ public class Main extends HvlTemplateInteg2D{
 	INDEX_ASTEROID0_HURT = 48,
 	INDEX_ASTEROID1_HURT = 49,
 	INDEX_ASTEROID2_HURT = 50,
-	INDEX_PORTAL = 51;
-
-	
-	
+	INDEX_PORTAL = 51,
+	INDEX_PLASMA_2 = 52,
+			INDEX_PLASMA_3 = 53;
 
 	public static final int
 	INDEX_CLICK = 0,
@@ -145,6 +144,8 @@ public class Main extends HvlTemplateInteg2D{
 		getTextureLoader().loadResource("Asteroid1Hurt");//49
 		getTextureLoader().loadResource("Asteroid2Hurt");//50
 		getTextureLoader().loadResource("portal");//51
+		getTextureLoader().loadResource("Plasma2");//52
+		getTextureLoader().loadResource("Plasma3");//53
 
 		getSoundLoader().loadResource("Click");//0
 		getSoundLoader().loadResource("Crash");//1

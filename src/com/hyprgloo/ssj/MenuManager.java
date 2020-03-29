@@ -13,6 +13,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
+import com.osreboot.ridhvl.HvlCoord2D;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.action.HvlAction0;
 import com.osreboot.ridhvl.action.HvlAction1;
@@ -27,6 +28,7 @@ import com.osreboot.ridhvl.menu.component.HvlButton;
 import com.osreboot.ridhvl.menu.component.HvlComponentDrawable;
 import com.osreboot.ridhvl.menu.component.HvlSpacer;
 import com.osreboot.ridhvl.menu.component.collection.HvlLabeledButton;
+import com.osreboot.ridhvl.painter.HvlCursor;
 import com.osreboot.ridhvl.painter.HvlRenderFrame;
 
 
@@ -47,6 +49,8 @@ public class MenuManager {
 	public static int death;
 
 	public static HashMap<HvlLabeledButton, LabeledButtonAlias> buttonAliases;
+	
+	public static HvlCoord2D cursorFocus;
 
 	public static void init() {
 		main = new HvlMenu();
@@ -65,6 +69,8 @@ public class MenuManager {
 				"Pressure vessel breach. You died.",
 				"Rescue vessel pilot lost. Portal closed."
 				};
+		
+		cursorFocus = new HvlCoord2D();
 
 		try {
 			pauseFrame = new HvlRenderFrame(Display.getWidth(), Display.getHeight());
@@ -218,8 +224,11 @@ public class MenuManager {
 
 	public static void update(float delta) {
 		
+		cursorFocus.x = ((float)HvlCursor.getCursorX() - (Display.getWidth() / 2)) / (Display.getWidth() / 2);
+		cursorFocus.y = ((float)HvlCursor.getCursorY() - (Display.getHeight() / 2)) / (Display.getHeight() / 2);
+		
 		if(HvlMenu.getCurrent() != game && HvlMenu.getCurrent() != pause)
-			ArtManager.drawBackground(backX, backY);
+			ArtManager.drawBackground(cursorFocus.x * 100f, (cursorFocus.y * 100f) - (Main.getNewestInstance().getTimer().getTotalTime() * 100f));
 		
 		if (HvlMenu.getCurrent() == pause) {
 			hvlDrawQuad(0, 0, Display.getWidth(), Display.getHeight(), pauseFrame);
@@ -236,8 +245,8 @@ public class MenuManager {
 			hvlDrawQuadc(Display.getWidth() / 2, Display.getHeight() / 2, 512, 512, Main.getTexture(Main.INDEX_SPLASH),
 					new Color(1f, 1f, 1f, alpha));
 		} else if (HvlMenu.getCurrent() == main) {
-			Main.font.drawWordc("Astral Aggregation", Display.getWidth()/2+4, Display.getHeight()/2+114, Color.gray, 0.7f);
-			Main.font.drawWordc("Astral Aggregation", Display.getWidth()/2, Display.getHeight()/2+110, Color.white, 0.7f);
+			Main.font.drawWordc("Astral Aggregation", Display.getWidth()/2+4 + (cursorFocus.x * 10f), Display.getHeight()/2+114 + (cursorFocus.y * 10f), Color.gray, 0.7f);
+			Main.font.drawWordc("Astral Aggregation", Display.getWidth()/2 + (cursorFocus.x * 10f), Display.getHeight()/2+110 + (cursorFocus.y * 10f), Color.white, 0.7f);
 		} else if (HvlMenu.getCurrent() == game) {
 			Game.update(delta);
 		
