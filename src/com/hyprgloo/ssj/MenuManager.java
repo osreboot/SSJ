@@ -258,7 +258,7 @@ public class MenuManager {
 			Main.font.drawWordc("Basset", Display.getWidth() / 2, Display.getHeight() * 15 / 20 - 12, Color.lightGray,
 					0.325f);			
 
-			textC = (i < 2) ? "Roblox : https://www.roblox.com/users/525422/profile" : "https://github.com/basset10";
+			textC = (i < 2) ? "Roblox : https://www.roblox.com/users/525422/profile" : "github.com/basset10";
 
 			Main.font.drawWordc(textC, Display.getWidth() / 2, Display.getHeight() * 16 / 20, Color.lightGray,
 					0.2f);
@@ -362,7 +362,7 @@ public class MenuManager {
 			hoverAmount = HvlMath.stepTowards(hoverAmount, delta * 5f, hover ? 1f : 0f);
 			lightsAngle += delta * (hover ? 50f : 20f);
 			if(hover && !beeped){
-				if(Options.sound) Main.getSound(Main.INDEX_MENU_ROLLY_2).playAsSoundEffect(0.5f, 0.05f, false);
+				if(Options.sound) Main.getSound(Main.INDEX_MENU_ROLLY_2).playAsSoundEffect(HvlMath.randomFloatBetween(0.45f, 0.5f), 0.025f, false);
 				beeped = true;
 			}
 			if(!hover) beeped = false;
