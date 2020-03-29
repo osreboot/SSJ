@@ -139,6 +139,24 @@ public class MenuManager {
 						HvlMenu.setCurrent(main);
 					}
 				}).build());
+		
+		pause.add(new HvlArrangerBox.Builder().setxAlign(0.5f).setyAlign(0.5f).build());
+		pause.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("Resume").setWidth(275).setHeight(275)
+				.setClickedCommand(new HvlAction1<HvlButton>() {
+					@Override
+					public void run(HvlButton aArg) {
+						HvlMenu.setCurrent(game);
+					}
+				}).build());
+		pause.getFirstArrangerBox().add(new HvlSpacer(50, 75));
+		pause.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("Main Menu").setWidth(275).setHeight(275)
+				.setClickedCommand(new HvlAction1<HvlButton>() {
+					@Override
+					public void run(HvlButton aArg) {
+						HvlMenu.setCurrent(main);
+					}
+				}).build());
+
 
 		HvlMenu.setCurrent(splash);
 	}
@@ -213,7 +231,7 @@ public class MenuManager {
 				HvlMenu.setCurrent(MenuManager.game);
 			}
 
-			Main.font.drawWordc("ESC to unpause", Display.getWidth() / 2, Display.getHeight() / 8, Color.lightGray, 0.5f);
+			Main.font.drawWordc("Pause", Display.getWidth() / 2, Display.getHeight() / 8, Color.lightGray, 0.5f);
 
 		}
 
