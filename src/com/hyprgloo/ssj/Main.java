@@ -47,6 +47,18 @@ public class Main extends HvlTemplateInteg2D{
 	INDEX_ASTEROID2 = 33,
 	INDEX_ASTEROID_HALO = 34,
 	INDEX_ARROW = 35;
+	
+	public static final int
+	INDEX_CLICK = 0,
+	INDEX_CRASH = 1,
+	INDEX_HURTY = 2,
+	INDEX_MENU_ROLLY = 3,
+	INDEX_MENU_ROLLY_2 = 4,
+	INDEX_PEW = 5,
+	INDEX_PEW2 = 6,
+	INDEX_PING = 7,
+	INDEX_SIGNAL = 8,
+	INDEX_SIGNAL_2 = 9;
 
 	public static HvlFontPainter2D font;
 
@@ -94,6 +106,17 @@ public class Main extends HvlTemplateInteg2D{
 		getTextureLoader().loadResource("Asteroid2");//33
 		getTextureLoader().loadResource("AsteroidHalo");//34
 		getTextureLoader().loadResource("arrow");//35
+		
+		getSoundLoader().loadResource("Click");//0
+		getSoundLoader().loadResource("Crash");//1
+		getSoundLoader().loadResource("Hurty");//2
+		getSoundLoader().loadResource("Menu_Rolly");//3
+		getSoundLoader().loadResource("Menu_Rolly_2");//4;
+		getSoundLoader().loadResource("Pew");//5;
+		getSoundLoader().loadResource("Pew2");//6
+		getSoundLoader().loadResource("Ping");//7
+		getSoundLoader().loadResource("Signal");//8
+		getSoundLoader().loadResource("Signal2");//9
 
 		ArtManager.init();
 

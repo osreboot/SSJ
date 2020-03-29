@@ -8,7 +8,6 @@ import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
 import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
 import com.hyprgloo.ssj.PhysicsObject.Alliance;
@@ -115,6 +114,7 @@ public class Player {
 	public void connectShip(PhysicsObject shipPhysicsObjectArg, PhysicsObject collisionObjectArg) {
 		connectedShips.add(shipPhysicsObjectArg);
 		shipPhysicsObjectArg.connectToParent(collisionObjectArg);
+		Main.getSound(Main.INDEX_CLICK).playAsSoundEffect(1f, 0.25f, false);
 	}
 
 	public void disconnectShip(PhysicsObject shipPhysicsObjectArg) {
