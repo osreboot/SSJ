@@ -50,13 +50,13 @@ public class Main extends HvlTemplateInteg2D{
 		getTextureLoader().loadResource("Font");//0
 		getTextureLoader().loadResource("HYPRGLOO");//1
 		getTextureLoader().loadResource("HeroShip32");//2
-		getTextureLoader().loadResource("CargoShip");//3
+		getTextureLoader().loadResource("CargoShip32");//3
 		getTextureLoader().loadResource("Asteroid");//4
 		getTextureLoader().loadResource("Plasma");//5
 		getTextureLoader().loadResource("HeroShip32Emissive");//6
 		getTextureLoader().loadResource("Vignette");//7
 		getTextureLoader().loadResource("ConvoyEnemy");//8 // TODO remove this
-		getTextureLoader().loadResource("CargoShipEmissive");//9
+		getTextureLoader().loadResource("CargoShip32Emissive");//9
 		getTextureLoader().loadResource("EnemyBullet");//10
 		getTextureLoader().loadResource("EnemyBulletEmissive");//11
 		getTextureLoader().loadResource("EnemyGunner");//12
@@ -72,7 +72,7 @@ public class Main extends HvlTemplateInteg2D{
 		getTextureLoader().loadResource("EnemyGunnerEmissive");//22
 		getTextureLoader().loadResource("Missile");//23
 		getTextureLoader().loadResource("MissileEmissive");//24
-		
+
 		ArtManager.init();
 
 		font = new HvlFontPainter2D(getTexture(INDEX_FONT), HvlFontPainter2D.Preset.FP_AGOFFICIAL);
