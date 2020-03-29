@@ -85,11 +85,12 @@ public class Game {
 				
 				if(messageTimer - globalTimer < 0f) {
 					float angle = HvlMath.randomFloatBetween(-3.14f, 3.14f);
-					float x = (float) (6000 * Math.cos(angle));
-					float y = (float) (6000 * Math.sin(angle));
+					float x = (float) (2000 * Math.cos(angle));
+					float y = (float) (2000 * Math.sin(angle));
 					
 					if(!portalSpawned) {
 						p = new Portal(new HvlCoord2D(x,y));
+						
 						portalSpawned = true;
 					}
 					
