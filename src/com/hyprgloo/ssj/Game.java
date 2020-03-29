@@ -50,7 +50,7 @@ class Portal {
 		hvlRotate(this.loc, rad);
 		hvlDrawQuadc(loc.x, loc.y, 300, 300, Color.cyan);
 		hvlResetRotation();
-	}	
+	}
 }
 
 public class Game {

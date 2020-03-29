@@ -51,7 +51,7 @@ public abstract class Tutorial {
 			boolean hasPressedD = false;
 			@Override
 			public boolean shouldSpawn(){
-				return Game.globalTimer > 1f;
+				return true;
 			}
 			@Override
 			protected void displayPre(float delta){
@@ -281,7 +281,7 @@ public abstract class Tutorial {
 		if(Options.tutorials){
 			if(current == null){
 				for(Tutorial t : tutorials){
-					if(!t.complete && t.shouldSpawn()){
+					if(!t.complete && t.shouldSpawn() && Game.globalTimer > 1f){
 						current = t;
 						current.reset();
 						break;
