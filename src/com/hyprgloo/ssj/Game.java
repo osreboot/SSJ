@@ -72,6 +72,8 @@ public class Game {
 	public static float messageTimer = 0f;
 
 	static boolean debugCam = false;
+	
+	public static float whiteFade = 1f;
 
 	public static void reset() {
 		camera = new HvlCamera2D(0, 0, 0, debugCam ? 0.2f : 1f, HvlCamera2D.ALIGNMENT_CENTER);
@@ -118,7 +120,6 @@ public class Game {
 		// new ProjectileEnemyGunner(HvlCursor.getCursorPosition().addNew(camera.getX(),
 		// camera.getY()).add(camera.getAlignment()), new HvlCoord2D(), 0);
 		// }
-		
 		playedFriendlyGunnerSound = false;
 
 		// Attach ships to the player if they collide
@@ -161,6 +162,7 @@ public class Game {
 
 		if(player.physicsObject.health <= 0) {
 			MenuManager.win = false;
+			whiteFade = 1f;			
 			HvlMenu.setCurrent(MenuManager.end);
 		}
 		projectiles.removeIf(p -> p.physicsObject.isDead());

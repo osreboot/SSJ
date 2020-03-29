@@ -278,6 +278,8 @@ public class MenuManager {
 			Main.font.drawWordc("Pause", Display.getWidth() / 2, Display.getHeight() / 8, Color.lightGray, 0.5f);
 
 		} else if (HvlMenu.getCurrent() == end) {
+			Game.whiteFade = HvlMath.stepTowards(Game.whiteFade, delta*1.2f, 0f);
+			hvlDrawQuad(0, 0, Display.getWidth(), Display.getHeight(), new Color(1f, 1f, 1f, Game.whiteFade));
 			String s = win ? "Congratulations! You saved " + Game.player.connectedShips.size() + " ships!" : "You perished in the final frontier.";
 			Main.font.drawWordc(s, Display.getWidth()/2, 250, Color.white, 0.3f);
 		}
