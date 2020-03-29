@@ -245,8 +245,8 @@ public class MenuManager {
 			hvlDrawQuadc(Display.getWidth() / 2, Display.getHeight() / 2, 512, 512, Main.getTexture(Main.INDEX_SPLASH),
 					new Color(1f, 1f, 1f, alpha));
 		} else if (HvlMenu.getCurrent() == main) {
-			Main.font.drawWordc("The Cosmic Collective", Display.getWidth()/2+4 + (cursorFocus.x * 10f), Display.getHeight()/2+114 + (cursorFocus.y * 10f), Color.gray, 0.7f);
-			Main.font.drawWordc("The Cosmic Collective", Display.getWidth()/2 + (cursorFocus.x * 10f), Display.getHeight()/2+110 + (cursorFocus.y * 10f), Color.white, 0.7f);
+			Main.font.drawWordc("The Cosmic Collective", Display.getWidth()/2+4 + (cursorFocus.x * 10f), Display.getHeight()/2+114 + (cursorFocus.y * 10f), Color.gray, 0.6f);
+			Main.font.drawWordc("The Cosmic Collective", Display.getWidth()/2 + (cursorFocus.x * 10f), Display.getHeight()/2+110 + (cursorFocus.y * 10f), Color.white, 0.6f);
 		} else if (HvlMenu.getCurrent() == game) {
 			Game.update(delta);
 		
