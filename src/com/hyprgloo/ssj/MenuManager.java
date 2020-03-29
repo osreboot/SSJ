@@ -160,7 +160,7 @@ public class MenuManager {
 					public void run(HvlButton a){
 						Options.music = !Options.music;
 						((HvlLabeledButton)a).setText("Music: " + (Options.music ? "ON" : "OFF"));
-					}w
+					}
 				}).build());
 		options.getFirstArrangerBox().add(new HvlSpacer(BUTTON_SPACING, BUTTON_SPACING));
 
