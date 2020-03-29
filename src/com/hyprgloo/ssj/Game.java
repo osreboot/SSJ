@@ -34,11 +34,9 @@ class Portal {
 			} else if (p == Game.player.physicsObject && HvlMath.distance(p.location, this.loc) < 1000) {
 				p.location.x = HvlMath.stepTowards(p.location.x, (50000/HvlMath.distance(p.location, this.loc))*delta, this.loc.x);
 				p.location.y = HvlMath.stepTowards(p.location.y, (50000/HvlMath.distance(p.location, this.loc))*delta, this.loc.y);
-				p.health = 400f;
-				for(ShipFriendly f : EnvironmentManager.friendlyShips) {
-					if(f.physicsObject.hasParent() && Game.player.connectedShips.contains(f)) {
-						f.physicsObject.health = 200f;
-					}
+				for(PhysicsObject f : Game.physicsObjects) {
+					f.canDealDamage = false;
+					f.canReceiveDamage = false;
 				}
 				if(HvlMath.distance(p.location, this.loc) < 50) {
 					MenuManager.win = true;
@@ -84,6 +82,8 @@ public class Game {
 		
 		p = null;
 		portalSpawned = false;
+		
+		globalTimer = 0f;
 		
 		Tutorial.gameReset();
 	}
@@ -174,8 +174,10 @@ public class Game {
 			particle.update(delta);
 		particles.removeIf(p -> p.isDead());
 
-		// TODO check if player dies
-
+		if(player.physicsObject.health <= 0) {
+			MenuManager.win = false;
+			HvlMenu.setCurrent(MenuManager.end);
+		}
 		projectiles.removeIf(p -> p.physicsObject.isDead());
 
 		ArtManager.drawBackground(player.getBaseLocation().x, player.getBaseLocation().y);

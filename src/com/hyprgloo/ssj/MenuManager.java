@@ -178,6 +178,10 @@ public class MenuManager {
 						HvlMenu.setCurrent(main);
 					}
 				}).build());
+		
+		end.add(new HvlArrangerBox.Builder().setyAlign(0.7f).build());
+		end.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("Return").setWidth(250).setHeight(250).setTextScale(0.21f)
+				.setClickedCommand(new HvlButtonMenuLink(main)).build());
 
 
 		HvlMenu.setCurrent(splash);
