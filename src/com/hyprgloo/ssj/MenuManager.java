@@ -59,7 +59,11 @@ public class MenuManager {
 
 		buttonAliases = new HashMap<>();
 		
-		deaths = new String[] {"Space, the final frontier. It was your last.", "YOU PERISHED IN DEEP SPACE", "Pressure vessel breach. You died.",
+		deaths = new String[] {
+				"Space, the final frontier. YOUR final frontier.",
+				"YOU PERISHED IN DEEP SPACE",
+				"Pressure vessel breach. You died.",
+				"Rescue vessel pilot lost. Portal closed."
 				};
 
 		try {
