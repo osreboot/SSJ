@@ -11,6 +11,7 @@ import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
 
 import com.hyprgloo.ssj.PhysicsObject.Alliance;
+import com.hyprgloo.ssj.particle.ParticleSpark;
 import com.osreboot.ridhvl.HvlCoord2D;
 import com.osreboot.ridhvl.HvlMath;
 
@@ -22,7 +23,6 @@ public class Player {
 
 	private float xsInput, ysInput;
 	public PhysicsObject physicsObject;
-	public boolean done;
 	private ArrayList<PhysicsObject> connectedShips;
 
 	public Player() {
@@ -32,31 +32,36 @@ public class Player {
 		physicsObject.health = 400f;
 		xsInput = 0;
 		ysInput = 0;
-		done = false;
 		connectedShips = new ArrayList<>();
 	}
 
 	public float progress;
 
 	public void drawHUD() {
-		if (!done) {
+		if (!Game.portalSpawned) {
 			progress = HvlMath.distance(physicsObject.location.x, physicsObject.location.y, 0, 0) / Game.END_DISTANCE;
-			hvlDrawQuadc(200, 100, 310, 40, Main.getTexture(Main.INDEX_PROG_BAR));
-			hvlDrawQuad(50, 85, 300 * progress, 30, Color.cyan);
+			if (progress >= 1) {
+				progress = 1;
+			}
+			hvlDrawQuadc(140, 30, 240, 30, Main.getTexture(Main.INDEX_PROG_BAR));
+			hvlDrawQuad(25, 20, 230 * progress, 20, Color.cyan);
+			Main.font.drawWordc("Distance to Deep Space", 140, 30, Color.white, 0.1f);
+
 		}
-		if (progress >= 1) {
-			progress = 1;
-			done = true;
-		}
-		
 		
 		if(Game.portalSpawned) {
-			hvlDrawQuadc(200, 100, 105, 105, Main.getTexture(Main.INDEX_MENU_BUTT));
-			hvlRotate(200, 100, (float) (180/Math.PI) * HvlMath.fullRadians(physicsObject.location, Game.p.loc));
-			hvlDrawQuadc(150, 100, 40, 8, Main.getTexture(Main.INDEX_ARROW));
-			hvlDrawQuadc(200, 100, 80, 3, Color.cyan);
+			Main.font.drawWordc("Compass", 100, 30, Color.cyan, 0.12f);
+			hvlDrawQuadc(100, 100, 105, 105, Main.getTexture(Main.INDEX_MENU_BUTT));
+			hvlRotate(100, 100, (float) (180/Math.PI) * HvlMath.fullRadians(physicsObject.location, Game.p.loc));
+			hvlDrawQuadc(50, 100, 40, 8, Main.getTexture(Main.INDEX_ARROW));
+			hvlDrawQuadc(100, 100, 80, 3, Color.cyan);
 			hvlResetRotation();
 		}
+		
+		hvlDrawQuadc(140, Display.getHeight()-30, 240, 30, Main.getTexture(Main.INDEX_PROG_BAR));
+		hvlDrawQuad(25, Display.getHeight()-40, physicsObject.health * 0.575f, 20, Color.red);
+		if(physicsObject.health <= 0) physicsObject.health = 0;
+		Main.font.drawWordc("Health", 140, Display.getHeight()-30, Color.white, 0.1f);
 	}
 
 	public void update(float delta) {

@@ -1,6 +1,5 @@
 package com.hyprgloo.ssj;
 
-import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawLine;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlResetRotation;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
@@ -10,6 +9,7 @@ import java.util.ArrayList;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
+import com.hyprgloo.ssj.physics.PhysicsObjectShip;
 import com.osreboot.ridhvl.HvlCoord2D;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.action.HvlAction0;
@@ -18,18 +18,27 @@ import com.osreboot.ridhvl.painter.HvlCamera2D;
 
 class Portal {
 	HvlCoord2D loc;
+	float rad = 0f;
 	public Portal(HvlCoord2D loc) {
 		this.loc = loc;
 	}
 	
-	public void draw() {
+	public void draw(float delta) {
+		for(PhysicsObject p : Game.physicsObjects) {
+			if(HvlMath.distance(p.location, this.loc) < 300 && p != Game.player.physicsObject && !(p instanceof PhysicsObjectShip && p.hasParent())) {
+				p.health = 0;
+			}
+		}
+		rad += 500 * delta;
+		hvlRotate(this.loc, rad);
 		hvlDrawQuadc(loc.x, loc.y, 300, 300, Color.cyan);
+		hvlResetRotation();
 	}	
 }
 
 public class Game {
 
-	public static final int END_DISTANCE = 1000;
+	public static final int END_DISTANCE = 200;
 
 	public static HvlCamera2D camera;
 
@@ -85,8 +94,8 @@ public class Game {
 				
 				if(messageTimer - globalTimer < 0f) {
 					float angle = HvlMath.randomFloatBetween(-3.14f, 3.14f);
-					float x = (float) (2000 * Math.cos(angle));
-					float y = (float) (2000 * Math.sin(angle));
+					float x = (float) (200 * Math.cos(angle));
+					float y = (float) (200 * Math.sin(angle));
 					
 					if(!portalSpawned) {
 						p = new Portal(new HvlCoord2D(x,y));
@@ -172,7 +181,7 @@ public class Game {
 				}
 				
 				if(portalSpawned) {
-					p.draw();
+					p.draw(delta);
 				}
 			}
 		});
