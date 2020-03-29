@@ -172,10 +172,10 @@ public class Main extends HvlTemplateInteg2D{
 
 	@Override
 	public void update(float delta) {
-		if(!getSound(INDEX_MUSIC).isPlaying() && Options.sound){
+		if(!getSound(INDEX_MUSIC).isPlaying() && Options.music){
 			getSound(INDEX_MUSIC).playAsSoundEffect(1.0f, 0.175f, false);
 		}
-		if(getSound(INDEX_MUSIC).isPlaying() && !Options.sound){
+		if(getSound(INDEX_MUSIC).isPlaying() && !Options.music){
 			getSound(INDEX_MUSIC).stop();
 		}
 		
