@@ -173,7 +173,6 @@ public class Game {
 				
 				if(portalSpawned) {
 					p.draw();
-					hvlDrawLine(p.loc.x, p.loc.y, player.physicsObject.location.x, player.physicsObject.location.y, Color.cyan);
 				}
 			}
 		});

@@ -8,6 +8,7 @@ import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
 import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
 import com.hyprgloo.ssj.PhysicsObject.Alliance;
@@ -51,6 +52,12 @@ public class Player {
 		}
 		hvlDrawQuadc(200, 100, 310, 40, Main.getTexture(Main.INDEX_PROG_BAR));
 		hvlDrawQuad(50, 85, 300 * progress, 30, Color.green);
+		
+		if(Game.portalSpawned) {
+			hvlRotate(Display.getWidth()/2, Display.getHeight()-100, HvlMath.fullRadians(physicsObject.location, Game.p.loc));
+			hvlDrawQuadc(Display.getWidth()/2, Display.getHeight()-100, 5, 100, Color.cyan);
+			hvlResetRotation();
+		}
 	}
 
 	public void update(float delta) {

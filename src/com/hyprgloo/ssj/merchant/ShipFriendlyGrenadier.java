@@ -46,15 +46,8 @@ public class ShipFriendlyGrenadier extends ShipFriendly{
 	public void draw(float delta){
 		hvlRotate(physicsObject.location.x, physicsObject.location.y, physicsObject.getVisualAngle());
 		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f, physicsObject.radius * 2f, Main.getTexture(Main.INDEX_FRIENDLY_MISSILE_SHIP));
-		if(!physicsObject.hasParent())
-			hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 4f, physicsObject.radius * 4f, Main.getTexture(Main.INDEX_FRIENDLY_MISSILE_LAUNCH));
+		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f, physicsObject.radius * 2f, Main.getTexture(Main.INDEX_FRIENDLY_MISSILE_LAUNCH));
 		hvlResetRotation();
-		
-		if(physicsObject.hasParent()) {
-			hvlRotate(physicsObject.location.x, physicsObject.location.y, HvlMath.fullRadians(HvlCursor.getCursorPosition(), physicsObject.location));
-			hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 4f, physicsObject.radius * 4f, Main.getTexture(Main.INDEX_FRIENDLY_MISSILE_LAUNCH));
-			hvlResetRotation();
-		}
 	}
 
 	@Override
