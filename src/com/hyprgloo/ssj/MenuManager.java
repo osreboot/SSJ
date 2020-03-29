@@ -36,6 +36,7 @@ public class MenuManager {
 	private static HvlRenderFrame pauseFrame;
 
 	public static boolean escapeHeld;
+	private static boolean rollover;
 
 	public static void init() {
 		main = new HvlMenu();
@@ -61,16 +62,23 @@ public class MenuManager {
 			@Override
 			public void draw(float deltaArg, float xArg, float yArg, float widthArg, float heightArg) {
 				hvlDrawQuad(xArg, yArg, widthArg, heightArg, Main.getTexture(Main.INDEX_MENU_BUTT));
+				//rollover = false;
 			}
 		}, new HvlComponentDrawable() {
 			@Override
 			public void draw(float deltaArg, float xArg, float yArg, float widthArg, float heightArg) {
 				hvlDrawQuad(xArg, yArg, widthArg, heightArg, Main.getTexture(Main.INDEX_MENU_BUTT), Color.gray);
+				if(!rollover) {
+					Main.getSound(Main.INDEX_MENU_ROLLY).playAsSoundEffect(1f, 0.25f, false);
+				}
+				rollover = true;
 			}
 		}, new HvlComponentDrawable() {
 			@Override
 			public void draw(float deltaArg, float xArg, float yArg, float widthArg, float heightArg) {
 				hvlDrawQuad(xArg, yArg, widthArg, heightArg, Main.getTexture(Main.INDEX_MENU_BUTT), Color.lightGray);
+				rollover = false;
+				
 			}
 		}, Main.font, "", Color.white);
 
@@ -181,8 +189,8 @@ public class MenuManager {
 			Main.font.drawWordc("Basset", Display.getWidth() / 2, Display.getHeight() * 15 / 20 - 12, Color.lightGray,
 					0.325f);			
 
-			textC = (i < 2) ? "Roblox : https://www.roblox.com/users/525422/profile" : "Twitter: xbassetx";
-
+			textC = (i < 2) ? "Roblox : https://www.roblox.com/users/525422/profile" : "https://github.com/basset10";
+			
 			Main.font.drawWordc(textC, Display.getWidth() / 2, Display.getHeight() * 16 / 20, Color.lightGray,
 					0.2f);
 
