@@ -245,7 +245,7 @@ public class MenuManager {
 			Main.font.drawWordc("CREDITS", Display.getWidth() / 2, Display.getHeight() / 8, Color.lightGray, 0.5f);
 			Main.font.drawWordc("os_reboot", Display.getWidth() / 2, Display.getHeight() * 4 / 20 + 12, Color.lightGray,
 					0.325f);
-			Main.font.drawWordc("Twitter: os_reboot", Display.getWidth() / 2, Display.getHeight() * 5 / 20 + 24,
+			Main.font.drawWordc("github.com/osreboot", Display.getWidth() / 2, Display.getHeight() * 5 / 20 + 24,
 					Color.lightGray, 0.2f);
 
 			Main.font.drawWordc("HaveANiceDay", Display.getWidth() / 2, Display.getHeight() * 8 / 20, Color.lightGray,
