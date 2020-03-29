@@ -2,6 +2,10 @@ package com.hyprgloo.ssj;
 
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuad;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
+import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlResetRotation;
+import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
+
+import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -9,17 +13,17 @@ import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
 import com.osreboot.ridhvl.HvlMath;
+import com.osreboot.ridhvl.action.HvlAction0;
 import com.osreboot.ridhvl.action.HvlAction1;
-import com.osreboot.ridhvl.action.HvlAction2;
 import com.osreboot.ridhvl.menu.HvlButtonMenuLink;
 import com.osreboot.ridhvl.menu.HvlComponent;
 import com.osreboot.ridhvl.menu.HvlComponentDefault;
 import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.menu.component.HvlArrangerBox;
+import com.osreboot.ridhvl.menu.component.HvlArrangerBox.ArrangementStyle;
 import com.osreboot.ridhvl.menu.component.HvlButton;
 import com.osreboot.ridhvl.menu.component.HvlComponentDrawable;
 import com.osreboot.ridhvl.menu.component.HvlSpacer;
-import com.osreboot.ridhvl.menu.component.HvlArrangerBox.ArrangementStyle;
 import com.osreboot.ridhvl.menu.component.collection.HvlLabeledButton;
 import com.osreboot.ridhvl.painter.HvlRenderFrame;
 
@@ -30,7 +34,7 @@ public class MenuManager {
 
 	private static HvlMenu splash, main, credits, options, game, end, pause;
 	private static HvlRenderFrame pauseFrame;
-	
+
 	public static boolean escapeHeld;
 
 	public static void init() {
@@ -82,13 +86,13 @@ public class MenuManager {
 		main.getFirstArrangerBox().add(new HvlSpacer(BUTTON_SPACING, BUTTON_SPACING));
 
 		main.getFirstArrangerBox()
-				.add(new HvlLabeledButton.Builder().setText("Play").setClickedCommand(new HvlAction1<HvlButton>() {
-					@Override
-					public void run(HvlButton aArg) {
-						HvlMenu.setCurrent(game);
-						Game.reset();
-					}
-				}).build());
+		.add(new HvlLabeledButton.Builder().setText("Play").setClickedCommand(new HvlAction1<HvlButton>() {
+			@Override
+			public void run(HvlButton aArg) {
+				HvlMenu.setCurrent(game);
+				Game.reset();
+			}
+		}).build());
 		main.getFirstArrangerBox().add(new HvlSpacer(BUTTON_SPACING, BUTTON_SPACING));
 		main.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("Credits").setWidth(200).setHeight(200)
 				.setClickedCommand(new HvlButtonMenuLink(credits)).build());
@@ -146,17 +150,17 @@ public class MenuManager {
 		} else if (HvlMenu.getCurrent() == main) {
 		} else if (HvlMenu.getCurrent() == game) {
 			Game.update(delta);
-				if(!Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
-					escapeHeld = false;
-				}
-				if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE) && !escapeHeld){
-					escapeHeld = true;
-					if(HvlMenu.getCurrent()==MenuManager.game) {
-						HvlMenu.setCurrent(MenuManager.pause);
-					} else if(HvlMenu.getCurrent()==MenuManager.pause) {
-						HvlMenu.setCurrent(MenuManager.game);
-					}	
-				}
+			if(!Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
+				escapeHeld = false;
+			}
+			if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE) && !escapeHeld){
+				escapeHeld = true;
+				if(HvlMenu.getCurrent()==MenuManager.game) {
+					HvlMenu.setCurrent(MenuManager.pause);
+				} else if(HvlMenu.getCurrent()==MenuManager.pause) {
+					HvlMenu.setCurrent(MenuManager.game);
+				}	
+			}
 		} else if (HvlMenu.getCurrent() == credits) {
 			Main.font.drawWordc("CREDITS", (Display.getWidth() / 2) + 4, (Display.getHeight() / 8) + 4, Color.darkGray,
 					0.5f);
@@ -176,9 +180,9 @@ public class MenuManager {
 
 			Main.font.drawWordc("Basset", Display.getWidth() / 2, Display.getHeight() * 15 / 20 - 12, Color.lightGray,
 					0.325f);			
-			
+
 			textC = (i < 2) ? "Roblox : https://www.roblox.com/users/525422/profile" : "Twitter: xbassetx";
-			
+
 			Main.font.drawWordc(textC, Display.getWidth() / 2, Display.getHeight() * 16 / 20, Color.lightGray,
 					0.2f);
 
@@ -190,12 +194,52 @@ public class MenuManager {
 			}
 			if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE) && !escapeHeld){
 				escapeHeld = true;
-					HvlMenu.setCurrent(MenuManager.game);
+				HvlMenu.setCurrent(MenuManager.game);
 			}
-			
+
 			Main.font.drawWordc("ESC to unpause", Display.getWidth() / 2, Display.getHeight() / 8, Color.lightGray, 0.5f);
-			
+
 		}
 
+		if(HvlMenu.getCurrent() != game){
+			ArrayList<HvlLabeledButton> buttons = new ArrayList<>();
+			for(int i = 0; i < HvlMenu.getCurrent().getChildCount(); i++)
+				if(HvlMenu.getCurrent().get(i) instanceof HvlArrangerBox)
+					buttons.addAll(getAllButtons(HvlMenu.getCurrent().<HvlArrangerBox>get(i)));
+			for(HvlLabeledButton button : buttons){
+				hvlRotate(button.getX() + (button.getWidth() / 2),  button.getY() + (button.getHeight() / 2), Main.getNewestInstance().getTimer().getTotalTime() * 20f);
+				hvlDrawQuad(button.getX(), button.getY(), button.getWidth(), button.getHeight(), Main.getTexture(Main.INDEX_MENU_BUTT_EMISSIVE));
+				hvlResetRotation();
+			}
+			
+			ArtManager.drawVignette();
+			ArtManager.blurFrame.doCapture(new HvlAction0() {
+				@Override
+				public void run() {
+					Color emissiveColor = new Color(0f, 0f, 0.6f, 1f);
+					for(HvlLabeledButton button : buttons){
+						hvlRotate(button.getX() + (button.getWidth() / 2),  button.getY() + (button.getHeight() / 2), Main.getNewestInstance().getTimer().getTotalTime() * 20f);
+						hvlDrawQuad(button.getX(), button.getY(), button.getWidth(), button.getHeight(), Main.getTexture(Main.INDEX_MENU_BUTT_EMISSIVE), emissiveColor);
+						hvlResetRotation();
+					}
+				}
+			});
+
+			ArtManager.drawEmissive();
+		}
+
+	}
+
+	private static ArrayList<HvlLabeledButton> getAllButtons(HvlArrangerBox arranger){
+		ArrayList<HvlLabeledButton> output = new ArrayList<>();
+		if(arranger != null){
+			for(HvlComponent c : arranger.getChildren()){
+				if(c instanceof HvlArrangerBox)
+					output.addAll(getAllButtons((HvlArrangerBox)c));
+				if(c instanceof HvlLabeledButton)
+					output.add((HvlLabeledButton)c);
+			}
+		}
+		return output;
 	}
 }

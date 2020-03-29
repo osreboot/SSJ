@@ -12,6 +12,9 @@ import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
 import com.hyprgloo.ssj.PhysicsObject.Alliance;
+import com.hyprgloo.ssj.merchant.ShipFriendlyGrenadier;
+import com.hyprgloo.ssj.merchant.ShipFriendlyGunner;
+import com.hyprgloo.ssj.merchant.ShipFriendlyTrader;
 import com.hyprgloo.ssj.particle.ParticleSpark;
 import com.osreboot.ridhvl.HvlCoord2D;
 import com.osreboot.ridhvl.HvlMath;
@@ -25,6 +28,9 @@ public class Player {
 	private float xsInput, ysInput;
 	public PhysicsObject physicsObject;
 	private ArrayList<PhysicsObject> connectedShips;
+	
+	private float iconShieldUpdate, iconTurretUpdate, iconMissileUpdate;
+	private int shieldCount, turretCount, missileCount;
 
 	public Player() {
 		physicsObject = new PhysicsObject(0f, 0f, 0f, 16f);
@@ -34,6 +40,14 @@ public class Player {
 		xsInput = 0;
 		ysInput = 0;
 		connectedShips = new ArrayList<>();
+		
+		iconShieldUpdate = 0;
+		iconTurretUpdate = 0;
+		iconMissileUpdate = 0;
+		
+		shieldCount = 0;
+		turretCount = 0;
+		missileCount = 0;
 	}
 
 	public float progress;
@@ -63,9 +77,47 @@ public class Player {
 		hvlDrawQuad(25, Display.getHeight()-40, physicsObject.health * 0.575f, 20, Color.red);
 		if(physicsObject.health <= 0) physicsObject.health = 0;
 		Main.font.drawWordc("Health", 140, Display.getHeight()-30, Color.white, 0.1f);
+		
+		hvlDrawQuadc(Display.getWidth() - 192f, Display.getHeight() - 40, 64 + (iconShieldUpdate * 32f), 64 + (iconShieldUpdate * 32f),
+				Main.getTexture(Main.INDEX_ICON_SHIELD), new Color(1f, 1f, 1f, (iconShieldUpdate / 2f) + 0.5f));
+		Main.font.drawWord("x" + shieldCount, Display.getWidth() - 192f, Display.getHeight() - 60, Color.white, 0.1f);
+		hvlDrawQuadc(Display.getWidth() - 128f, Display.getHeight() - 40, 64 + (iconTurretUpdate * 32f), 64 + (iconTurretUpdate * 32f),
+				Main.getTexture(Main.INDEX_ICON_TURRET), new Color(1f, 1f, 1f, (iconTurretUpdate / 2f) + 0.5f));
+		Main.font.drawWord("x" + turretCount, Display.getWidth() - 128f, Display.getHeight() - 60, Color.white, 0.1f);
+		hvlDrawQuadc(Display.getWidth() - 64f, Display.getHeight() - 40, 64 + (iconMissileUpdate * 32f), 64 + (iconMissileUpdate * 32f),
+				Main.getTexture(Main.INDEX_ICON_MISSILE), new Color(1f, 1f, 1f, (iconMissileUpdate / 2f) + 0.5f));
+		Main.font.drawWord("x" + missileCount, Display.getWidth() - 64f, Display.getHeight() - 60, Color.white, 0.1f);
+
 	}
 
 	public void update(float delta) {
+		iconShieldUpdate = HvlMath.stepTowards(iconShieldUpdate, delta, 0f);
+		iconTurretUpdate = HvlMath.stepTowards(iconTurretUpdate, delta, 0f);
+		iconMissileUpdate = HvlMath.stepTowards(iconMissileUpdate, delta, 0f);
+		
+		int tickShieldCount = 0;
+		int tickTurretCount = 0;
+		int tickMissileCount = 0;
+		for(ShipFriendly ship : EnvironmentManager.friendlyShips){
+			if(ship.physicsObject.hasParent() && connectedShips.contains(ship.physicsObject)){
+				if(ship instanceof ShipFriendlyTrader) tickShieldCount++;
+				if(ship instanceof ShipFriendlyGunner) tickTurretCount++;
+				if(ship instanceof ShipFriendlyGrenadier) tickMissileCount++;
+			}
+		}
+		if(shieldCount != tickShieldCount){
+			shieldCount = tickShieldCount;
+			iconShieldUpdate = 1f;
+		}
+		if(turretCount != tickTurretCount){
+			turretCount = tickTurretCount;
+			iconTurretUpdate = 1f;
+		}
+		if(missileCount != tickMissileCount){
+			missileCount = tickMissileCount;
+			iconMissileUpdate = 1f;
+		}
+		
 		xsInput = (Keyboard.isKeyDown(Keyboard.KEY_A) ? -ACCELERATION : 0)
 				+ (Keyboard.isKeyDown(Keyboard.KEY_D) ? ACCELERATION : 0);
 		ysInput = (Keyboard.isKeyDown(Keyboard.KEY_W) ? -ACCELERATION : 0)

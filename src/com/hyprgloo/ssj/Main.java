@@ -46,8 +46,13 @@ public class Main extends HvlTemplateInteg2D{
 	INDEX_ASTEROID1 = 32,
 	INDEX_ASTEROID2 = 33,
 	INDEX_ASTEROID_HALO = 34,
-	INDEX_ARROW = 35;
-	
+	INDEX_ARROW = 35,
+	INDEX_ICON_SHIELD = 36,
+	INDEX_ICON_RAM = 37,
+	INDEX_ICON_TURRET = 38,
+	INDEX_ICON_MISSILE = 39,
+	INDEX_MENU_BUTT_EMISSIVE = 40;
+
 	public static final int
 	INDEX_CLICK = 0,
 	INDEX_CRASH = 1,
@@ -106,7 +111,12 @@ public class Main extends HvlTemplateInteg2D{
 		getTextureLoader().loadResource("Asteroid2");//33
 		getTextureLoader().loadResource("AsteroidHalo");//34
 		getTextureLoader().loadResource("arrow");//35
-		
+		getTextureLoader().loadResource("IconShield");//36
+		getTextureLoader().loadResource("IconRam");//37
+		getTextureLoader().loadResource("IconTurret");//38
+		getTextureLoader().loadResource("IconMissile");//39
+		getTextureLoader().loadResource("menuButtonEmissive");//40
+
 		getSoundLoader().loadResource("Click");//0
 		getSoundLoader().loadResource("Crash");//1
 		getSoundLoader().loadResource("Hurty");//2
