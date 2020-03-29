@@ -55,7 +55,7 @@ public class Player {
 
 	public float progress;
 
-	public void drawHUD() {
+	public void drawHUD(float delta) {
 		
 		if(!done)
 			progress = HvlMath.distance(physicsObject.location.x, physicsObject.location.y, 0, 0) / Game.END_DISTANCE;
@@ -63,6 +63,7 @@ public class Player {
 		if (progress >= 1) {
 			progress = 1;
 			done = true;
+			Game.spawnPortal(delta);
 		}
 		
 		if (!Game.portalSpawned) {
@@ -74,7 +75,7 @@ public class Player {
 		}
 		
 		if(Game.portalSpawned) {
-			Main.font.drawWordc("Compass", 100, 30, Color.cyan, 0.12f);
+			Main.font.drawWordc("Portal Tracker", 100, 30, Color.cyan, 0.12f);
 			hvlDrawQuadc(100, 100, 105, 105, Main.getTexture(Main.INDEX_MENU_BUTT));
 			hvlRotate(100, 100, (float) (180/Math.PI) * HvlMath.fullRadians(physicsObject.location, Game.p.loc));
 			hvlDrawQuadc(50, 100, 40, 8, Main.getTexture(Main.INDEX_ARROW));
