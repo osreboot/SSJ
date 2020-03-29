@@ -4,7 +4,7 @@ public class Options {
 
 	public static boolean sound, tutorials;
 	
-	public static void reset(){
+	public static void init(){
 		sound = true;
 		tutorials = true;
 	}

@@ -128,7 +128,8 @@ public class Main extends HvlTemplateInteg2D{
 		getSoundLoader().loadResource("Signal");//8
 		getSoundLoader().loadResource("Signal2");//9
 
-		Options.reset();
+		Options.init();
+		Tutorial.init();
 		
 		ArtManager.init();
 

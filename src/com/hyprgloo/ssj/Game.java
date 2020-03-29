@@ -67,6 +67,8 @@ public class Game {
 		
 		p = null;
 		portalSpawned = false;
+		
+		Tutorial.gameReset();
 	}
 
 	
@@ -226,6 +228,8 @@ public class Game {
 
 		ArtManager.drawEmissive();
 
+		Tutorial.update(delta);
+		
 		globalTimer += delta;
 	}
 }
