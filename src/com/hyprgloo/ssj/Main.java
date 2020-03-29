@@ -128,6 +128,8 @@ public class Main extends HvlTemplateInteg2D{
 		getSoundLoader().loadResource("Signal");//8
 		getSoundLoader().loadResource("Signal2");//9
 
+		Options.reset();
+		
 		ArtManager.init();
 
 		font = new HvlFontPainter2D(getTexture(INDEX_FONT), HvlFontPainter2D.Preset.FP_AGOFFICIAL);

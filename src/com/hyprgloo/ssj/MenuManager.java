@@ -132,6 +132,22 @@ public class MenuManager {
 				}).build());
 
 		options.add(new HvlArrangerBox.Builder().setxAlign(0.03f).setyAlign(0.95f).build());
+		options.add(new HvlLabeledButton.Builder().setText("Audio: " + (Options.sound ? "ON" : "OFF")).setX(Display.getWidth()/2 - 220).setY(100).setWidth(200).setHeight(200)
+				.setClickedCommand(new HvlAction1<HvlButton>(){
+					@Override
+					public void run(HvlButton a){
+						Options.sound = !Options.sound;
+						((HvlLabeledButton)a).setText("Audio: " + (Options.sound ? "ON" : "OFF"));
+					}
+				}).build());
+		options.add(new HvlLabeledButton.Builder().setText("Tutorials: " + (Options.tutorials ? "ON" : "OFF")).setX(Display.getWidth()/2 + 20).setY(100).setWidth(200).setHeight(200)
+				.setClickedCommand(new HvlAction1<HvlButton>(){
+					@Override
+					public void run(HvlButton a){
+						Options.tutorials = !Options.tutorials;
+						((HvlLabeledButton)a).setText("Tutorials:" + (Options.tutorials ? "ON" : "OFF"));
+					}
+				}).build());
 		options.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("Back").setWidth(128).setHeight(128)
 				.setClickedCommand(new HvlAction1<HvlButton>() {
 					@Override
@@ -272,9 +288,12 @@ public class MenuManager {
 
 	private static ArrayList<HvlLabeledButton> getAllButtons(HvlMenu menu){
 		ArrayList<HvlLabeledButton> buttons = new ArrayList<>();
-		for(int i = 0; i < menu.getChildCount(); i++)
+		for(int i = 0; i < menu.getChildCount(); i++){
 			if(menu.get(i) instanceof HvlArrangerBox)
 				buttons.addAll(getAllButtons(menu.<HvlArrangerBox>get(i)));
+			if(menu.get(i) instanceof HvlLabeledButton)
+				buttons.add(menu.get(i));
+		}
 		return buttons;
 	}
 
@@ -303,7 +322,7 @@ public class MenuManager {
 			hoverAmount = HvlMath.stepTowards(hoverAmount, delta * 5f, hover ? 1f : 0f);
 			lightsAngle += delta * (hover ? 50f : 20f);
 			if(hover && !beeped){
-				Main.getSound(Main.INDEX_MENU_ROLLY).playAsSoundEffect(1f, 0.25f, false);
+				if(Options.sound) Main.getSound(Main.INDEX_MENU_ROLLY).playAsSoundEffect(1f, 0.25f, false);
 				beeped = true;
 			}
 			if(!hover) beeped = false;
