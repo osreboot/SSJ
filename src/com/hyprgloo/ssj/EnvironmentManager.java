@@ -105,4 +105,15 @@ public class EnvironmentManager {
 			}
 		}
 	}
+	
+	public static ArrayList<Chunk> getLoadedChunks(){
+		ArrayList<Chunk> output = new ArrayList<>();
+		for (Chunk c : chunks) {
+			float distance = HvlMath.distance(c.loc, Game.player.physicsObject.location);
+			if (distance < Chunk.CHUNK_SIZE/2 + Display.getWidth()) {
+				output.add(c);
+			}
+		}
+		return output;
+	}
 }

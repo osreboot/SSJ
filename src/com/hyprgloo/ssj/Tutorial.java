@@ -12,6 +12,9 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
+import com.hyprgloo.ssj.merchant.ShipFriendlyGrenadier;
+import com.hyprgloo.ssj.merchant.ShipFriendlyGunner;
+import com.hyprgloo.ssj.projectile.ProjectileEnemyGunner;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
 
@@ -40,6 +43,7 @@ public abstract class Tutorial {
 	public static void init(){
 		tutorials = new ArrayList<>();
 
+		// TUTORIAL : WASD ======================
 		Tutorial tutorialWASD = new TutorialTask(){
 			boolean hasPressedW = false;
 			boolean hasPressedA = false;
@@ -64,15 +68,15 @@ public abstract class Tutorial {
 				displayText("Welcome to NAME!", Display.getWidth()/2, 64, taskComplete); // TODO NAME HERE
 				displayText("Use WASD to move.", Display.getWidth()/2, 128, taskComplete);
 				drawTaskCheckMark(Display.getWidth()/2 + 128f + 128f, 128);
-				
+
 				displayKeyboardHint("W", Display.getWidth()/2, Display.getHeight()/2 - 96f, hasPressedW);
 				displayKeyboardHint("S", Display.getWidth()/2, Display.getHeight()/2 + 96f, hasPressedS);
 				displayKeyboardHint("A", Display.getWidth()/2 - 96f, Display.getHeight()/2, hasPressedA);
 				displayKeyboardHint("D", Display.getWidth()/2 + 96f, Display.getHeight()/2, hasPressedD);
-				
+
 				hvlDrawQuadc(Display.getWidth()/2, Display.getHeight()/2 - 64f, 24f, 24f, Main.getTexture(Main.INDEX_ARROW_UP), hasPressedW ? COLOR_ARROW_HINT_COMPLETE : COLOR_ARROW_HINT);
 				hvlDrawQuadc(Display.getWidth()/2, Display.getHeight()/2 + 64f, 24f, -24f, Main.getTexture(Main.INDEX_ARROW_UP), hasPressedS ? COLOR_ARROW_HINT_COMPLETE : COLOR_ARROW_HINT);
-				
+
 				hvlRotate(Display.getWidth()/2, Display.getHeight()/2, 90f);
 				hvlDrawQuadc(Display.getWidth()/2, Display.getHeight()/2 - 64f, 24f, 24f, Main.getTexture(Main.INDEX_ARROW_UP), hasPressedD ? COLOR_ARROW_HINT_COMPLETE : COLOR_ARROW_HINT);
 				hvlDrawQuadc(Display.getWidth()/2, Display.getHeight()/2 + 64f, 24f, -24f, Main.getTexture(Main.INDEX_ARROW_UP), hasPressedA ? COLOR_ARROW_HINT_COMPLETE : COLOR_ARROW_HINT);
@@ -80,7 +84,8 @@ public abstract class Tutorial {
 			}
 		};
 		tutorials.add(tutorialWASD);
-		
+
+		// TUTORIAL : QE ======================
 		Tutorial tutorialQE = new TutorialTask(){
 			boolean hasPressedQ = false;
 			boolean hasPressedE = false;
@@ -100,24 +105,66 @@ public abstract class Tutorial {
 			protected void displayPost(float delta){
 				displayText("Use Q and E to rotate.", Display.getWidth()/2, 96f, taskComplete);
 				drawTaskCheckMark(Display.getWidth()/2 + 128f + 128f + 32f, 96f);
-				
+
 				displayKeyboardHint("Q", Display.getWidth()/2 - 96f, Display.getHeight()/2 - 96f, hasPressedQ);
 				displayKeyboardHint("E", Display.getWidth()/2 + 96f, Display.getHeight()/2 - 96f, hasPressedE);
-				
+
 				hvlDrawQuadc(Display.getWidth()/2 - 64f, Display.getHeight()/2 - 64f, 32f, 32f, Main.getTexture(Main.INDEX_ARROW_LEFT), hasPressedQ ? COLOR_ARROW_HINT_COMPLETE : COLOR_ARROW_HINT);
 				hvlDrawQuadc(Display.getWidth()/2 + 64f, Display.getHeight()/2 - 64f, -32f, 32f, Main.getTexture(Main.INDEX_ARROW_LEFT), hasPressedE ? COLOR_ARROW_HINT_COMPLETE : COLOR_ARROW_HINT);
 			}
 		};
 		tutorials.add(tutorialQE);
-		
+
+		// TUTORIAL : SHIP BUILDING ======================
+		Tutorial tutorialShipBuilding = new Tutorial(){
+			@Override
+			public boolean shouldSpawn(){
+				if(tutorialQE.complete){
+					for(ShipFriendly s : EnvironmentManager.friendlyShips){
+						if(HvlMath.distance(s.physicsObject.location, Game.player.physicsObject.location) < 500f){
+							return true;
+						}
+					}
+				}
+				return false;
+			}
+			@Override
+			protected void displayPre(float delta){
+				for(ShipFriendly s : EnvironmentManager.friendlyShips){
+					if(HvlMath.distance(s.physicsObject.location, Game.player.physicsObject.location) < 2000f){
+						highlightObject(s.physicsObject, true);
+					}
+				}
+
+				complete = timer <= 0;
+			}
+			@Override
+			protected void displayPost(float delta){
+				displayText("Rescue friendly ships by", Display.getWidth()/2, 96f, true);
+				displayText("flying near them!", Display.getWidth()/2, 96f + 64f, true);
+			}
+		};
+		tutorials.add(tutorialShipBuilding);
+
+		// TUTORIAL : SHOOT ======================
 		Tutorial tutorialShoot = new TutorialTask(){
 			@Override
 			public boolean shouldSpawn(){
-				return tutorialWASD.complete;
+				if(tutorialQE.complete){
+					for(ShipFriendly s : EnvironmentManager.friendlyShips){
+						if(s instanceof ShipFriendlyGunner || s instanceof ShipFriendlyGrenadier){
+							if(s.physicsObject.hasParent() && Game.player.connectedShips.contains(s.physicsObject))
+								return true;
+						}
+					}
+				}
+				return false;
 			}
 			@Override
 			protected void displayPre(float delta){
 				if(Mouse.isButtonDown(0)) taskComplete = true;
+
+				if(!shouldSpawn()) timer = 0f;
 
 				pointShip(Display.getWidth()/2, 96f, Display.getWidth()/2, Display.getHeight()/2);
 			}
@@ -128,6 +175,79 @@ public abstract class Tutorial {
 			}
 		};
 		tutorials.add(tutorialShoot);
+
+		// TUTORIAL : DEEP SPACE ======================
+		Tutorial tutorialDeepSpace = new Tutorial(){
+			@Override
+			public boolean shouldSpawn(){
+				if(tutorialQE.complete){
+					return true;
+				}
+				return false;
+			}
+			@Override
+			protected void displayPre(float delta){
+				point(Display.getWidth()/2, 96f, 140, 30, 248f, 38f);
+
+				complete = timer <= 0;
+			}
+			@Override
+			protected void displayPost(float delta){
+				displayText("Get to deep space to", Display.getWidth()/2, 96f, true);
+				displayText("locate the escape!", Display.getWidth()/2, 96f + 64f, true);
+			}
+		};
+		tutorials.add(tutorialDeepSpace);
+
+		// TUTORIAL : ENEMIES ======================
+		Tutorial tutorialEnemies = new Tutorial(){
+			@Override
+			public boolean shouldSpawn(){
+				if(tutorialQE.complete){
+					ArrayList<ShipEnemy> enemies = new ArrayList<>();
+					for(Chunk c : EnvironmentManager.getLoadedChunks())
+						enemies.addAll(c.enemyShips);
+					for(ShipEnemy s : enemies){
+						if(HvlMath.distance(s.physicsObject.location, Game.player.physicsObject.location) < 500f){
+							return true;
+						}
+					}
+					for(Projectile p : Game.projectiles){
+						if(p instanceof ProjectileEnemyGunner){
+							if(HvlMath.distance(p.physicsObject.location, Game.player.physicsObject.location) < 500f){
+								return true;
+							}
+						}
+					}
+				}
+				return false;
+			}
+			@Override
+			protected void displayPre(float delta){
+				ArrayList<ShipEnemy> enemies = new ArrayList<>();
+				for(Chunk c : EnvironmentManager.getLoadedChunks())
+					enemies.addAll(c.enemyShips);
+				for(ShipEnemy s : enemies){
+					if(HvlMath.distance(s.physicsObject.location, Game.player.physicsObject.location) < 2000f){
+						highlightObject(s.physicsObject, false);
+					}
+				}
+				for(Projectile p : Game.projectiles){
+					if(p instanceof ProjectileEnemyGunner){
+						if(HvlMath.distance(p.physicsObject.location, Game.player.physicsObject.location) < 2000f){
+							highlightObject(p.physicsObject, false);
+						}
+					}
+				}
+
+				complete = timer <= 0;
+			}
+			@Override
+			protected void displayPost(float delta){
+				displayText("Watch out for pirates!", Display.getWidth()/2, 96f, true);
+			}
+		};
+		tutorials.add(tutorialEnemies);
 	}
 
 	public static void gameReset(){
@@ -152,7 +272,7 @@ public abstract class Tutorial {
 			}
 		}
 	}
-	
+
 	public static void tickPost(float delta){
 		if(Options.tutorials){
 			if(current != null)
@@ -171,12 +291,12 @@ public abstract class Tutorial {
 	public void reset(){
 		timer = DURATION_TUTORIAL;
 	}
-	
+
 	public void updatePre(float delta){
 		timer = HvlMath.stepTowards(timer, delta, 0f);
 		displayPre(delta);
 	}
-	
+
 	public void updatePost(float delta){
 		displayPost(delta);
 	}
@@ -203,17 +323,24 @@ public abstract class Tutorial {
 
 	public void point(float fromX, float fromY, float toX, float toY, float toWidth, float toHeight){
 		hvlDrawLine(fromX, fromY, toX, toY, Color.blue, 4f);
-		hvlDrawQuadc(toX, toY, toWidth, toHeight, COLOR_TUTORIAL_BACKGROUND);
+		if(Main.getNewestInstance().getTimer().getTotalTime() * 5f % 2f > 1f)
+			hvlDrawQuadc(toX, toY, toWidth, toHeight, Color.blue);
 	}
 
 	public void point(float fromX, float fromY, float toX, float toY){
 		hvlDrawLine(fromX, fromY, toX, toY, Color.blue, 4f);
-		hvlDrawQuadc(toX, toY, 8f, 8f, Main.getTexture(Main.INDEX_CIRCLE), COLOR_TUTORIAL_BACKGROUND);
+		hvlDrawQuadc(toX, toY, 8f, 8f, Main.getTexture(Main.INDEX_CIRCLE), Color.blue);
 	}
-	
+
 	public void pointShip(float fromX, float fromY, float toX, float toY){
 		hvlDrawLine(fromX, fromY, toX, toY, Color.blue, 4f);
-		hvlDrawQuadc(toX, toY, 48f, 48f, Main.getTexture(Main.INDEX_CIRCLE), COLOR_TUTORIAL_BACKGROUND);
+		hvlDrawQuadc(toX, toY, 48f, 48f, Main.getTexture(Main.INDEX_CIRCLE), Color.blue);
+	}
+
+	public void highlightObject(PhysicsObject p, boolean friendly){
+		if(Main.getNewestInstance().getTimer().getTotalTime() * 5f % 2f > 1f)
+			hvlDrawQuadc(p.location.x - Game.camera.getRawX(), p.location.y - Game.camera.getRawY(), p.radius * 2f + 8f, p.radius * 2f + 8f,
+					Main.getTexture(Main.INDEX_CIRCLE), friendly ? Color.blue : Color.green);
 	}
 
 	public abstract boolean shouldSpawn();
@@ -230,7 +357,7 @@ public abstract class Tutorial {
 			super.reset();
 			taskCompleteTimer = DURATION_TASK_TIMEOUT;
 		}
-		
+
 		@Override
 		public void updatePre(float delta){
 			if(taskComplete){
