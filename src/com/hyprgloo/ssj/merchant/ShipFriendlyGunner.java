@@ -22,13 +22,15 @@ public class ShipFriendlyGunner extends ShipFriendly{
 	public static final float DURATION_SHOT_COOLDOWN = 0.2f;
 	public static final float SPEED_PROJECTILE = 500f;
 
-	public static final Color COLOR_SCRAP = Color.red;
+	public static final Color COLOR_SCRAP_0 = new Color(0.06f, 0.7f, 0.94f);
+	public static final Color COLOR_SCRAP_1 = new Color(1.0f, 0.6f, 0.15f);
+	public static final Color COLOR_SCRAP_2 = new Color(0.1f, 1f, 1f);
 	public static final Color COLOR_EMISSIVE = new Color(1f, 1f, 1f, 0.5f);
 
 	private float shotCooldown, lastAngle;
 
 	public ShipFriendlyGunner(float xArg, float yArg, float angleArg){
-		super(xArg, yArg, angleArg, SIZE, COLOR_SCRAP);
+		super(xArg, yArg, angleArg, SIZE, COLOR_SCRAP_0, COLOR_SCRAP_1, COLOR_SCRAP_2);
 		shotCooldown = 0f;
 		lastAngle = 0f;
 	}
