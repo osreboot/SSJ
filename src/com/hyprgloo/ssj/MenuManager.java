@@ -38,7 +38,6 @@ public class MenuManager {
 	private static HvlRenderFrame pauseFrame;
 
 	public static boolean escapeHeld;
-	private static boolean rollover;
 
 	public static HashMap<HvlLabeledButton, LabeledButtonAlias> buttonAliases;
 
@@ -68,23 +67,16 @@ public class MenuManager {
 			@Override
 			public void draw(float deltaArg, float xArg, float yArg, float widthArg, float heightArg) {
 				hvlDrawQuad(xArg, yArg, widthArg, heightArg, Main.getTexture(Main.INDEX_MENU_BUTT));
-				//rollover = false;
 			}
 		}, new HvlComponentDrawable() {
 			@Override
 			public void draw(float deltaArg, float xArg, float yArg, float widthArg, float heightArg) {
 				hvlDrawQuad(xArg, yArg, widthArg, heightArg, Main.getTexture(Main.INDEX_MENU_BUTT), Color.gray);
-				if(!rollover) {
-					Main.getSound(Main.INDEX_MENU_ROLLY).playAsSoundEffect(1f, 0.25f, false);
-				}
-				rollover = true;
 			}
 		}, new HvlComponentDrawable() {
 			@Override
 			public void draw(float deltaArg, float xArg, float yArg, float widthArg, float heightArg) {
 				hvlDrawQuad(xArg, yArg, widthArg, heightArg, Main.getTexture(Main.INDEX_MENU_BUTT), Color.lightGray);
-				rollover = false;
-
 			}
 		}, Main.font, "", Color.white);
 
@@ -285,12 +277,18 @@ public class MenuManager {
 
 		float hoverAmount = 0f;
 		float lightsAngle = 0f;
+		boolean beeped = false;
 
 		public LabeledButtonAlias(){}
 
 		public void update(float delta, boolean hover){
 			hoverAmount = HvlMath.stepTowards(hoverAmount, delta * 5f, hover ? 1f : 0f);
 			lightsAngle += delta * (hover ? 50f : 20f);
+			if(hover && !beeped){
+				Main.getSound(Main.INDEX_MENU_ROLLY).playAsSoundEffect(1f, 0.25f, false);
+				beeped = true;
+			}
+			if(!hover) beeped = false;
 		}
 
 	}
