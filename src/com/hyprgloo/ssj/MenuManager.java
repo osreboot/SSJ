@@ -6,6 +6,7 @@ import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlResetRotatio
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -15,6 +16,7 @@ import org.newdawn.slick.Color;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.action.HvlAction0;
 import com.osreboot.ridhvl.action.HvlAction1;
+import com.osreboot.ridhvl.action.HvlAction2;
 import com.osreboot.ridhvl.menu.HvlButtonMenuLink;
 import com.osreboot.ridhvl.menu.HvlComponent;
 import com.osreboot.ridhvl.menu.HvlComponentDefault;
@@ -38,6 +40,8 @@ public class MenuManager {
 	public static boolean escapeHeld;
 	private static boolean rollover;
 
+	public static HashMap<HvlLabeledButton, LabeledButtonAlias> buttonAliases;
+
 	public static void init() {
 		main = new HvlMenu();
 		game = new HvlMenu();
@@ -46,6 +50,8 @@ public class MenuManager {
 		credits = new HvlMenu();
 		end = new HvlMenu();
 		splash = new HvlMenu();
+
+		buttonAliases = new HashMap<>();
 
 		try {
 			pauseFrame = new HvlRenderFrame(Display.getWidth(), Display.getHeight());
@@ -78,13 +84,23 @@ public class MenuManager {
 			public void draw(float deltaArg, float xArg, float yArg, float widthArg, float heightArg) {
 				hvlDrawQuad(xArg, yArg, widthArg, heightArg, Main.getTexture(Main.INDEX_MENU_BUTT), Color.lightGray);
 				rollover = false;
-				
+
 			}
 		}, Main.font, "", Color.white);
 
 		defaultLabeledButton.setTextScale(0.25f);
 		defaultLabeledButton.setyAlign(0.5f);
 		defaultLabeledButton.setxAlign(0.5f);
+		defaultLabeledButton.setUpdateOverride(new HvlAction2<HvlComponent, Float>(){
+			@Override
+			public void run(HvlComponent a, Float delta){
+				HvlLabeledButton button = (HvlLabeledButton)a;
+				if(!buttonAliases.containsKey(button))
+					buttonAliases.put(button, new LabeledButtonAlias());
+				buttonAliases.get(button).update(delta, button.isHovering());
+				button.update(delta);
+			}
+		});
 		HvlComponentDefault.setDefault(defaultLabeledButton);
 
 		main.add(new HvlArrangerBox.Builder().build());
@@ -208,7 +224,7 @@ public class MenuManager {
 					0.325f);			
 
 			textC = (i < 2) ? "Roblox : https://www.roblox.com/users/525422/profile" : "https://github.com/basset10";
-			
+
 			Main.font.drawWordc(textC, Display.getWidth() / 2, Display.getHeight() * 16 / 20, Color.lightGray,
 					0.2f);
 
@@ -228,25 +244,31 @@ public class MenuManager {
 		}
 
 		if(HvlMenu.getCurrent() != game){
-			ArrayList<HvlLabeledButton> buttons = new ArrayList<>();
-			for(int i = 0; i < HvlMenu.getCurrent().getChildCount(); i++)
-				if(HvlMenu.getCurrent().get(i) instanceof HvlArrangerBox)
-					buttons.addAll(getAllButtons(HvlMenu.getCurrent().<HvlArrangerBox>get(i)));
+			Color emissiveColor = new Color(0f, 0f, 0.6f, 1f);
+
+			ArrayList<HvlLabeledButton> buttons = getAllButtons(HvlMenu.getCurrent());
 			for(HvlLabeledButton button : buttons){
-				hvlRotate(button.getX() + (button.getWidth() / 2),  button.getY() + (button.getHeight() / 2), Main.getNewestInstance().getTimer().getTotalTime() * 20f);
-				hvlDrawQuad(button.getX(), button.getY(), button.getWidth(), button.getHeight(), Main.getTexture(Main.INDEX_MENU_BUTT_EMISSIVE));
-				hvlResetRotation();
+				if(buttonAliases.containsKey(button)){
+					float growAmount = buttonAliases.get(button).hoverAmount * button.getWidth() * 0.1f;
+					hvlRotate(button.getX() + (button.getWidth() / 2),  button.getY() + (button.getHeight() / 2), buttonAliases.get(button).lightsAngle);
+					hvlDrawQuadc(button.getX() + (button.getWidth() / 2),  button.getY() + (button.getHeight() / 2),
+							button.getWidth() + growAmount, button.getHeight() + growAmount, Main.getTexture(Main.INDEX_MENU_BUTT_EMISSIVE), emissiveColor);
+					hvlResetRotation();
+				}
 			}
-			
+
 			ArtManager.drawVignette();
 			ArtManager.blurFrame.doCapture(new HvlAction0() {
 				@Override
 				public void run() {
-					Color emissiveColor = new Color(0f, 0f, 0.6f, 1f);
 					for(HvlLabeledButton button : buttons){
-						hvlRotate(button.getX() + (button.getWidth() / 2),  button.getY() + (button.getHeight() / 2), Main.getNewestInstance().getTimer().getTotalTime() * 20f);
-						hvlDrawQuad(button.getX(), button.getY(), button.getWidth(), button.getHeight(), Main.getTexture(Main.INDEX_MENU_BUTT_EMISSIVE), emissiveColor);
-						hvlResetRotation();
+						if(buttonAliases.containsKey(button)){
+							float growAmount = buttonAliases.get(button).hoverAmount * button.getWidth() * 0.1f;
+							hvlRotate(button.getX() + (button.getWidth() / 2),  button.getY() + (button.getHeight() / 2), buttonAliases.get(button).lightsAngle);
+							hvlDrawQuadc(button.getX() + (button.getWidth() / 2),  button.getY() + (button.getHeight() / 2),
+									button.getWidth() + growAmount, button.getHeight() + growAmount, Main.getTexture(Main.INDEX_MENU_BUTT_EMISSIVE), emissiveColor);
+							hvlResetRotation();
+						}
 					}
 				}
 			});
@@ -254,6 +276,14 @@ public class MenuManager {
 			ArtManager.drawEmissive();
 		}
 
+	}
+
+	private static ArrayList<HvlLabeledButton> getAllButtons(HvlMenu menu){
+		ArrayList<HvlLabeledButton> buttons = new ArrayList<>();
+		for(int i = 0; i < menu.getChildCount(); i++)
+			if(menu.get(i) instanceof HvlArrangerBox)
+				buttons.addAll(getAllButtons(menu.<HvlArrangerBox>get(i)));
+		return buttons;
 	}
 
 	private static ArrayList<HvlLabeledButton> getAllButtons(HvlArrangerBox arranger){
@@ -267,5 +297,19 @@ public class MenuManager {
 			}
 		}
 		return output;
+	}
+
+	public static class LabeledButtonAlias{
+
+		float hoverAmount = 0f;
+		float lightsAngle = 0f;
+
+		public LabeledButtonAlias(){}
+
+		public void update(float delta, boolean hover){
+			hoverAmount = HvlMath.stepTowards(hoverAmount, delta * 5f, hover ? 1f : 0f);
+			lightsAngle += delta * (hover ? 50f : 20f);
+		}
+
 	}
 }
