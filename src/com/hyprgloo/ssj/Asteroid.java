@@ -1,5 +1,6 @@
 package com.hyprgloo.ssj;
 
+import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuad;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuadc;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlResetRotation;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
@@ -10,6 +11,7 @@ import org.newdawn.slick.Color;
 
 import com.hyprgloo.ssj.PhysicsObject.Alliance;
 import com.hyprgloo.ssj.physics.PhysicsObjectAsteroid;
+import com.hyprgloo.ssj.projectile.ProjectileMerchantGunner;
 import com.osreboot.ridhvl.HvlCoord2D;
 import com.osreboot.ridhvl.HvlMath;
 
@@ -18,7 +20,7 @@ public class Asteroid {
 	public static final Color COLOR_HALO = new Color(0.5f, 0.5f, 0.5f, 0.5f);
 	
 	public PhysicsObject physicsObject;
-
+	private float tempHealth = 0.00001f;
 
 	public boolean hasJr = false;
 	private int typeHandler;
@@ -91,6 +93,14 @@ public class Asteroid {
 			hvlDrawQuadc(jr.physicsObject.location.x, jr.physicsObject.location.y, jr.physicsObject.radius * 2f * 1.333333f, jr.physicsObject.radius * 2f * 1.333333f, Main.getTexture(textureJr));
 			hvlResetRotation();
 		}
+		
+		if(physicsObject.health < tempHealth) {
+			hvlRotate(physicsObject.location.x, physicsObject.location.y, physicsObject.getVisualAngle());
+			hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f * 1.333333f, physicsObject.radius * 2f * 1.333333f, Main.getTexture(texture), new Color(1f, 1f, 1f, 0.5f));
+			hvlResetRotation();
+		}
+		
+		tempHealth = physicsObject.health;
 
 	}
 

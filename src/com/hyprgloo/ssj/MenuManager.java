@@ -42,6 +42,9 @@ public class MenuManager {
 	public static boolean win;
 	
 	public static float backX, backY;
+	
+	public static String[] deaths;
+	public static int death;
 
 	public static HashMap<HvlLabeledButton, LabeledButtonAlias> buttonAliases;
 
@@ -55,6 +58,9 @@ public class MenuManager {
 		splash = new HvlMenu();
 
 		buttonAliases = new HashMap<>();
+		
+		deaths = new String[] {"Space, the final frontier. It was your last.", "YOU PERISHED IN DEEP SPACE", "Pressure vessel breach. You died.",
+				};
 
 		try {
 			pauseFrame = new HvlRenderFrame(Display.getWidth(), Display.getHeight());
@@ -188,7 +194,7 @@ public class MenuManager {
 				.setClickedCommand(new HvlButtonMenuLink(main)).build());
 		
 		randomizeBackdrop();
-		
+				
 		HvlMenu.setCurrent(splash);
 	}
 
@@ -280,7 +286,7 @@ public class MenuManager {
 		} else if (HvlMenu.getCurrent() == end) {
 			Game.whiteFade = HvlMath.stepTowards(Game.whiteFade, delta*1.2f, 0f);
 			hvlDrawQuad(0, 0, Display.getWidth(), Display.getHeight(), new Color(1f, 1f, 1f, Game.whiteFade));
-			String s = win ? "Congratulations! You saved " + Game.player.connectedShips.size() + " ships!" : "YOU PERISHED ON THE FINAL FRONTIER";
+			String s = win ? "Congratulations! You saved " + Game.player.connectedShips.size() + " ship"+ (Game.player.connectedShips.size() == 1 ? "" : "s") + "!" : deaths[death];
 			Main.font.drawWordc(s, Display.getWidth()/2, 250, Color.white, 0.3f);
 		}
 
