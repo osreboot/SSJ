@@ -87,6 +87,8 @@ public class Game {
 		playedFriendlyGunnerSound = false;
 		
 		EnvironmentManager.init();
+		MenuManager.death = HvlMath.randomInt(MenuManager.deaths.length); 
+
 		
 		p = null;
 		portalSpawned = false;
