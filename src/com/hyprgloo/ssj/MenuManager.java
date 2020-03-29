@@ -70,7 +70,7 @@ public class MenuManager {
 				"Rescue vessel pilot lost. Portal closed.",
 				"Code SB-129: Vessel Destroyed",
 				"You seem to have a bad Motivator. Ship destroyed.",
-				"Lost contact with rescue vessel,\n           contact Starport 77"
+				"Lost contact with rescue vessel,\n           contact Starport 75"
 				};
 		
 		cursorFocus = new HvlCoord2D();
