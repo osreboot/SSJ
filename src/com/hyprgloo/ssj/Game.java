@@ -38,7 +38,7 @@ class Portal {
 
 public class Game {
 
-	public static final int END_DISTANCE = 200;
+	public static final int END_DISTANCE = 25000;
 
 	public static HvlCamera2D camera;
 
@@ -64,6 +64,9 @@ public class Game {
 		particles = new ArrayList<>();
 
 		EnvironmentManager.init();
+		
+		p = null;
+		portalSpawned = false;
 	}
 
 	
@@ -94,8 +97,8 @@ public class Game {
 				
 				if(messageTimer - globalTimer < 0f) {
 					float angle = HvlMath.randomFloatBetween(-3.14f, 3.14f);
-					float x = (float) (200 * Math.cos(angle));
-					float y = (float) (200 * Math.sin(angle));
+					float x = (float) (6000 * Math.cos(angle));
+					float y = (float) (6000 * Math.sin(angle));
 					
 					if(!portalSpawned) {
 						p = new Portal(new HvlCoord2D(x,y));
