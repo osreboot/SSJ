@@ -21,6 +21,7 @@ public class Asteroid {
 	
 	public PhysicsObject physicsObject;
 	private float tempHealth = 0.00001f;
+	private float impactFlash = 0f;
 
 	public boolean hasJr = false;
 	private int typeHandler;
@@ -81,7 +82,7 @@ public class Asteroid {
 		}
 	}
 
-	public void draw() {
+	public void draw(float delta) {
 		hvlRotate(physicsObject.location.x, physicsObject.location.y, physicsObject.getVisualAngle());
 //		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f * 1.333333f, physicsObject.radius * 2f * 1.333333f, Main.getTexture(Main.INDEX_ASTEROID_HALO), COLOR_HALO);
 		hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f * 1.333333f, physicsObject.radius * 2f * 1.333333f, Main.getTexture(texture));
@@ -95,8 +96,18 @@ public class Asteroid {
 		}
 		
 		if(physicsObject.health < tempHealth) {
+			impactFlash = 0.7f;
+		}
+		if(impactFlash >= 0f) {
+			impactFlash -= delta*2;
 			hvlRotate(physicsObject.location.x, physicsObject.location.y, physicsObject.getVisualAngle());
-			hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f * 1.333333f, physicsObject.radius * 2f * 1.333333f, Main.getTexture(texture), new Color(1f, 1f, 1f, 0.5f));
+			if(texture == Main.INDEX_ASTEROID0) {
+			hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f * 1.333333f, physicsObject.radius * 2f * 1.333333f, Main.getTexture(Main.INDEX_ASTEROID0_HURT), new Color(1f, 1f, 1f, impactFlash));
+			}else if(texture == Main.INDEX_ASTEROID1) {
+			hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f * 1.333333f, physicsObject.radius * 2f * 1.333333f, Main.getTexture(Main.INDEX_ASTEROID1_HURT), new Color(1f, 1f, 1f, impactFlash));
+			}else if(texture == Main.INDEX_ASTEROID2) {
+			hvlDrawQuadc(physicsObject.location.x, physicsObject.location.y, physicsObject.radius * 2f * 1.333333f, physicsObject.radius * 2f * 1.333333f, Main.getTexture(Main.INDEX_ASTEROID2_HURT), new Color(1f, 1f, 1f, impactFlash));
+			}
 			hvlResetRotation();
 		}
 		

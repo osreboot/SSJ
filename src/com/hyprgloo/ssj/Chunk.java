@@ -106,7 +106,7 @@ public class Chunk {
 		for (Asteroid a : asteroids) {
 			a.update(delta);
 			if (HvlMath.distance(Game.player.physicsObject.location, a.physicsObject.location) < 1200) {
-				a.draw();
+				a.draw(delta);
 				a.physicsObject.canDealDamage = true;
 				a.physicsObject.canReceiveDamage = true;
 			} else {
